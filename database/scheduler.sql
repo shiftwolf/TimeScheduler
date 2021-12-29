@@ -6,6 +6,7 @@ CREATE TABLE `events` (
     `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
     `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
     `name` varchar(50) NOT NULL DEFAULT 'unnamed',
+    `date` timestamp NOT NULL,
     `duration` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
     `location` varchar(50) DEFAULT NULL,
     `priority` int(11) DEFAULT NULL,
