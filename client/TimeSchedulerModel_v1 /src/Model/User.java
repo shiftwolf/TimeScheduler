@@ -17,17 +17,18 @@ public class User {
     private final String email;
     private final String username;
     private final String name;
-    // private String password; --- !!!
+    private String password;
     private ArrayList<Event> events;
 
     // Constructor
-    public User(int id, String email, String username, String name, ArrayList<Event> events) {
+    public User(int id, String email, String username, String name, String password, ArrayList<Event> events) {
         this.id = id;
         this.created_at = new Date();;
         this.email = email;
         this.username = username;
         this.name = name;
-        this.events = new ArrayList<>();
+        this.password = password;
+        this.events = events;
     }
 
     // Getters
