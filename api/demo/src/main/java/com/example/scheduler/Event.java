@@ -1,4 +1,4 @@
-package com.example.demo;
+package com.example.scheduler;
 
 import java.util.Objects;
 import java.util.List;
