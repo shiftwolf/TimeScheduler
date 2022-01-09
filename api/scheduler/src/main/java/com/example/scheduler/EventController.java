@@ -1,5 +1,7 @@
 package com.example.scheduler;
 
+import com.example.scheduler.repositories.EventRepository;
+import com.example.scheduler.repositories.UserRepository;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -11,6 +13,12 @@ import java.util.List;
 
 @RestController
 public class EventController {
+
+    private final EventRepository eventRepository;
+
+    EventController(EventRepository eventRepository) {
+        this.eventRepository = eventRepository;
+    }
 
     @GetMapping("/events")
     List<Event> all() {

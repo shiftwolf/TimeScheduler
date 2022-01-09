@@ -5,9 +5,9 @@ import java.util.Objects;
 public class User {
 
     private Long id;
-    private String name;
-    private String email;
-    private String password;
+    public String name;
+    public String email;
+    public String password;
 
     User()  {}
 
