@@ -28,7 +28,6 @@ public class UserController {
 
     @PostMapping("/users")
     void newUser(@RequestBody User newUser) {
-        System.out.println("dwwd");
         UsersEntity user = new UsersEntity(
                 newUser.email, "username", newUser.name, newUser.password
         );
