@@ -1,5 +1,6 @@
 package com.example.scheduler.entities;
 
+import org.hibernate.annotations.CreationTimestamp;
 import org.springframework.data.annotation.PersistenceConstructor;
 
 import javax.persistence.*;
@@ -13,10 +14,26 @@ public class UsersEntity {
     @Id
     @Column(name = "id")
     private int id;
+
+    @Basic
+    @CreationTimestamp
+    @Column(name = "created_at", updatable = false)
     private Timestamp createdAt;
+
+    @Basic
+    @Column(name = "email")
     private String email;
+
+    @Basic
+    @Column(name = "username")
     private String username;
+
+    @Basic
+    @Column(name = "name")
     private String name;
+
+    @Basic
+    @Column(name = "hashedpw")
     private String hashedpw;
 
     public UsersEntity(String email,
@@ -41,8 +58,7 @@ public class UsersEntity {
         this.id = id;
     }
 
-    @Basic
-    @Column(name = "created_at")
+
     public Timestamp getCreatedAt() {
         return createdAt;
     }
@@ -51,8 +67,7 @@ public class UsersEntity {
         this.createdAt = createdAt;
     }
 
-    @Basic
-    @Column(name = "email")
+
     public String getEmail() {
         return email;
     }
@@ -61,8 +76,7 @@ public class UsersEntity {
         this.email = email;
     }
 
-    @Basic
-    @Column(name = "username")
+
     public String getUsername() {
         return username;
     }
@@ -71,8 +85,7 @@ public class UsersEntity {
         this.username = username;
     }
 
-    @Basic
-    @Column(name = "name")
+
     public String getName() {
         return name;
     }
@@ -81,8 +94,7 @@ public class UsersEntity {
         this.name = name;
     }
 
-    @Basic
-    @Column(name = "hashedpw")
+
     public String getHashedpw() {
         return hashedpw;
     }

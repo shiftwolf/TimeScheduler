@@ -1,5 +1,7 @@
 package com.example.scheduler.entities;
 
+import org.hibernate.annotations.CreationTimestamp;
+
 import javax.persistence.*;
 import java.sql.Timestamp;
 import java.util.Objects;
@@ -7,12 +9,21 @@ import java.util.Objects;
 @Entity
 @Table(name = "reminders", schema = "scheduler")
 public class RemindersEntity {
-    private int id;
-    private Timestamp createdAt;
-    private Timestamp date;
 
     @Id
     @Column(name = "id")
+    private int id;
+
+    @Basic
+    @CreationTimestamp
+    @Column(name = "created_at", updatable = false)
+    private Timestamp createdAt;
+
+    @Basic
+    @Column(name = "date")
+    private Timestamp date;
+
+
     public int getId() {
         return id;
     }
@@ -21,8 +32,7 @@ public class RemindersEntity {
         this.id = id;
     }
 
-    @Basic
-    @Column(name = "created_at")
+
     public Timestamp getCreatedAt() {
         return createdAt;
     }
@@ -31,8 +41,7 @@ public class RemindersEntity {
         this.createdAt = createdAt;
     }
 
-    @Basic
-    @Column(name = "date")
+
     public Timestamp getDate() {
         return date;
     }

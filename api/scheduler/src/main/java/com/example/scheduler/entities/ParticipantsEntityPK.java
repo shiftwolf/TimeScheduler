@@ -6,11 +6,16 @@ import java.io.Serializable;
 import java.util.Objects;
 
 public class ParticipantsEntityPK implements Serializable {
+
+    @Id
+    @Column(name = "event_id")
     private int eventId;
+
+    @Id
+    @Column(name = "user_id")
     private int userId;
 
-    @Column(name = "event_id")
-    @Id
+
     public int getEventId() {
         return eventId;
     }
@@ -19,8 +24,7 @@ public class ParticipantsEntityPK implements Serializable {
         this.eventId = eventId;
     }
 
-    @Column(name = "user_id")
-    @Id
+
     public int getUserId() {
         return userId;
     }

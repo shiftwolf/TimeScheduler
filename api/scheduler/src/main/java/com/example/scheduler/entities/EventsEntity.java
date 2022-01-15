@@ -1,5 +1,7 @@
 package com.example.scheduler.entities;
 
+import org.hibernate.annotations.CreationTimestamp;
+
 import javax.persistence.*;
 import java.sql.Timestamp;
 import java.util.Objects;
@@ -7,15 +9,33 @@ import java.util.Objects;
 @Entity
 @Table(name = "events", schema = "scheduler")
 public class EventsEntity {
-    private int id;
-    private Timestamp createdAt;
-    private String name;
-    private Timestamp duration;
-    private String location;
-    private Integer priority;
 
     @Id
     @Column(name = "id")
+    private int id;
+
+    @Basic
+    @CreationTimestamp
+    @Column(name = "created_at", updatable = false)
+    private Timestamp createdAt;
+
+    @Basic
+    @Column(name = "name")
+    private String name;
+
+    @Basic
+    @Column(name = "duration")
+    private Timestamp duration;
+
+    @Basic
+    @Column(name = "location")
+    private String location;
+
+    @Basic
+    @Column(name = "priority")
+    private Integer priority;
+
+
     public int getId() {
         return id;
     }
@@ -24,8 +44,7 @@ public class EventsEntity {
         this.id = id;
     }
 
-    @Basic
-    @Column(name = "created_at")
+
     public Timestamp getCreatedAt() {
         return createdAt;
     }
@@ -34,8 +53,7 @@ public class EventsEntity {
         this.createdAt = createdAt;
     }
 
-    @Basic
-    @Column(name = "name")
+
     public String getName() {
         return name;
     }
@@ -44,8 +62,7 @@ public class EventsEntity {
         this.name = name;
     }
 
-    @Basic
-    @Column(name = "duration")
+
     public Timestamp getDuration() {
         return duration;
     }
@@ -54,8 +71,7 @@ public class EventsEntity {
         this.duration = duration;
     }
 
-    @Basic
-    @Column(name = "location")
+
     public String getLocation() {
         return location;
     }
@@ -64,8 +80,7 @@ public class EventsEntity {
         this.location = location;
     }
 
-    @Basic
-    @Column(name = "priority")
+
     public Integer getPriority() {
         return priority;
     }

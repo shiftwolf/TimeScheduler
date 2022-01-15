@@ -1,5 +1,7 @@
 package com.example.scheduler.entities;
 
+import org.hibernate.annotations.CreationTimestamp;
+
 import javax.persistence.*;
 import java.sql.Timestamp;
 import java.util.Objects;
@@ -8,12 +10,21 @@ import java.util.Objects;
 @Table(name = "participants", schema = "scheduler")
 @IdClass(ParticipantsEntityPK.class)
 public class ParticipantsEntity {
-    private Timestamp createdAt;
-    private int eventId;
-    private int userId;
 
     @Basic
-    @Column(name = "created_at")
+    @CreationTimestamp
+    @Column(name = "created_at", updatable = false)
+    private Timestamp createdAt;
+
+    @Id
+    @Column(name = "event_id")
+    private int eventId;
+
+    @Id
+    @Column(name = "user_id")
+    private int userId;
+
+
     public Timestamp getCreatedAt() {
         return createdAt;
     }
@@ -22,8 +33,7 @@ public class ParticipantsEntity {
         this.createdAt = createdAt;
     }
 
-    @Id
-    @Column(name = "event_id")
+
     public int getEventId() {
         return eventId;
     }
@@ -32,8 +42,7 @@ public class ParticipantsEntity {
         this.eventId = eventId;
     }
 
-    @Id
-    @Column(name = "user_id")
+
     public int getUserId() {
         return userId;
     }
