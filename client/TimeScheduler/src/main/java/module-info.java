@@ -10,6 +10,6 @@ module com.example.timescheduler {
     requires org.kordamp.bootstrapfx.core;
     requires eu.hansolo.tilesfx;
 
-    opens com.example.timescheduler to javafx.fxml;
+    opens com.example.timescheduler.View to javafx.fxml;
     exports com.example.timescheduler.View;
 }

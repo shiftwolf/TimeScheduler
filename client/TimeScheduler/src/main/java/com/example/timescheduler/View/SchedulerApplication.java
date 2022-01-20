@@ -35,8 +35,7 @@ public class SchedulerApplication extends Application {
 
         Scene scene = new Scene(debugLayout, 400, 400);
         scene.setFill(Color.WHITE);
-        // TODO
-        // scene.getStylesheets().add(getClass().getResource("loginStyles.css").toExternalForm());
+        scene.getStylesheets().add(getClass().getResource("loginStyles.css").toExternalForm());
 
         stage.setScene(scene);
     }
