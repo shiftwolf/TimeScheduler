@@ -41,8 +41,8 @@ public class EventController {
     }
 
     /**
-     * @param id
-     * @return
+     * @param id user's ID in the database
+     * @return DTO of the database with all information
      */
     @GetMapping("/events/{id}")
     EventDTO one(@PathVariable Long id) {
@@ -51,11 +51,11 @@ public class EventController {
     }
 
     /**
-     * @param id
+     * @param id event ID
      * delete a specific event
      */
     @DeleteMapping("/events/{id}")
-    void deleteEmployee(@PathVariable Long id) {
+    void deleteEvent(@PathVariable Long id) {
         eventRepository.deleteById(id);
     }
 }

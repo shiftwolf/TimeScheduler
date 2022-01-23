@@ -16,11 +16,19 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+/**
+ * Entry-point for all user related REST-API requests
+ */
 @RestController
 public class UserController {
 
     private final UserRepository userRepository;
 
+    /**
+     * @param userRepository
+     *  using constructor injection (Dependency injection)
+     *  meaning this constructor is typically not used manually.
+     */
     UserController(UserRepository userRepository) {
         this.userRepository = userRepository;
     }
@@ -57,6 +65,11 @@ public class UserController {
         userRepository.save(user);
     }
 
+    /**
+     * @param id user's ID in the database
+     * @return DTO of the user with all information
+     * @throws UserNotFoundException if user can't be found in the database
+     */
     @GetMapping("/users/{id}")
     UserDTO one(@PathVariable Long id) throws UserNotFoundException {
         if(userRepository.findById(id).isEmpty()){
@@ -68,8 +81,12 @@ public class UserController {
         return new UserDTO(user.getId(), user.getUsername(), user.getName(), user.getEmail());
     }
 
+    /**
+     * @param id User ID
+     * Delete a specific user
+     */
     @DeleteMapping("/users/{id}")
-    void deleteEmployee(@PathVariable Long id) {
+    void deleteUser(@PathVariable Long id) {
        userRepository.deleteById(id);
     }
 }
