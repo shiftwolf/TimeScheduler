@@ -11,11 +11,19 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
+/**
+ * Entry-point for all event related REST-API requests
+ */
 @RestController
 public class EventController {
 
     private final EventRepository eventRepository;
 
+    /**
+     * @param eventRepository
+     * using constructor injection (Dependency injection)
+     * meaning this constructor is typically not used manually.
+     */
     EventController(EventRepository eventRepository) {
         this.eventRepository = eventRepository;
     }
@@ -32,12 +40,20 @@ public class EventController {
         return null;
     }
 
+    /**
+     * @param id
+     * @return
+     */
     @GetMapping("/events/{id}")
     EventDTO one(@PathVariable Long id) {
         // TODO: get Event by ID
         return null;
     }
 
+    /**
+     * @param id
+     * delete a specific event
+     */
     @DeleteMapping("/events/{id}")
     void deleteEmployee(@PathVariable Long id) {
         eventRepository.deleteById(id);

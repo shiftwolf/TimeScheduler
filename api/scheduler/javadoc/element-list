@@ -1,0 +1,8 @@
+com.example.scheduler
+com.example.scheduler.controller
+com.example.scheduler.controllerAdvice
+com.example.scheduler.DTOs
+com.example.scheduler.entities
+com.example.scheduler.exceptions
+com.example.scheduler.repositories
+com.example.scheduler.util

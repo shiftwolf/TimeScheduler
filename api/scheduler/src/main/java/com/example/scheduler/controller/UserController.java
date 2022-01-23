@@ -35,21 +35,25 @@ public class UserController {
         return dtos;
     }
 
+    /**
+     * @param newUser Converts User DTO to entity and saves it to the database
+     * @throws UsernameTakenException if username is already taken
+     * @throws EmailAlreadyExistsException if email is already taken
+     */
     @PostMapping("/users")
     void newUser(@RequestBody NewUserDTO newUser) throws UsernameTakenException, EmailAlreadyExistsException {
+        Optional.ofNullable(userRepository.findUserByUsername(newUser.getUsername())).ifPresent(arg -> {
+            throw new UsernameTakenException(newUser.getUsername());
+        });
 
-        String checkName = userRepository.findUserByUsername(newUser.getUsername()).getUsername();
-        if(checkName != null){
-            throw new UsernameTakenException(checkName);
-        }
-        String checkEmail = userRepository.findUserByEmail(newUser.getEmail()).getEmail();
-        if(checkEmail != null){
-            throw  new EmailAlreadyExistsException(checkEmail);
-        }
+        Optional.ofNullable(userRepository.findUserByEmail(newUser.getEmail())).ifPresent(arg -> {
+            throw new EmailAlreadyExistsException(newUser.getEmail());
+        });
 
         UsersEntity user = new UsersEntity(
                 newUser.getEmail(), newUser.getUsername(), newUser.getName(), newUser.getPassword()
         );
+
         userRepository.save(user);
     }
 
