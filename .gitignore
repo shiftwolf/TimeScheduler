@@ -46,3 +46,4 @@ buildNumber.properties
 .classpath
 
 .idea
+.run
