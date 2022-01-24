@@ -1,6 +1,6 @@
 package com.example.scheduler.util;
 
-import org.springframework.stereotype.Repository;
+import org.springframework.stereotype.Component;
 
 import javax.mail.*;
 import javax.mail.internet.InternetAddress;
@@ -9,7 +9,7 @@ import javax.mail.internet.MimeMessage;
 import javax.mail.internet.MimeMultipart;
 import java.util.Properties;
 
-@Repository
+@Component
 public class JavaMailUtil {
 
     public void sendMail(String recipient) throws MessagingException {

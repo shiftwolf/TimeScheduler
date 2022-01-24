@@ -47,6 +47,7 @@ public class UserController {
      */
     @PostMapping("/users")
     void newUser(@RequestBody NewUserDTO newUser) throws UsernameTakenException, EmailAlreadyExistsException {
+        System.out.println("hey");
         Optional.ofNullable(userRepository.findUserByUsername(newUser.getUsername())).ifPresent(arg -> {
             throw new UsernameTakenException(newUser.getUsername());
         });

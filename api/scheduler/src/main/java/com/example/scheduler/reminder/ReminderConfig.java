@@ -31,10 +31,11 @@ public class ReminderConfig {
 
 
     /**
-     * Complete task every 100 seconds
+     * Complete task every 20 seconds
      */
     @Scheduled(fixedDelay = 20_000)
     public void fixedDelayTask() throws MessagingException {
+
 
         Timestamp currentTimestamp = new Timestamp(System.currentTimeMillis());
 
@@ -46,5 +47,6 @@ public class ReminderConfig {
             mailUtil.sendMail("timo.wolf@hotmail.de");
             System.out.println("Status: Reminders were sent.");
         }
+
     }
 }

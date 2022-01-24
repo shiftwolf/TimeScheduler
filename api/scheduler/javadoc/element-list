@@ -4,5 +4,6 @@ com.example.scheduler.controllerAdvice
 com.example.scheduler.DTOs
 com.example.scheduler.entities
 com.example.scheduler.exceptions
+com.example.scheduler.reminder
 com.example.scheduler.repositories
 com.example.scheduler.util
