@@ -89,3 +89,17 @@ CREATE TABLE `participants` (
     ON UPDATE NO ACTION
 
 ) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4;
+
+CREATE TABLE `tokens` (
+    `token` varchar(255) NOT NULL,
+    `user_id` int(10) unsigned NOT NULL,
+    
+    PRIMARY KEY (`token`),
+    KEY `tokens_relation_1` (`user_id`),
+
+    CONSTRAINT `tokens_relation_1` 
+    FOREIGN KEY (`user_id`) 
+    REFERENCES `users` (`id`) 
+    ON DELETE NO ACTION 
+    ON UPDATE NO ACTION
+) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4
