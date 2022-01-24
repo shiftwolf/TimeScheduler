@@ -1,12 +1,18 @@
 package com.example.scheduler.util;
 
+import org.springframework.stereotype.Repository;
+
 import javax.mail.*;
-import javax.mail.internet.*;
+import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeBodyPart;
+import javax.mail.internet.MimeMessage;
+import javax.mail.internet.MimeMultipart;
 import java.util.Properties;
 
+@Repository
 public class JavaMailUtil {
 
-    public static void sendMail(String recepient) throws MessagingException {
+    public void sendMail(String recipient) throws MessagingException {
         Properties prop = new Properties();
 
         prop.put("mail.smtp.auth", true);
@@ -26,7 +32,7 @@ public class JavaMailUtil {
 
         Message message = new MimeMessage(session);
         message.setFrom(new InternetAddress(username));
-        message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(recepient));
+        message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(recipient));
         message.setSubject("Test");
 
         String msg = "Test Mail for Java project.";

@@ -1,9 +1,10 @@
 package com.example.scheduler.entities;
 
 import org.hibernate.annotations.CreationTimestamp;
-import org.springframework.data.annotation.PersistenceConstructor;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import javax.persistence.*;
+import java.security.SecureRandom;
 import java.sql.Timestamp;
 import java.util.Objects;
 
@@ -99,8 +100,11 @@ public class UsersEntity {
         return hashedpw;
     }
 
-    public void setHashedpw(String hashedpw) {
-        this.hashedpw = hashedpw;
+
+    public UsersEntity hashPassword() {
+        BCryptPasswordEncoder encoder = new BCryptPasswordEncoder(10, new SecureRandom());
+        this.hashedpw = encoder.encode(this.hashedpw);
+        return this;
     }
 
     @Override
