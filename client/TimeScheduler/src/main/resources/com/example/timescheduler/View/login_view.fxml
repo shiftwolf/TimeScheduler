@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import java.net.URL?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.text.TextFlow?>
+
+<GridPane xmlns="http://javafx.com/javafx"
+          xmlns:fx="http://javafx.com/fxml"
+          fx:controller="com.example.timescheduler.View.LoginView"
+          vgap="20" hgap="10" alignment="TOP_CENTER">
+    <stylesheets><URL value="@checkInStyles.css"/></stylesheets>
+
+    <padding><Insets top="30"/></padding>
+
+    <columnConstraints>
+        <ColumnConstraints halignment="CENTER"/>
+
+    </columnConstraints>
+
+    <Label text="Login" id="title"
+           GridPane.columnIndex="0" GridPane.rowIndex="0">
+        <GridPane.margin>
+            <Insets bottom="10"/>
+        </GridPane.margin>
+    </Label>
+
+    <TextField promptText="Enter Username" minHeight="35" focusTraversable="false" fx:id="username"
+               GridPane.columnIndex="0" GridPane.rowIndex="1"/>
+
+    <PasswordField promptText="Enter Password" minHeight="35" focusTraversable="false" fx:id="password"
+                   GridPane.columnIndex="0" GridPane.rowIndex="2"/>
+
+    <!--    TODO: password visibility toggle-->
+    <!--    <ToggleButton onAction="#onPasswordToggle"-->
+    <!--                  GridPane.columnIndex="1" GridPane.rowIndex="2"/>-->
+
+    <Button text="Log In" minHeight="35" maxWidth="Infinity" onAction="#onLogin"
+            GridPane.columnIndex="0" GridPane.rowIndex="3" GridPane.fillWidth="true">
+    </Button>
+
+    <Separator GridPane.columnIndex="0" GridPane.rowIndex="4"/>
+
+    <TextFlow GridPane.columnIndex="0" GridPane.rowIndex="5">
+        <Label text="Don't have an account yet?"/>
+        <Hyperlink text="Sign up" onAction="#onSignUp" styleClass="hyperlink"/>
+    </TextFlow>
+
+</GridPane>

@@ -1,10 +1,19 @@
-#login-title {
+.root {
+    -fx-background-color: white;
+}
+
+#title {
     -fx-font-size: 16;
 }
 
 .button {
     -fx-background-color: #3983D9;
     -fx-background-radius: 8px;
+    -fx-text-fill: white;
+}
+
+#cancel-button {
+    -fx-background-color: #b4b4b4;
     -fx-text-fill: white;
 }
 
@@ -22,4 +31,9 @@
 
 .text-field:focused {
     -fx-background-color: #DCDCDC;
+}
+
+.hyperlink:visited {
+    -fx-text-fill: #1f7ae5;
+    -fx-border-color: transparent;
 }

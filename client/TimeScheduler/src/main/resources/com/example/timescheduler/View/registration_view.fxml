@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+<?import java.net.URL?>
+
+<VBox xmlns="http://javafx.com/javafx"
+      xmlns:fx="http://javafx.com/fxml"
+      fx:controller="com.example.timescheduler.View.RegistrationView"
+      alignment="TOP_CENTER" spacing="20">
+    <stylesheets><URL value="@checkInStyles.css"/></stylesheets>
+
+    <padding><Insets top="30" right="100" bottom="30" left="100"/></padding>
+
+    <Label text="Create an account" id="title"/>
+
+    <TextField promptText="Username" minHeight="35" focusTraversable="false" fx:id="username"/>
+
+    <TextField promptText="Email Address" minHeight="35" focusTraversable="false" fx:id="email"/>
+
+    <TextField promptText="Name" minHeight="35" focusTraversable="false" fx:id="name"/>
+
+    <PasswordField promptText="Password" minHeight="35" focusTraversable="false" fx:id="password1"/>
+
+    <PasswordField promptText="Confirm Password" minHeight="35" focusTraversable="false" fx:id="password2"/>
+
+    <GridPane hgap="20">
+        <VBox.margin><Insets top="20"/></VBox.margin>
+
+        <columnConstraints>
+            <ColumnConstraints percentWidth="50"/>
+            <ColumnConstraints percentWidth="50"/>
+        </columnConstraints>
+
+        <Button text="Cancel" minHeight="35" onAction="#onCancel" maxWidth="Infinity" id="cancel-button"
+                GridPane.columnIndex="0"/>
+        <Button text="Sign Up" minHeight="35" onAction="#onSignUp" maxWidth="Infinity"
+                GridPane.columnIndex="1"/>
+    </GridPane>
+
+
+</VBox>
