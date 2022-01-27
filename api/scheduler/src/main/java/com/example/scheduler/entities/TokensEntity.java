@@ -1,6 +1,7 @@
 package com.example.scheduler.entities;
 
 import javax.persistence.*;
+import java.util.UUID;
 
 @Entity
 @Table(name = "tokens", schema = "scheduler")
@@ -12,13 +13,19 @@ public class TokensEntity {
     @Column(name = "user_id")
     private Long userId;
 
+    public TokensEntity(Long userId){
+       this.token = UUID.randomUUID().toString();
+       this.userId = userId;
+    }
+    public TokensEntity(){
+
+    }
+
     public String getToken() {
         return this.token;
     }
 
-    public void setToken(String token) {
-        this.token = token;
-    }
+    public void setToken(String token) { this.token = token;}
 
     public Long getUserId() {
         return this.userId;

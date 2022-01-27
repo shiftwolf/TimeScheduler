@@ -2,6 +2,8 @@ package com.example.scheduler.repositories;
 
 import com.example.scheduler.entities.TokensEntity;
 import org.springframework.data.repository.CrudRepository;
+import org.springframework.data.jpa.repository.*;
+import org.springframework.data.repository.query.Param;
 
 /**
  * Special Interface for a CrudRepository that works on token entities
@@ -10,6 +12,6 @@ import org.springframework.data.repository.CrudRepository;
  * for changing the implementation.
  */
 public interface TokenRepository extends CrudRepository<TokensEntity, String> {
-
-
+    @Query("SELECT CASE WHEN e.userId = :userId THEN true ELSE false END FROM TokensEntity e WHERE e.token = :token")
+    boolean isValid(@Param("token") String token, @Param("userId") Long userId);
 }

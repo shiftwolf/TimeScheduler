@@ -2,10 +2,13 @@ package com.example.scheduler.controller;
 
 import com.example.scheduler.DTOs.NewUserDTO;
 import com.example.scheduler.DTOs.UserDTO;
+import com.example.scheduler.DTOs.TokenDTO;
 import com.example.scheduler.entities.UsersEntity;
 import com.example.scheduler.exceptions.EmailAlreadyExistsException;
+import com.example.scheduler.exceptions.NoAuthorizationException;
 import com.example.scheduler.exceptions.UserNotFoundException;
 import com.example.scheduler.exceptions.UsernameTakenException;
+import com.example.scheduler.repositories.TokenRepository;
 import com.example.scheduler.repositories.UserRepository;
 import org.springframework.web.bind.annotation.*;
 
@@ -20,18 +23,27 @@ import java.util.Optional;
 public class UserController {
 
     private final UserRepository userRepository;
+    private final TokenRepository tokenRepository;
 
     /**
      * @param userRepository
      *  using constructor injection (Dependency injection)
      *  meaning this constructor is typically not used manually.
      */
-    UserController(UserRepository userRepository) {
+    UserController(UserRepository userRepository, TokenRepository tokenRepository) {
         this.userRepository = userRepository;
+        this.tokenRepository = tokenRepository;
     }
 
+
+    /**
+     * @return all Users registered in the database
+     */
     @GetMapping("/users")
-    List<UserDTO> all() {
+    List<UserDTO> all(@RequestHeader TokenDTO token) throws NoAuthorizationException{
+        if(!tokenRepository.isValid(token.getTokenString(), token.getUserID())){
+            throw new NoAuthorizationException(token.getUserID());
+        }
         List<UserDTO> dtos = new ArrayList<>();
         for (UsersEntity e : userRepository.findAll()) {
             UserDTO dto = new UserDTO(e.getId(), e.getUsername(), e.getName(), e.getEmail());
@@ -69,7 +81,10 @@ public class UserController {
      * @throws UserNotFoundException if user can't be found in the database
      */
     @GetMapping("/users/{id}")
-    UserDTO one(@PathVariable Long id) throws UserNotFoundException {
+    UserDTO one(@PathVariable Long id, @RequestHeader TokenDTO token) throws UserNotFoundException, NoAuthorizationException {
+        if(!tokenRepository.isValid(token.getTokenString(), token.getUserID())){
+            throw new NoAuthorizationException(token.getUserID());
+        }
         if(userRepository.findById(id).isEmpty()){
             throw new UserNotFoundException(id);
         }
@@ -84,7 +99,10 @@ public class UserController {
      * Delete a specific user
      */
     @DeleteMapping("/users/{id}")
-    void deleteUser(@PathVariable Long id) {
+    void deleteUser(@PathVariable Long id, @RequestHeader TokenDTO token) throws NoAuthorizationException{
+        if(!tokenRepository.isValid(token.getTokenString(), token.getUserID())){
+            throw new NoAuthorizationException(token.getUserID());
+        }
        userRepository.deleteById(id);
     }
 }
