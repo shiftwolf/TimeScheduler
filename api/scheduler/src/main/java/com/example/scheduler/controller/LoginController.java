@@ -5,6 +5,7 @@ import com.example.scheduler.DTOs.TokenDTO;
 import com.example.scheduler.entities.UsersEntity;
 import com.example.scheduler.exceptions.LoginFailedException;
 import com.example.scheduler.repositories.UserRepository;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -24,7 +25,8 @@ public class LoginController {
         if(user == null){
             throw new LoginFailedException();
         }
-        if(!user.getHashedpw().equals(loginData.getPassword())){
+        BCryptPasswordEncoder b = new BCryptPasswordEncoder();
+        if(!b.matches(loginData.getPassword(), user.getHashedpw())){
             throw new LoginFailedException();
         }
 

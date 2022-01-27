@@ -1,17 +1,17 @@
 package com.example.scheduler.DTOs;
 
 public class TokenDTO {
-    private int userID;
+    private Long userID;
     private String tokenString;
 
-    public TokenDTO(int userID, String tokenString){
+    public TokenDTO(Long userID, String tokenString){
         this.userID = userID;
         this.tokenString = tokenString;
     }
 
-    public int getUserID() { return userID;}
+    public Long getUserID() { return userID;}
 
-    public void setUserID(int userID) { this.userID = userID;}
+    public void setUserID(Long userID) { this.userID = userID;}
 
     public String getTokenString() { return tokenString;}
 
