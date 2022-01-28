@@ -10,4 +10,6 @@ import org.springframework.data.repository.CrudRepository;
  * for changing the implementation.
  */
 public interface EventRepository extends CrudRepository<EventsEntity, Long> {
+
+    EventsEntity findTopByOrderByIdDesc();
 }

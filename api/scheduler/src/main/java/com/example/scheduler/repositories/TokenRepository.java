@@ -13,5 +13,6 @@ import org.springframework.data.repository.query.Param;
  */
 public interface TokenRepository extends CrudRepository<TokensEntity, String> {
     @Query("SELECT CASE WHEN e.userId = :userId THEN true ELSE false END FROM TokensEntity e WHERE e.token = :token")
-    boolean isValid(@Param("token") String token, @Param("userId") Long userId);
+    Boolean isValid(@Param("token") String token, @Param("userId") Long userId);
+
 }

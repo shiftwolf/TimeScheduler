@@ -18,11 +18,20 @@ public class ParticipantsEntity {
 
     @Id
     @Column(name = "event_id")
-    private int eventId;
+    private Long eventId;
 
     @Id
     @Column(name = "user_id")
-    private int userId;
+    private Long userId;
+
+    public ParticipantsEntity() {
+
+    }
+
+    public ParticipantsEntity(Long eventId, Long userId) {
+        this.eventId = eventId;
+        this.userId = userId;
+    }
 
 
     public Timestamp getCreatedAt() {
@@ -34,20 +43,20 @@ public class ParticipantsEntity {
     }
 
 
-    public int getEventId() {
+    public Long getEventId() {
         return eventId;
     }
 
-    public void setEventId(int eventId) {
+    public void setEventId(Long eventId) {
         this.eventId = eventId;
     }
 
 
-    public int getUserId() {
+    public Long getUserId() {
         return userId;
     }
 
-    public void setUserId(int userId) {
+    public void setUserId(Long userId) {
         this.userId = userId;
     }
 

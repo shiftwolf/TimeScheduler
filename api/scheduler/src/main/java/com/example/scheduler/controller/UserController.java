@@ -2,7 +2,6 @@ package com.example.scheduler.controller;
 
 import com.example.scheduler.DTOs.NewUserDTO;
 import com.example.scheduler.DTOs.UserDTO;
-import com.example.scheduler.DTOs.TokenDTO;
 import com.example.scheduler.entities.UsersEntity;
 import com.example.scheduler.exceptions.EmailAlreadyExistsException;
 import com.example.scheduler.exceptions.NoAuthorizationException;
@@ -59,7 +58,6 @@ public class UserController {
      */
     @PostMapping("/users")
     void newUser(@RequestBody NewUserDTO newUser) throws UsernameTakenException, EmailAlreadyExistsException {
-        System.out.println("hey");
         Optional.ofNullable(userRepository.findUserByUsername(newUser.getUsername())).ifPresent(arg -> {
             throw new UsernameTakenException(newUser.getUsername());
         });

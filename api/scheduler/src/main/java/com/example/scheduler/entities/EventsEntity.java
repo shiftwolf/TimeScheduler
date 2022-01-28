@@ -11,8 +11,9 @@ import java.util.Objects;
 public class EventsEntity {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
-    private int id;
+    private Long id;
 
     @Basic
     @CreationTimestamp
@@ -22,6 +23,10 @@ public class EventsEntity {
     @Basic
     @Column(name = "name")
     private String name;
+
+    @Basic
+    @Column(name = "date")
+    private Timestamp date;
 
     @Basic
     @Column(name = "duration")
@@ -35,12 +40,23 @@ public class EventsEntity {
     @Column(name = "priority")
     private Integer priority;
 
+    public EventsEntity() {}
 
-    public int getId() {
+    public EventsEntity(String name, Timestamp date, Timestamp duration,
+                 String location, Integer priority) {
+        this.name = name;
+        this.date = date;
+        this.duration = duration;
+        this.location = location;
+        this.priority = priority;
+    }
+
+
+    public Long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Long id) {
         this.id = id;
     }
 

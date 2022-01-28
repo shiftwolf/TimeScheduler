@@ -1,14 +1,17 @@
 package com.example.scheduler.controller;
 
 import com.example.scheduler.DTOs.EventDTO;
+import com.example.scheduler.entities.EventsEntity;
+import com.example.scheduler.entities.ParticipantsEntity;
+import com.example.scheduler.entities.TokensEntity;
+import com.example.scheduler.exceptions.LoginFailedException;
+import com.example.scheduler.exceptions.NoAuthorizationException;
 import com.example.scheduler.repositories.EventRepository;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import com.example.scheduler.repositories.ParticipantRepository;
+import com.example.scheduler.repositories.TokenRepository;
+import org.springframework.web.bind.annotation.*;
 
+import java.sql.Timestamp;
 import java.util.List;
 
 /**
@@ -18,14 +21,19 @@ import java.util.List;
 public class EventController {
 
     private final EventRepository eventRepository;
+    private final TokenRepository tokenRepository;
+    private final ParticipantRepository participantRepository;
 
     /**
-     * @param eventRepository
-     * using constructor injection (Dependency injection)
-     * meaning this constructor is typically not used manually.
+     * Using constructor injection (Dependency injection)
+     * @param eventRepository (injected)
+     * @param tokenRepository (injected)
+     * @param participantRepository (injected)
      */
-    EventController(EventRepository eventRepository) {
+    EventController(EventRepository eventRepository, TokenRepository tokenRepository, ParticipantRepository participantRepository) {
         this.eventRepository = eventRepository;
+        this.tokenRepository = tokenRepository;
+        this.participantRepository = participantRepository;
     }
 
     @GetMapping("/events")
@@ -34,10 +42,30 @@ public class EventController {
         return null;
     }
 
+
     @PostMapping("/events")
-    EventDTO newEvent(@RequestBody EventDTO newEvent) {
-        //TODO: create new event data in db
-        return null;
+    void newEvent(@RequestBody EventDTO newEvent,
+                  @RequestHeader("userId") Long userId,
+                  @RequestHeader("token") String token) {
+
+
+        TokensEntity tokensEntity = tokenRepository.findById(token).orElseThrow(LoginFailedException::new);
+
+        if(!(tokensEntity.getUserId().longValue() == userId.longValue())) {
+            throw new NoAuthorizationException(userId);
+        }
+
+        EventsEntity eventsEntity = new EventsEntity(
+                newEvent.getName(),
+                new Timestamp(newEvent.getDate()),
+                new Timestamp(newEvent.getDuration()),
+                newEvent.getLocation(), newEvent.getPriority()
+        );
+
+        eventRepository.save(eventsEntity);
+        Long eventId = eventRepository.findTopByOrderByIdDesc().getId();
+        participantRepository.save(new ParticipantsEntity(eventId, userId));
+
     }
 
     /**

@@ -13,12 +13,15 @@ import java.util.Date;
 public class PdfExportController {
     private final PdfGenerator pdfGenerator;
 
+
     public PdfExportController(PdfGenerator pdfGenerator) {
         this.pdfGenerator = pdfGenerator;
     }
 
+
     @GetMapping("/pdf/generate")
     public void generatePdf(HttpServletResponse response) throws IOException {
+
         //attach pdf to response
         response.setContentType("application/pdf");
         DateFormat dateFormater = new SimpleDateFormat("dd-MM-yyyy:hh:mm:ss");

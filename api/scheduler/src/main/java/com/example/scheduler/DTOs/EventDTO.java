@@ -8,19 +8,22 @@ public class EventDTO {
     private String name;
 
     private List<UserDTO> participants;
-    private String date;
-    private String duration;
+    private Long date;
+    private Long duration;
     private String location;
+    private Integer priority;
 
     EventDTO()  {}
 
-    public EventDTO(int id, String name, List<UserDTO> participants, String date, String duration, String location ){
+    public EventDTO(int id, String name, List<UserDTO> participants, Long date,
+                    Long duration, String location, Integer priority){
         this.id = id;
         this.name = name;
         this.participants = participants;
         this.date = date;
         this.duration = duration;
         this.location = location;
+        this.priority = priority;
     }
 
     public int getId() {
@@ -43,19 +46,19 @@ public class EventDTO {
 
     public void setParticipants(List<UserDTO> participants) { this.participants = participants;}
 
-    public String getDate() {
+    public Long getDate() {
         return date;
     }
 
-    public void setDate(String date) {
+    public void setDate(Long date) {
         this.date = date;
     }
 
-    public String getDuration() {
+    public Long getDuration() {
         return duration;
     }
 
-    public void setDuration(String duration) {
+    public void setDuration(Long duration) {
         this.duration = duration;
     }
 
@@ -65,5 +68,13 @@ public class EventDTO {
 
     public void setLocation(String location) {
         this.location = location;
+    }
+
+    public Integer getPriority() {
+        return priority;
+    }
+
+    public void setPriority(Integer priority) {
+        this.priority = priority;
     }
 }
