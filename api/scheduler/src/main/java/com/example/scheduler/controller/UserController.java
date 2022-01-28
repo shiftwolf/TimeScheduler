@@ -40,9 +40,9 @@ public class UserController {
      * @return all Users registered in the database
      */
     @GetMapping("/users")
-    List<UserDTO> all(@RequestHeader TokenDTO token) throws NoAuthorizationException{
-        if(!tokenRepository.isValid(token.getTokenString(), token.getUserID())){
-            throw new NoAuthorizationException(token.getUserID());
+    List<UserDTO> all( @RequestHeader("userId") Long userId, @RequestHeader("token") String token) throws NoAuthorizationException{
+        if(!tokenRepository.isValid(token, userId)){
+            throw new NoAuthorizationException(userId);
         }
         List<UserDTO> dtos = new ArrayList<>();
         for (UsersEntity e : userRepository.findAll()) {
@@ -81,9 +81,9 @@ public class UserController {
      * @throws UserNotFoundException if user can't be found in the database
      */
     @GetMapping("/users/{id}")
-    UserDTO one(@PathVariable Long id, @RequestHeader TokenDTO token) throws UserNotFoundException, NoAuthorizationException {
-        if(!tokenRepository.isValid(token.getTokenString(), token.getUserID())){
-            throw new NoAuthorizationException(token.getUserID());
+    UserDTO one(@PathVariable Long id, @RequestHeader("userId") Long userId, @RequestHeader("token") String token) throws UserNotFoundException, NoAuthorizationException {
+        if(!tokenRepository.isValid(token, userId)){
+            throw new NoAuthorizationException(userId);
         }
         if(userRepository.findById(id).isEmpty()){
             throw new UserNotFoundException(id);
@@ -99,9 +99,9 @@ public class UserController {
      * Delete a specific user
      */
     @DeleteMapping("/users/{id}")
-    void deleteUser(@PathVariable Long id, @RequestHeader TokenDTO token) throws NoAuthorizationException{
-        if(!tokenRepository.isValid(token.getTokenString(), token.getUserID())){
-            throw new NoAuthorizationException(token.getUserID());
+    void deleteUser(@PathVariable Long id,  @RequestHeader("userId") Long userId, @RequestHeader("token") String token) throws NoAuthorizationException{
+        if(!tokenRepository.isValid(token, userId)){
+            throw new NoAuthorizationException(userId);
         }
        userRepository.deleteById(id);
     }
