@@ -4,10 +4,10 @@ import java.util.List;
 
 public class EventDTO {
 
-    private int id;
+    private Long id;
     private String name;
 
-    private List<UserDTO> participants;
+    private List<Long> participants;
     private Long date;
     private Long duration;
     private String location;
@@ -15,7 +15,7 @@ public class EventDTO {
 
     EventDTO()  {}
 
-    public EventDTO(int id, String name, List<UserDTO> participants, Long date,
+    public EventDTO(Long id, String name, List<Long> participants, Long date,
                     Long duration, String location, Integer priority){
         this.id = id;
         this.name = name;
@@ -26,11 +26,11 @@ public class EventDTO {
         this.priority = priority;
     }
 
-    public int getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(int id) { this.id = id;}
+    public void setId(Long id) { this.id = id;}
 
     public String getName() {
         return name;
@@ -40,11 +40,11 @@ public class EventDTO {
         this.name = name;
     }
 
-    public List<UserDTO> getParticipants() {
+    public List<Long> getParticipants() {
         return participants;
     }
 
-    public void setParticipants(List<UserDTO> participants) { this.participants = participants;}
+    public void setParticipants(List<Long> participants) { this.participants = participants;}
 
     public Long getDate() {
         return date;

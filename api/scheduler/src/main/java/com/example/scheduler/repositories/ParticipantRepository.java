@@ -4,6 +4,8 @@ import com.example.scheduler.entities.ParticipantsEntity;
 import com.example.scheduler.entities.ParticipantsEntityPK;
 import org.springframework.data.repository.CrudRepository;
 
+import java.util.List;
+
 /**
  * Special Interface for a CrudRepository that works on participant entities
  * Note: Implementations for this interface are automatically
@@ -11,5 +13,7 @@ import org.springframework.data.repository.CrudRepository;
  * for changing the implementation.
  */
 public interface ParticipantRepository extends CrudRepository<ParticipantsEntity, ParticipantsEntityPK> {
+
+    List<ParticipantsEntity> findAllByUserId(Long userId);
 
 }

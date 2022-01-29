@@ -15,6 +15,15 @@ public class ParticipantsEntityPK implements Serializable {
     @Column(name = "user_id")
     private Long userId;
 
+    public ParticipantsEntityPK() {
+
+    }
+
+    public ParticipantsEntityPK(Long eventId, Long userId) {
+        this.eventId = eventId;
+        this.userId = userId;
+    }
+
 
     public Long getEventId() {
         return eventId;

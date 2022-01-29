@@ -1,5 +1,6 @@
 package com.example.scheduler.entities;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.*;
@@ -23,6 +24,15 @@ public class ParticipantsEntity {
     @Id
     @Column(name = "user_id")
     private Long userId;
+
+    @ManyToOne
+    @JoinColumn(name = "event_id", insertable = false, updatable = false)
+    @JsonBackReference
+    private EventsEntity events;
+
+    public EventsEntity getEvents() {
+        return events;
+    }
 
     public ParticipantsEntity() {
 

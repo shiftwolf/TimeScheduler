@@ -35,8 +35,6 @@ public class ReminderConfig {
      */
     @Scheduled(fixedDelay = 20_000)
     public void fixedDelayTask() throws MessagingException {
-
-
         Timestamp currentTimestamp = new Timestamp(System.currentTimeMillis());
 
         RemindersEntity remindersEntity = Optional.ofNullable(reminderRepository.findTopByOrderByDateAsc())

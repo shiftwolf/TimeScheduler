@@ -1,9 +1,12 @@
 package com.example.scheduler.entities;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.*;
 import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 @Entity
@@ -39,6 +42,14 @@ public class EventsEntity {
     @Basic
     @Column(name = "priority")
     private Integer priority;
+
+    @OneToMany(
+            mappedBy = "events",
+            cascade = CascadeType.ALL,
+            orphanRemoval = true
+    )
+    @JsonManagedReference
+    private final List<ParticipantsEntity> participantsEntities = new ArrayList<>();
 
     public EventsEntity() {}
 
@@ -116,5 +127,9 @@ public class EventsEntity {
     @Override
     public int hashCode() {
         return Objects.hash(id, createdAt, name, duration, location, priority);
+    }
+
+    public List<ParticipantsEntity> getParticipantsEntities() {
+        return participantsEntities;
     }
 }
