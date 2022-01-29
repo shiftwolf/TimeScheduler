@@ -54,6 +54,7 @@ CREATE TABLE `attachments` (
     `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
     `event_id` int(10) unsigned NOT NULL,
     `attachment` varbinary(60000) NOT NULL,
+    `name` varchar(255) NOT NULL,
 
     PRIMARY KEY (`id`),
     KEY `attachments_relation_1` (`event_id`),
