@@ -15,6 +15,12 @@ public class AttachmentsEntity {
     @Column(name = "id")
     private int id;
 
+    @Column(name = "event_id")
+    private int eventId;
+
+    @Column(name = "name")
+    private String name;
+
     @Basic
     @CreationTimestamp
     @Column(name = "created_at", updatable = false)
@@ -24,6 +30,14 @@ public class AttachmentsEntity {
     @Column(name = "attachment")
     private byte[] attachment;
 
+    public int getEventId() {
+        return eventId;
+    }
+
+    public void setEventId(int eventId) {
+        this.eventId = eventId;
+    }
+
 
     public int getId() {
         return id;
@@ -31,6 +45,15 @@ public class AttachmentsEntity {
 
     public void setId(int id) {
         this.id = id;
+    }
+
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
 
