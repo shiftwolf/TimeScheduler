@@ -45,7 +45,6 @@ public class EventController {
             throw new NoAuthorizationException(userId);
         }
 
-
         List<ParticipantsEntity> participantsEntities = participantRepository
                 .findAllByUserId(userId);
 
@@ -64,7 +63,6 @@ public class EventController {
                 eventsEntityList.add(eventsEntity.orElseThrow(() -> new EventNotFoundException(e.getEventId())));
             }
         }
-        
         return eventsEntityList;
     }
 
@@ -110,10 +108,6 @@ public class EventController {
         // Assert that event is actually associated to the user
         participantRepository.findById(new ParticipantsEntityPK(id, userId))
                 .orElseThrow(() -> new EventNotFoundException(id));
-
-//        System.out.println(
-//        ReflectionToStringBuilder.toString(eventsEntity, new RecursiveToStringStyle())
-//        );
 
         return eventsEntity;
     }
