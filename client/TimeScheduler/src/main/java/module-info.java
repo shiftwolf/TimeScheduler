@@ -9,6 +9,8 @@ module com.example.timescheduler {
     requires org.kordamp.ikonli.javafx;
     requires org.kordamp.bootstrapfx.core;
     requires eu.hansolo.tilesfx;
+    requires retrofit2;
+    requires retrofit2.converter.gson;
 
     opens com.example.timescheduler.View to javafx.fxml;
     exports com.example.timescheduler.View;

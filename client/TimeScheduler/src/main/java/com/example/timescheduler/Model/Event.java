@@ -16,7 +16,7 @@ public class Event {
     }
 
     // Attributes
-    private final int id;
+    private final long id;
     private final Date created_at;
     private final String name;
     private Date date;
@@ -27,7 +27,7 @@ public class Event {
     public ArrayList<User> participants;
 
     // Constructor
-    public Event(int id, String name, Date date, Date duration, String location, String description, priorities priority, ArrayList<User> participants) {
+    public Event(long id, String name, Date date, Date duration, String location, String description, priorities priority, ArrayList<User> participants) {
         this.id = id;
         this.created_at = new Date();
         this.name = name;
@@ -37,11 +37,10 @@ public class Event {
         this.description = description;
         this.priority = priority;
         this.participants = participants;
-        participants = new ArrayList<>();
     }
 
     // Getters
-    public int getId() {
+    public long getId() {
         return id;
     }
 
