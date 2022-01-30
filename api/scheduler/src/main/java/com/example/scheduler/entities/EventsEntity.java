@@ -90,6 +90,9 @@ public class EventsEntity {
     }
 
 
+    public Timestamp getDate() { return date; }
+
+
     public Timestamp getDuration() {
         return duration;
     }
