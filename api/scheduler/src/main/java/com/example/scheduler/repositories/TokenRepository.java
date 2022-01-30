@@ -12,7 +12,12 @@ import org.springframework.data.repository.query.Param;
  * for changing the implementation.
  */
 public interface TokenRepository extends CrudRepository<TokensEntity, String> {
-    @Query("SELECT CASE WHEN e.userId = :userId THEN true ELSE false END FROM TokensEntity e WHERE e.token = :token")
+    /**
+     * @param token authentication string
+     * @param userId Id of the User tied to the token
+     *  Query checks if the client uses a valid token
+     */
+    @Query("SELECT CASE WHEN count(e) > 0 THEN true ELSE false END FROM TokensEntity e WHERE e.token = :token and e.userId = :userId" )
     Boolean isValid(@Param("token") String token, @Param("userId") Long userId);
 
 }

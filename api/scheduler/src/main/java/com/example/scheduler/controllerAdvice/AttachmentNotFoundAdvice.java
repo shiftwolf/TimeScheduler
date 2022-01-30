@@ -1,20 +1,18 @@
 package com.example.scheduler.controllerAdvice;
 
-import com.example.scheduler.exceptions.EmailAlreadyExistsException;
+import com.example.scheduler.exceptions.AttachmentNotFoundException;
+import com.example.scheduler.exceptions.UserNotFoundException;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
 @ControllerAdvice
-public class EmailAlreadyExistsAdvice {
+public class AttachmentNotFoundAdvice {
 
     @ResponseBody
-    @ExceptionHandler(EmailAlreadyExistsException.class)
-    @ResponseStatus(HttpStatus.CONFLICT)
-    String emailAlreadyTakenHandler(EmailAlreadyExistsException ex){
-        return ex.getMessage();
-    }
+    @ExceptionHandler(AttachmentNotFoundException.class)
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    String attachmentNotFoundHandler(AttachmentNotFoundException ex){ return ex.getMessage();}
 }

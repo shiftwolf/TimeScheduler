@@ -9,11 +9,11 @@ import com.example.scheduler.exceptions.UserNotFoundException;
 import com.example.scheduler.exceptions.UsernameTakenException;
 import com.example.scheduler.repositories.TokenRepository;
 import com.example.scheduler.repositories.UserRepository;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 /**
  * Entry-point for all user related REST-API requests
@@ -25,7 +25,8 @@ public class UserController {
     private final TokenRepository tokenRepository;
 
     /**
-     * @param userRepository
+     * @param userRepository Repository that holds all registered Users
+     *  @param tokenRepository Repository that holds all tokens of currently active Users
      *  using constructor injection (Dependency injection)
      *  meaning this constructor is typically not used manually.
      */
@@ -36,33 +37,38 @@ public class UserController {
 
 
     /**
+     * @param userId header that holds the requesting users id
+     * @param token header that holds the requesting users auth token
      * @return all Users registered in the database
+     * @throws NoAuthorizationException if user authentication fails
+     * Lists all users saved in the database
      */
     @GetMapping("/users")
     List<UserDTO> all( @RequestHeader("userId") Long userId, @RequestHeader("token") String token) throws NoAuthorizationException{
         if(!tokenRepository.isValid(token, userId)){
             throw new NoAuthorizationException(userId);
         }
-        List<UserDTO> dtos = new ArrayList<>();
+        List<UserDTO> dTOs = new ArrayList<>();
         for (UsersEntity e : userRepository.findAll()) {
-            UserDTO dto = new UserDTO(e.getId(), e.getUsername(), e.getName(), e.getEmail());
-            dtos.add(dto);
+            UserDTO dTO = new UserDTO(e.getId(), e.getUsername(), e.getName(), e.getEmail());
+            dTOs.add(dTO);
         }
-        return dtos;
+        return dTOs;
     }
 
     /**
-     * @param newUser Converts User DTO to entity and saves it to the database
+     * @param newUser DTO that hold all relevant data to create a new user
      * @throws UsernameTakenException if username is already taken
      * @throws EmailAlreadyExistsException if email is already taken
+     * Converts User DTO to entity and saves it to the database
      */
     @PostMapping("/users")
-    void newUser(@RequestBody NewUserDTO newUser) throws UsernameTakenException, EmailAlreadyExistsException {
-        Optional.ofNullable(userRepository.findUserByUsername(newUser.getUsername())).ifPresent(arg -> {
+    ResponseEntity<String> newUser(@RequestBody NewUserDTO newUser) throws UsernameTakenException, EmailAlreadyExistsException {
+        userRepository.findUserByUsername(newUser.getUsername()).ifPresent(arg -> {
             throw new UsernameTakenException(newUser.getUsername());
         });
 
-        Optional.ofNullable(userRepository.findUserByEmail(newUser.getEmail())).ifPresent(arg -> {
+        userRepository.findUserByEmail(newUser.getEmail()).ifPresent(arg -> {
             throw new EmailAlreadyExistsException(newUser.getEmail());
         });
 
@@ -70,38 +76,43 @@ public class UserController {
                 newUser.getEmail(), newUser.getUsername(), newUser.getName(), newUser.getPassword()
         ).hashPassword();
 
-        userRepository.save(user);
+        return ResponseEntity.ok().body("User: " + userRepository.save(user).getId() +"created successfully");
     }
 
     /**
      * @param id user's ID in the database
+     * @param userId header that holds the requesting users id
+     * @param token header that holds the requesting users auth token
      * @return DTO of the user with all information
      * @throws UserNotFoundException if user can't be found in the database
+     * @throws NoAuthorizationException if user authentication fails
+     * Get Data of a specific user
      */
     @GetMapping("/users/{id}")
     UserDTO one(@PathVariable Long id, @RequestHeader("userId") Long userId, @RequestHeader("token") String token) throws UserNotFoundException, NoAuthorizationException {
         if(!tokenRepository.isValid(token, userId)){
             throw new NoAuthorizationException(userId);
         }
-        if(userRepository.findById(id).isEmpty()){
-            throw new UserNotFoundException(id);
-        }
 
-        UsersEntity user = userRepository.findById(id).get();
+        UsersEntity user = userRepository.findById(id).orElseThrow(() -> new UserNotFoundException(id));
 
         return new UserDTO(user.getId(), user.getUsername(), user.getName(), user.getEmail());
     }
 
     /**
      * @param id User ID
+     * @param userId header that holds the requesting users id
+     * @param token header that holds the requesting users auth token
+     * @throws NoAuthorizationException if user authentication fails
      * Delete a specific user
      */
     @DeleteMapping("/users/{id}")
-    void deleteUser(@PathVariable Long id,  @RequestHeader("userId") Long userId, @RequestHeader("token") String token) throws NoAuthorizationException{
+    ResponseEntity<String> deleteUser(@PathVariable Long id,  @RequestHeader("userId") Long userId, @RequestHeader("token") String token) throws NoAuthorizationException{
         if(!tokenRepository.isValid(token, userId)){
             throw new NoAuthorizationException(userId);
         }
-       userRepository.deleteById(id);
+        userRepository.deleteById(id);
+        return ResponseEntity.ok().body("User: " + id + "deleted successfully");
     }
 }
 

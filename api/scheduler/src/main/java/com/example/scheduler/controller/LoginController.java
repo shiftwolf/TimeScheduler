@@ -21,7 +21,7 @@ public class LoginController {
 
     /**
      * @param userRepository Repository that holds all registered Users
-     * @param tokenRepository Repository that holds all tokens of currently logged in Users
+     * @param tokenRepository Repository that holds all tokens of currently active Users
      *  using constructor injection (Dependency injection)
      *  meaning this constructor is typically not used manually.
      */
@@ -30,12 +30,15 @@ public class LoginController {
         this.tokenRepository = tokenRepository;
     }
 
+    /**
+     * @param loginData holds username and password of the user trying to log in
+     * @return the token the client uses to authenticate during request
+     * @throws LoginFailedException if username or password do not match the user saved in the database
+     * User login to validate request from the client
+     */
     @PostMapping("/login")
     TokenDTO login(@RequestBody LoginDTO loginData) throws LoginFailedException{
-        UsersEntity user = userRepository.findUserByUsername(loginData.getUsername());
-        if(user == null){
-            throw new LoginFailedException();
-        }
+        UsersEntity user = userRepository.findUserByUsername(loginData.getUsername()).orElseThrow(LoginFailedException::new);
         BCryptPasswordEncoder b = new BCryptPasswordEncoder();
         if(!b.matches(loginData.getPassword(), user.getHashedpw())){
             throw new LoginFailedException();
@@ -46,6 +49,11 @@ public class LoginController {
         return new TokenDTO( token.getUserId(), token.getToken());
     }
 
+    /**
+     * @param token holds the login token of users logging out
+     * @throws LoginFailedException if username or password do not match the user saved in the database
+     * User logout so client can not make forbidden requests until new user logs in
+     */
     @DeleteMapping("/login")
     void logout(@RequestBody TokenDTO token){
         tokenRepository.deleteById(token.getTokenString());

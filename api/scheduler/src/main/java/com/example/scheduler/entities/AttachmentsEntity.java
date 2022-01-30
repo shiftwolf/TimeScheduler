@@ -13,10 +13,10 @@ public class AttachmentsEntity {
 
     @Id
     @Column(name = "id")
-    private int id;
+    private Long id;
 
     @Column(name = "event_id")
-    private int eventId;
+    private Long eventId;
 
     @Column(name = "name")
     private String name;
@@ -27,23 +27,32 @@ public class AttachmentsEntity {
     private Timestamp createdAt;
 
     @Basic
+    @Lob
     @Column(name = "attachment")
     private byte[] attachment;
 
-    public int getEventId() {
+    public AttachmentsEntity(){}
+
+    public AttachmentsEntity(Long eventId, String name, byte[] attachment) {
+        this.eventId =eventId;
+        this.name = name;
+        this.attachment = attachment;
+    }
+
+    public Long getEventId() {
         return eventId;
     }
 
-    public void setEventId(int eventId) {
+    public void setEventId(Long eventId) {
         this.eventId = eventId;
     }
 
 
-    public int getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -79,7 +88,7 @@ public class AttachmentsEntity {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         AttachmentsEntity that = (AttachmentsEntity) o;
-        return id == that.id && Objects.equals(createdAt, that.createdAt) && Arrays.equals(attachment, that.attachment);
+        return Objects.equals(id, that.id) && Objects.equals(createdAt, that.createdAt) && Arrays.equals(attachment, that.attachment);
     }
 
     @Override

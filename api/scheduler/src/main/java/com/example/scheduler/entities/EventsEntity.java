@@ -89,8 +89,9 @@ public class EventsEntity {
         this.name = name;
     }
 
+    public Timestamp getDate() { return date;}
 
-    public Timestamp getDate() { return date; }
+    public void setDate(Timestamp date) { this.date = date;}
 
 
     public Timestamp getDuration() {
@@ -124,7 +125,7 @@ public class EventsEntity {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         EventsEntity that = (EventsEntity) o;
-        return id == that.id && Objects.equals(createdAt, that.createdAt) && Objects.equals(name, that.name) && Objects.equals(duration, that.duration) && Objects.equals(location, that.location) && Objects.equals(priority, that.priority);
+        return Objects.equals(id, that.id) && Objects.equals(createdAt, that.createdAt) && Objects.equals(name, that.name) && Objects.equals(duration, that.duration) && Objects.equals(location, that.location) && Objects.equals(priority, that.priority);
     }
 
     @Override
