@@ -39,7 +39,7 @@ public class EventController {
 
     @GetMapping("/events")
     List<EventsEntity> all(@RequestHeader("userId") Long userId,
-                                      @RequestHeader("token") String token) {
+                           @RequestHeader("token") String token) {
         TokensEntity tokensEntity = tokenRepository.findById(token).orElseThrow(LoginFailedException::new);
         if(!(tokensEntity.getUserId().longValue() == userId.longValue())) {
             throw new NoAuthorizationException(userId);
@@ -63,9 +63,9 @@ public class EventController {
                 eventsEntityList.add(eventsEntity.orElseThrow(() -> new EventNotFoundException(e.getEventId())));
             }
         }
+
         return eventsEntityList;
     }
-
 
     @PostMapping("/events")
     void newEvent(@RequestBody EventDTO newEvent,
@@ -83,10 +83,14 @@ public class EventController {
                 new Timestamp(newEvent.getDuration()),
                 newEvent.getLocation(), newEvent.getPriority()
         );
-
         eventRepository.save(eventsEntity);
         Long eventId = eventRepository.findTopByOrderByIdDesc().getId();
+
+        // Add all participants to the participants table
         participantRepository.save(new ParticipantsEntity(eventId, userId));
+        for (Long id : newEvent.getParticipants()) {
+            participantRepository.save(new ParticipantsEntity(eventId, id));
+        }
 
     }
 
