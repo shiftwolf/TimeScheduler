@@ -12,6 +12,6 @@ module com.example.timescheduler {
     requires retrofit2;
     requires retrofit2.converter.gson;
 
-    opens com.example.timescheduler.View to javafx.fxml;
-    exports com.example.timescheduler.View;
+    opens com.example.timescheduler.view to javafx.fxml;
+    exports com.example.timescheduler.view;
 }
