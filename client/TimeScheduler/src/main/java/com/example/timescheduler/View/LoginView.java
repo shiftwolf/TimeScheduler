@@ -1,73 +1,40 @@
-package com.example.timescheduler.view;
+package com.example.timescheduler.View;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
-import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
-import javafx.scene.control.ToggleButton;
 import javafx.stage.Stage;
+
+import java.io.IOException;
 
 public class LoginView {
     @FXML
     TextField username;
     @FXML
     PasswordField password;
-    @FXML
-    TextField passwordVisible;
-    @FXML
-    ToggleButton passwordToggle;
-    @FXML
-    Label loginError;
 
     @FXML
-    public void initialize() {
-        password.textProperty().bindBidirectional(passwordVisible.textProperty());
-        loginError.managedProperty().bind(loginError.visibleProperty());
-    }
+    protected void onLogin(ActionEvent event) throws IOException {
+        // TODO: notify listener
 
-    @FXML
-    protected void onLogin(ActionEvent event) {
-        // TODO
-
-        // for UI debugging
-        if (username.getText().equals("y")) {
-            loginError.setVisible(true);
-        } else {
-            resetGUI();
-            Stage stage = (Stage) ((Node)event.getSource()).getScene().getWindow();
-            stage.setScene(SchedulerApplication.homeScene);
-            stage.setX(200);
-            stage.setY(100);
-        }
+        System.out.println("Switch to home scene");
+        Stage stage = (Stage) ((Node)event.getSource()).getScene().getWindow();
+        stage.setScene(SchedulerApplication.homeScene);
+        stage.setX(200);
+        stage.setY(100);
     }
 
     @FXML
     protected void onSignUp(ActionEvent event) {
-        resetGUI();
+        System.out.println("Switch to registrationScene");
         Stage stage = (Stage) ((Node)event.getSource()).getScene().getWindow();
         stage.setScene(SchedulerApplication.registrationScene);
     }
 
     @FXML
-    protected void onPasswordToggle() {
-        if (passwordToggle.isSelected()) {
-            passwordVisible.toFront();
-            password.toBack();
-        } else {
-            password.toFront();
-            passwordVisible.toBack();
-        }
-    }
-
-    private void resetGUI() {
-        password.clear();
-        passwordVisible.clear();
-        username.clear();
-
-        password.toFront();
-        passwordVisible.toBack();
-        loginError.setVisible(false);
+    protected void onPasswordToggle(ActionEvent event) {
+        // TODO
     }
 }

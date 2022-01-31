@@ -1,95 +1,45 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.net.URL?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
 <?import javafx.geometry.Insets?>
-<?import javafx.scene.control.Button?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.control.PasswordField?>
-<?import javafx.scene.control.TextField?>
-<?import javafx.scene.control.ToggleButton?>
-<?import javafx.scene.layout.ColumnConstraints?>
-<?import javafx.scene.layout.GridPane?>
-<?import javafx.scene.layout.StackPane?>
+<?import java.net.URL?>
 
-<!-- TODO: svg instead of png -->
-<GridPane prefHeight="513.0" prefWidth="500.0" alignment="TOP_CENTER"
-          xmlns="http://javafx.com/javafx/17"
-          xmlns:fx="http://javafx.com/fxml/1"
-          fx:controller="com.example.timescheduler.view.RegistrationView">
-    <stylesheets><URL value="@checkInStyles.css" /></stylesheets>
+<VBox xmlns="http://javafx.com/javafx"
+      xmlns:fx="http://javafx.com/fxml"
+      fx:controller="com.example.timescheduler.View.RegistrationView"
+      alignment="TOP_CENTER" spacing="20">
+    <stylesheets><URL value="@checkInStyles.css"/></stylesheets>
 
-    <padding><Insets bottom="30" left="100" right="80" top="30" /></padding>
+    <padding><Insets top="30" right="100" bottom="30" left="100"/></padding>
 
-    <columnConstraints>
-        <ColumnConstraints percentWidth="90" halignment="CENTER"/>
-        <ColumnConstraints percentWidth="10"/>
-    </columnConstraints>
+    <Label text="Create an account" id="title"/>
 
-    <children>
+    <TextField promptText="Username" minHeight="35" focusTraversable="false" fx:id="username"/>
 
-        <Label id="title" text="Create an account" alignment="CENTER"
-               GridPane.columnIndex="0" GridPane.rowIndex="0"/>
-        <ToggleButton fx:id="infoToggle" onAction="#onInfoToggle"
-                      GridPane.columnIndex="1" GridPane.rowIndex="0"/>
+    <TextField promptText="Email Address" minHeight="35" focusTraversable="false" fx:id="email"/>
 
-        <TextField fx:id="username" focusTraversable="false" minHeight="35" promptText="Username" maxWidth="Infinity"
-                   GridPane.columnIndex="0" GridPane.rowIndex="1">
-            <GridPane.margin><Insets top="20"/></GridPane.margin>
-        </TextField>
-        <Label fx:id="usernameInfo" styleClass="info-label" wrapText="true" visible="false" GridPane.halignment="LEFT"
-               text="The username must be unique and can't contain spaces."
-               GridPane.columnIndex="0" GridPane.rowIndex="2"/>
+    <TextField promptText="Name" minHeight="35" focusTraversable="false" fx:id="name"/>
 
-        <TextField fx:id="email" focusTraversable="false" minHeight="35" promptText="Email Address"
-                   GridPane.columnIndex="0" GridPane.rowIndex="3">
-            <GridPane.margin><Insets top="15" /></GridPane.margin>
-        </TextField>
+    <PasswordField promptText="Password" minHeight="35" focusTraversable="false" fx:id="password1"/>
 
-        <TextField fx:id="name" focusTraversable="false" minHeight="35" promptText="Name"
-                   GridPane.columnIndex="0" GridPane.rowIndex="4">
-            <GridPane.margin><Insets top="15" /></GridPane.margin>
-        </TextField>
+    <PasswordField promptText="Confirm Password" minHeight="35" focusTraversable="false" fx:id="password2"/>
 
-        <StackPane GridPane.columnIndex="0" GridPane.rowIndex="5">
-            <GridPane.margin><Insets top="15" /></GridPane.margin>
-            <TextField fx:id="password1Visible" focusTraversable="false" minHeight="35" promptText="Password" />
-            <PasswordField fx:id="password1" focusTraversable="false" minHeight="35" promptText="Password" />
-        </StackPane>
+    <GridPane hgap="20">
+        <VBox.margin><Insets top="20"/></VBox.margin>
 
-        <ToggleButton fx:id="passwordToggle" onAction="#onPasswordToggle" GridPane.valignment="CENTER"
-                      GridPane.columnIndex="1" GridPane.rowIndex="5">
-            <GridPane.margin><Insets top="15"/></GridPane.margin>
-        </ToggleButton>
+        <columnConstraints>
+            <ColumnConstraints percentWidth="50"/>
+            <ColumnConstraints percentWidth="50"/>
+        </columnConstraints>
 
-        <Label fx:id="passwordInfo" styleClass="info-label" visible="false" wrapText="true" GridPane.halignment="LEFT"
-               text="The password must be at least 10 characters long and contain a number and a special character."
-               GridPane.columnIndex="0" GridPane.rowIndex="6"/>
+        <Button text="Cancel" minHeight="35" onAction="#onCancel" maxWidth="Infinity" id="cancel-button"
+                GridPane.columnIndex="0"/>
+        <Button text="Sign Up" minHeight="35" onAction="#onSignUp" maxWidth="Infinity"
+                GridPane.columnIndex="1"/>
+    </GridPane>
 
-        <StackPane GridPane.columnIndex="0" GridPane.rowIndex="7">
-            <GridPane.margin><Insets top="15" /></GridPane.margin>
-            <TextField fx:id="password2Visible" focusTraversable="false" minHeight="35" promptText="Confirm Password"/>
-            <PasswordField fx:id="password2" focusTraversable="false" minHeight="35" promptText="Confirm Password" />
-        </StackPane>
 
-        <Label fx:id="confirmPasswordInfo" styleClass="info-label" visible="false" wrapText="true"
-               text="This must match the first password." GridPane.halignment="LEFT"
-               GridPane.columnIndex="0" GridPane.rowIndex="8"/>
-
-        <GridPane hgap="20" GridPane.columnIndex="0" GridPane.rowIndex="9">
-            <GridPane.margin><Insets top="25" /></GridPane.margin>
-
-            <columnConstraints>
-                <ColumnConstraints percentWidth="50" />
-                <ColumnConstraints percentWidth="50" />
-            </columnConstraints>
-
-            <Button id="cancel-button" maxWidth="Infinity" minHeight="35" onAction="#onCancel" text="Cancel"
-                    GridPane.columnIndex="0" />
-            <Button maxWidth="Infinity" minHeight="35" onAction="#onSignUp" text="Sign Up"
-                    GridPane.columnIndex="1" />
-        </GridPane>
-
-    </children>
-
-</GridPane>
-
+</VBox>

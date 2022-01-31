@@ -24,48 +24,16 @@
 
 .text-field {
     -fx-background-radius: 8px;
-    -fx-background-color: #e8e8e8;
-    -fx-border-color: #d5d5d5;
+    -fx-background-color: #DCDCDC;
+    -fx-border-color: #c4c4c4;
     -fx-border-radius: 8px;
 }
 
 .text-field:focused {
-    -fx-background-color: #e8e8e8;
-}
-
-.hyperlink {
-    -fx-text-fill: #1f7ae5;
+    -fx-background-color: #DCDCDC;
 }
 
 .hyperlink:visited {
-    -fx-underline: false;
+    -fx-text-fill: #1f7ae5;
     -fx-border-color: transparent;
-}
-
-#infoToggle {
-    -fx-background-color: transparent;
-    -fx-graphic: url("icons/info_icon.png");
-}
-
-#infoToggle:selected {
-    -fx-background-color: transparent;
-    -fx-graphic: url("icons/info_icon_selected.png");
-}
-
-#passwordToggle {
-    -fx-background-color: transparent;
-    -fx-graphic: url("icons/icons8-eye-24.png");
-}
-
-#passwordToggle:selected {
-    -fx-background-color: transparent;
-    -fx-graphic: url("icons/icons8-closed-eye-24.png");
-}
-
-.info-label {
-    -fx-text-fill: #757575;
-}
-
-#loginError {
-    -fx-text-fill: #ad4c4c;
 }
