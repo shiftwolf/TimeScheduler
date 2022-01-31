@@ -5,8 +5,8 @@
 
 package com.example.timescheduler.Model;
 
-import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 public class User {
     // Attributes
@@ -24,10 +24,10 @@ public class User {
     }
 
     private Date created_at;
-    private ArrayList<Event> events;
+    private List<Event> events;
 
     // Constructor
-    public User(Long id, String email, String username, String name, String password, ArrayList<Event> events) {
+    public User(Long id, String email, String username, String name, String password, List<Event> events) {
         this.id = id;
         this.created_at = new Date();;
         this.email = email;
@@ -54,7 +54,7 @@ public class User {
         return name;
     }
 
-    public ArrayList<Event> getEvents() {return events;}
+    public List<Event> getEvents() {return events;}
 
     // Methods
     public void addEvent(Event event){events.add(event);}
