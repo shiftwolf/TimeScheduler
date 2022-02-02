@@ -46,8 +46,7 @@ public class RegistrationView {
 
     @FXML
     protected void onSignUp(ActionEvent event) {
-        // TODO: check criteria + notify listener
-        // TODO: trim spaces before sending data to database
+        // TODO: trim spaces
 
         boolean isValid = validateSignUp();
 
@@ -73,7 +72,6 @@ public class RegistrationView {
                 input.setStyle("-fx-border-color: #ad4c4c;");
             }
         }
-
         // check username
         if (!username.getText().trim().matches(usernameRegex)) {
             username.setStyle("-fx-border-color: #ad4c4c;");

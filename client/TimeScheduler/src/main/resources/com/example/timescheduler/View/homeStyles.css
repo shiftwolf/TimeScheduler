@@ -17,8 +17,16 @@
 }
 
 .scroll-pane {
-    /*-fx-background-radius: 8px;*/
-    /*-fx-background-insets: 0.0, 0.0, 0.0, 0.0;*/
+    -fx-background-radius: 8px;
+}
+
+.scroll-bar:horizontal, .scroll-bar:vertical{
+    -fx-background-color:transparent;
+}
+
+.increment-button, .decrement-button {
+    -fx-background-color: transparent;
+    -fx-border-color: transparent;
 }
 
 .label {
@@ -33,4 +41,9 @@
 #title {
     -fx-text-fill: black;
     -fx-font-size: 18;
+}
+
+#eventName {
+    -fx-font-size: 14;
+    -fx-text-fill: #28282a;
 }

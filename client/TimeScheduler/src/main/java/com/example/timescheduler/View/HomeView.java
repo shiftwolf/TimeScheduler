@@ -2,8 +2,10 @@ package com.example.timescheduler.view;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.geometry.Insets;
 import javafx.scene.Node;
 import javafx.scene.control.ScrollPane;
+import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
 public class HomeView {
@@ -11,12 +13,14 @@ public class HomeView {
 
     @FXML
     public void initialize() {
-//        VBox vbox = new VBox();
-//        for (int i = 0; i<5; i++){
-//            vbox.getChildren().add(new EventComponent());
-//        }
-//        vbox.setSpacing(20);
-//        eventSection.setContent(vbox);
+        VBox vbox = new VBox();
+        for (int i = 0; i<10; i++){
+            EventComponent event = new EventComponent();
+            vbox.getChildren().add(event);
+            VBox.setMargin(event, new Insets(20, 20, 0, 20));
+        }
+        vbox.setSpacing(20);
+        eventSection.setContent(vbox);
     }
 
     @FXML
