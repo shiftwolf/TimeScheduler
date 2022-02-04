@@ -10,10 +10,9 @@
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.layout.ColumnConstraints?>
-
 <BorderPane xmlns="http://javafx.com/javafx/17"
             xmlns:fx="http://javafx.com/fxml/1"
-            fx:controller="com.example.timescheduler.View.HomeView">
+            fx:controller="com.example.timescheduler.view.HomeView">
     <stylesheets><URL value="@homeStyles.css"/></stylesheets>
 
     <top>
@@ -39,6 +38,7 @@
                         GridPane.columnIndex="0" GridPane.rowIndex="0" GridPane.columnSpan="3" GridPane.rowSpan="7">
                 <GridPane.margin><Insets right="30"/></GridPane.margin>
             </ScrollPane>
+
             <Button text="Export Schedule" minHeight="35"
                     GridPane.columnIndex="0" GridPane.rowIndex="7"/>
             <Button text="Add Event" minHeight="35"
