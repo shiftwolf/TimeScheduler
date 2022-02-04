@@ -1,0 +1,49 @@
+.root {
+    -fx-background-color: white;
+}
+
+.button {
+    -fx-background-color: #3983D9;
+    -fx-background-radius: 8px;
+    -fx-text-fill: white;
+}
+
+#logout-button {
+    -fx-background-color: #b4b4b4;
+}
+
+#top-bar {
+    -fx-background-color: #E8E8E8FF;
+}
+
+.scroll-pane {
+    -fx-background-radius: 8px;
+}
+
+.scroll-bar:horizontal, .scroll-bar:vertical{
+    -fx-background-color:transparent;
+}
+
+.increment-button, .decrement-button {
+    -fx-background-color: transparent;
+    -fx-border-color: transparent;
+}
+
+.label {
+    -fx-text-fill: #757575;
+}
+
+#view-title {
+    -fx-text-fill: black;
+    -fx-font-size: 26;
+}
+
+#title {
+    -fx-text-fill: black;
+    -fx-font-size: 18;
+}
+
+#eventName {
+    -fx-font-size: 14;
+    -fx-text-fill: #28282a;
+}

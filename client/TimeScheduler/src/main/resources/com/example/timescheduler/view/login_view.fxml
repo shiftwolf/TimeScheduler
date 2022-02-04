@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.net.URL?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Hyperlink?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.PasswordField?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.ToggleButton?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.text.TextFlow?>
+
+<!-- TODO: svg instead of png -->
+<GridPane alignment="TOP_CENTER"
+          xmlns="http://javafx.com/javafx/17"
+          xmlns:fx="http://javafx.com/fxml/1"
+          fx:controller="com.example.timescheduler.view.LoginView">
+    <stylesheets><URL value="@checkInStyles.css" /></stylesheets>
+
+    <padding><Insets left="100" right="60" top="30" /></padding>
+
+    <columnConstraints>
+        <ColumnConstraints halignment="CENTER"/>
+    </columnConstraints>
+
+    <Label id="title" text="Login" GridPane.columnIndex="0" GridPane.rowIndex="0">
+        <GridPane.margin>
+            <Insets bottom="10" />
+        </GridPane.margin>
+    </Label>
+
+    <TextField fx:id="username" focusTraversable="false" minHeight="35" promptText="Enter Username"
+               GridPane.columnIndex="0" GridPane.rowIndex="1" >
+        <GridPane.margin>
+            <Insets top="20" />
+        </GridPane.margin>
+    </TextField>
+
+    <StackPane GridPane.columnIndex="0" GridPane.rowIndex="2" maxWidth="Infinity">
+        <GridPane.margin>
+            <Insets top="20" />
+        </GridPane.margin>
+        <TextField fx:id="passwordVisible" focusTraversable="false" minHeight="35" promptText="Enter Password"/>
+        <PasswordField fx:id="password" focusTraversable="false" minHeight="35" promptText="Enter Password"/>
+    </StackPane>
+
+    <ToggleButton fx:id="passwordToggle" onAction="#onPasswordToggle"
+                  GridPane.columnIndex="1" GridPane.rowIndex="2">
+        <GridPane.margin>
+            <Insets top="20" />
+        </GridPane.margin>
+    </ToggleButton>
+
+    <Label fx:id="loginError" text="Login failed. Make sure you entered the right username and password."
+           visible="false" wrapText="true" GridPane.halignment="LEFT"
+           GridPane.columnIndex="0" GridPane.rowIndex="3">
+        <GridPane.margin>
+            <Insets top="10" />
+        </GridPane.margin>
+    </Label>
+
+    <Button maxWidth="Infinity" minHeight="35" onAction="#onLogin" text="Log In"
+            GridPane.columnIndex="0" GridPane.fillWidth="true" GridPane.rowIndex="4">
+        <GridPane.margin>
+            <Insets top="20" />
+        </GridPane.margin>
+    </Button>
+
+    <Separator GridPane.columnIndex="0" GridPane.rowIndex="5">
+        <GridPane.margin>
+            <Insets top="20" />
+        </GridPane.margin>
+    </Separator>
+
+    <TextFlow GridPane.columnIndex="0" GridPane.rowIndex="6" GridPane.halignment="CENTER" textAlignment="CENTER">
+        <GridPane.margin>
+            <Insets top="15" />
+        </GridPane.margin>
+        <Label text="Don't have an account yet?" />
+        <Hyperlink onAction="#onSignUp" styleClass="hyperlink" text="Sign up" />
+    </TextFlow>
+
+</GridPane>
