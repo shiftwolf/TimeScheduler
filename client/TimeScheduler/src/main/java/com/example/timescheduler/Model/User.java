@@ -5,16 +5,38 @@
 
 package com.example.timescheduler.Model;
 
-import java.util.ArrayList;
-import java.util.Date;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
+import java.util.Date;
+import java.util.List;
+
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class User {
     // Attributes
-    private Long id;
+    public Long id;
     private String name;
     private String email;
     private String username;
     private String password;
+    private Date createdAt;
+    private List<Event> events;
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", email='" + email + '\'' +
+                ", username='" + username + '\'' +
+                ", password='" + password + '\'' +
+                ", createdAt=" + createdAt +
+                ", events=" + events +
+                '}';
+    }
+
+    // Constructors
+    public User() {
+    }
 
     public User(String name, String email, String username, String password) {
         this.name = name;
@@ -23,13 +45,9 @@ public class User {
         this.password = password;
     }
 
-    private Date created_at;
-    private ArrayList<Event> events;
-
-    // Constructor
-    public User(Long id, String email, String username, String name, String password, ArrayList<Event> events) {
+    public User(Long id, String email, String username, String name, String password, List<Event> events) {
         this.id = id;
-        this.created_at = new Date();;
+        this.createdAt = new Date();;
         this.email = email;
         this.username = username;
         this.name = name;
@@ -38,9 +56,14 @@ public class User {
     }
 
     // Getters
+
+
+    public String getPassword() {
+        return password;
+    }
     public Long getId() {return id;}
 
-    public Date getCreated_at() {return created_at;}
+    public Date getCreated_at() {return createdAt;}
 
     public String getEmail() {
         return email;
@@ -54,25 +77,12 @@ public class User {
         return name;
     }
 
-    public ArrayList<Event> getEvents() {return events;}
+    public List<Event> getEvents() {return events;}
 
     // Methods
-    public void addEvent(Event event){events.add(event);}
+    public void addEvent(Event event){}
 
-    public boolean createEvent(String name, Date date, Date duration, String location, String description, Event.priorities priority, ArrayList<User> participants){
-        if(date == null){
-            return false;
-        }
-        if(duration == null){
-            return false;
-        }
-        // TODO : upload Event to DB
-        // TODO : get id from DB
-        for(User cursor : participants){
-            //  cursor.addEvent(tempEvent);
-        }
-        // TODO : getID form DB and put into model
-
+    public boolean createEvent(String name, Date date, Date duration, String location, String description, Event.priorities priority, List<User> participants){
         return true;
     }
 

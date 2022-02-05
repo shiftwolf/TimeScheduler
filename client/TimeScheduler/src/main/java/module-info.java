@@ -15,7 +15,14 @@ module com.example.timescheduler {
     requires java.net.http;
     requires com.fasterxml.jackson.databind;
     requires com.fasterxml.jackson.core;
+    requires com.fasterxml.jackson.annotation;
 
     opens com.example.timescheduler.view to javafx.fxml;
     exports com.example.timescheduler.view;
+
+    opens com.example.timescheduler.Model to com.fasterxml.jackson.databind;
+    exports com.example.timescheduler.Model;
+
+    opens com.example.timescheduler.APIobjects to com.fasterxml.jackson.databind;
+    exports com.example.timescheduler.APIobjects;
 }

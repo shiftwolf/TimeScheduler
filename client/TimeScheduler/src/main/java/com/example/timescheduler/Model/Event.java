@@ -6,9 +6,13 @@
 
 package com.example.timescheduler.Model;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class Event {
 
     public static enum priorities {
@@ -16,27 +20,56 @@ public class Event {
     }
 
     // Attributes
-    private final long id;
-    private final Date created_at;
-    private final String name;
+    private long id;
+    private Date createdAt;
+    private String name;
     private Date date;
     private Date duration;
     private String location;
     private String description;
     private priorities priority;
-    public ArrayList<User> participants;
+    public List<User> participantsEntities;
 
-    // Constructor
+
+    @Override
+    public String toString() {
+        return "Event{" +
+                "id=" + id +
+                ", createdAt=" + createdAt +
+                ", name='" + name + '\'' +
+                ", date=" + date +
+                ", duration=" + duration +
+                ", location='" + location + '\'' +
+                ", description='" + description + '\'' +
+                ", priority=" + priority +
+                ", participantsEntities=" + participantsEntities +
+                '}';
+    }
+
+    // Constructors
+
+    public Event() {
+    }
+
+    public Event(String name, Date date, Date duration, String location, priorities priority, List<User> participantsEntities) {
+        this.name = name;
+        this.date = date;
+        this.duration = duration;
+        this.location = location;
+        this.priority = priority;
+        this.participantsEntities = participantsEntities;
+    }
+
     public Event(long id, String name, Date date, Date duration, String location, String description, priorities priority, ArrayList<User> participants) {
         this.id = id;
-        this.created_at = new Date();
+        this.createdAt = new Date();
         this.name = name;
         this.date = date;
         this.duration = duration;
         this.location = location;
         this.description = description;
         this.priority = priority;
-        this.participants = participants;
+        this.participantsEntities = participants;
     }
 
     // Getters
@@ -44,8 +77,8 @@ public class Event {
         return id;
     }
 
-    public Date getCreated_at() {
-        return created_at;
+    public Date getCreatedAt() {
+        return createdAt;
     }
 
     public String getName() {
@@ -72,8 +105,8 @@ public class Event {
         return priority;
     }
 
-    public ArrayList<User> getParticipants() {
-        return participants;
+    public List<User> getParticipantsEntities() {
+        return participantsEntities;
     }
 
     // Setters
@@ -99,7 +132,7 @@ public class Event {
 
     // Methods
     public void addParticipants(User newParticipant) {
-        participants.add(newParticipant);
+        participantsEntities.add(newParticipant);
     }
 
 }
