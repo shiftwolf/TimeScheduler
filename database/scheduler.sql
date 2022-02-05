@@ -24,6 +24,7 @@ CREATE TABLE `users` (
     `username` varchar(50) NOT NULL,
     `name` varchar(50) NOT NULL,
     `hashedpw` varchar(100) NOT NULL,
+    `isAdmin` BOOL NOT NULL,
 
     PRIMARY KEY (`id`)
 
