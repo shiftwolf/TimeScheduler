@@ -1,5 +1,8 @@
 package com.example.timescheduler.view;
 
+import com.example.timescheduler.view.components.EventComponent;
+import com.example.timescheduler.view.components.EventDetailsComponent;
+import com.example.timescheduler.view.components.EventEditComponent;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.geometry.Insets;
@@ -12,11 +15,11 @@ import javafx.stage.Stage;
 
 public class HomeView {
 
-    EventDetailsComponent eventDetails;
-    EventEditComponent eventEdit;
+    public EventDetailsComponent eventDetails;
+    public EventEditComponent eventEdit;
 
     @FXML
-    GridPane mainGrid;
+    public GridPane mainGrid;
     @FXML
     ScrollPane eventSection;
     @FXML

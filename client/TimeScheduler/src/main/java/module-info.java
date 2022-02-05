@@ -25,4 +25,6 @@ module com.example.timescheduler {
 
     opens com.example.timescheduler.APIobjects to com.fasterxml.jackson.databind;
     exports com.example.timescheduler.APIobjects;
+    exports com.example.timescheduler.view.components;
+    opens com.example.timescheduler.view.components to javafx.fxml;
 }

@@ -1,5 +1,6 @@
 package com.example.timescheduler.view;
 
+import com.example.timescheduler.view.components.UserComponent;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.geometry.Insets;

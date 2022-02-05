@@ -1,4 +1,4 @@
-package com.example.timescheduler.view;
+package com.example.timescheduler.view.components;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;

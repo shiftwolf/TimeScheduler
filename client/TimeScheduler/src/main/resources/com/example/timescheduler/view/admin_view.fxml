@@ -6,7 +6,7 @@
 <?import java.net.URL?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.ScrollPane?>
-<?import com.example.timescheduler.view.UserEditComponent?>
+<?import com.example.timescheduler.view.components.UserEditComponent?>
 <BorderPane xmlns="http://javafx.com/javafx/17"
             xmlns:fx="http://javafx.com/fxml/1"
             fx:controller="com.example.timescheduler.view.AdminView">

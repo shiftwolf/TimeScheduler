@@ -9,7 +9,7 @@
 <fx:root type="javafx.scene.layout.HBox" xmlns:fx="http://javafx.com/fxml" spacing="10" >
 
     <ImageView fx:id="imageView" preserveRatio="true" fitHeight="25">
-        <Image url="@icons/priority0.png"/>
+        <Image url="@../icons/priority0.png"/>
     </ImageView>
 
     <GridPane id="scrollpane-item" HBox.hgrow="ALWAYS">
