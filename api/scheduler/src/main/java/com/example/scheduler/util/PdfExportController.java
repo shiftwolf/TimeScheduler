@@ -10,6 +10,8 @@ import com.example.scheduler.exceptions.NoAuthorizationException;
 import com.example.scheduler.repositories.EventRepository;
 import com.example.scheduler.repositories.ParticipantRepository;
 import com.example.scheduler.repositories.TokenRepository;
+import com.example.scheduler.repositories.UserRepository;
+import org.apache.catalina.User;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -30,16 +32,19 @@ public class PdfExportController {
     private final ParticipantRepository participantRepository;
     private final EventRepository eventRepository;
     private final TokenRepository tokenRepository;
+    private final UserRepository userRepository;
 
 
     public PdfExportController(PdfGenerator pdfGenerator,
                                ParticipantRepository participantRepository,
                                EventRepository eventRepository,
-                               TokenRepository tokenRepository) {
+                               TokenRepository tokenRepository,
+                               UserRepository userRepository) {
         this.pdfGenerator = pdfGenerator;
         this.participantRepository = participantRepository;
         this.eventRepository = eventRepository;
         this.tokenRepository = tokenRepository;
+        this.userRepository = userRepository;
     }
 
 
@@ -71,6 +76,6 @@ public class PdfExportController {
         if (eventsEntities.size() == 0)
             System.out.println("No events listed"); //todo: make new exception
         else
-            this.pdfGenerator.PdfExport(response, eventsEntities);
+            this.pdfGenerator.PdfExport(response, eventsEntities, userId, userRepository);
     }
 }
