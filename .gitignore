@@ -47,3 +47,5 @@ buildNumber.properties
 
 .idea
 .run
+application.properties
+persistence.xml
