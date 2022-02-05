@@ -12,6 +12,9 @@ module com.example.timescheduler {
     requires eu.hansolo.tilesfx;
     requires retrofit2;
     requires retrofit2.converter.gson;
+    requires java.net.http;
+    requires com.fasterxml.jackson.databind;
+    requires com.fasterxml.jackson.core;
 
     opens com.example.timescheduler.view to javafx.fxml;
     exports com.example.timescheduler.view;
