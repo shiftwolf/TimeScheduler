@@ -7,6 +7,7 @@ import com.example.scheduler.entities.UsersEntity;
 import com.example.scheduler.exceptions.LoginFailedException;
 import com.example.scheduler.repositories.UserRepository;
 import com.example.scheduler.repositories.TokenRepository;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -20,12 +21,13 @@ public class LoginController {
     private final TokenRepository tokenRepository;
 
     /**
-     * @param userRepository Repository that holds all registered Users
-     * @param tokenRepository Repository that holds all tokens of currently active Users
+     * @param userRepository Repository that holds all registered Users (injected)
+     * @param tokenRepository Repository that holds all tokens of currently active Users (injected)
      *  using constructor injection (Dependency injection)
      *  meaning this constructor is typically not used manually.
      */
-    LoginController(UserRepository userRepository, TokenRepository tokenRepository) {
+    LoginController(UserRepository userRepository,
+                    TokenRepository tokenRepository) {
         this.userRepository = userRepository;
         this.tokenRepository = tokenRepository;
     }
@@ -51,11 +53,16 @@ public class LoginController {
 
     /**
      * @param token holds the login token of users logging out
-     * @throws LoginFailedException if username or password do not match the user saved in the database
+     * @return Response that logging out was successful or unsuccessful
      * User logout so client can not make forbidden requests until new user logs in
      */
     @DeleteMapping("/login")
-    void logout(@RequestBody TokenDTO token){
-        tokenRepository.deleteById(token.getTokenString());
+    ResponseEntity<String> logout(@RequestBody TokenDTO token){
+        if(tokenRepository.isValid(token.getTokenString(), token.getUserID())){
+            tokenRepository.deleteById(token.getTokenString());
+            return ResponseEntity.ok().body("You were successfully logged out");
+        }
+        else return ResponseEntity.badRequest().body("Could not match token to correct login data");
+
     }
 }

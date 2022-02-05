@@ -15,5 +15,6 @@ import java.util.List;
 public interface ParticipantRepository extends CrudRepository<ParticipantsEntity, ParticipantsEntityPK> {
 
     List<ParticipantsEntity> findAllByUserId(Long userId);
+    List<ParticipantsEntity> findAllByEventId(Long eventId);
 
 }
