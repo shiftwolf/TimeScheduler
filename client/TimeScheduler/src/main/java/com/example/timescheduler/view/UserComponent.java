@@ -1,23 +1,22 @@
 package com.example.timescheduler.view;
 
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.layout.HBox;
+import javafx.scene.layout.GridPane;
 
 import java.io.IOException;
 
-public class EventComponent extends HBox {
+public class UserComponent extends GridPane {
+
+    @FXML
+    Label userName;
     @FXML
     Label name;
-    @FXML
-    Label details;
-    @FXML
-    Button detailsButton;
-    
-    public EventComponent() {
-        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("event_component.fxml"));
+
+    public UserComponent() {
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("user_component.fxml"));
         fxmlLoader.setRoot(this);
         fxmlLoader.setController(this);
 
@@ -29,7 +28,12 @@ public class EventComponent extends HBox {
     }
 
     @FXML
-    public void onDetailsButton() {
+    public void onEdit(ActionEvent event) {
+        // TODO
+    }
+
+    @FXML
+    public void onDelete(ActionEvent event) {
         // TODO
     }
 

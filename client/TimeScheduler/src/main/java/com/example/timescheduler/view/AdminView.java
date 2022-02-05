@@ -10,15 +10,12 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
-public class HomeView {
-
-    EventDetailsComponent eventDetails;
-    EventEditComponent eventEdit;
+public class AdminView {
 
     @FXML
     GridPane mainGrid;
     @FXML
-    ScrollPane eventSection;
+    ScrollPane userSection;
     @FXML
     Button adminButton;
 
@@ -28,18 +25,14 @@ public class HomeView {
         vbox.setFillWidth(true);
 
         for (int i = 0; i<10; i++){
-            EventComponent event = new EventComponent();
-            vbox.getChildren().add(event);
-            VBox.setMargin(event, new Insets(10, 15, 0, 15));
+            UserComponent user = new UserComponent();
+            vbox.getChildren().add(user);
+            VBox.setMargin(user, new Insets(10, 15, 0, 15));
         }
 
-        eventSection.setContent(vbox);
-        eventSection.setFitToWidth(true);
+        userSection.setContent(vbox);
+        userSection.setFitToWidth(true);
 
-        eventEdit = new EventEditComponent(this);
-
-        eventDetails = new EventDetailsComponent(this);
-        mainGrid.add(eventDetails, 3, 0);
     }
 
     @FXML
@@ -51,6 +44,7 @@ public class HomeView {
     @FXML
     protected void onAdminButton(ActionEvent event) {
         Stage stage = (Stage) ((Node)event.getSource()).getScene().getWindow();
-        stage.setScene(SchedulerApplication.adminScene);
+        stage.setScene(SchedulerApplication.homeScene);
     }
+
 }

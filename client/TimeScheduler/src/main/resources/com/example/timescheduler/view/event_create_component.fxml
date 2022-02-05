@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.Label?>
+<fx:root type="javafx.scene.layout.GridPane" xmlns:fx="http://javafx.com/fxml">
+
+    <Label id="title" text="Create a new event" alignment="CENTER"
+           GridPane.columnIndex="0" GridPane.rowIndex="0" GridPane.columnSpan="2"/>
+
+</fx:root>

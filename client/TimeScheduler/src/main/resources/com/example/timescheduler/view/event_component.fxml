@@ -4,21 +4,32 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.image.Image?>
-
 <?import javafx.geometry.Insets?>
-<fx:root type="javafx.scene.layout.GridPane" xmlns:fx="http://javafx.com/fxml" hgap="40" >
-    <ImageView GridPane.columnIndex="0" GridPane.rowIndex="0"
-            fx:id="imageView" preserveRatio="true" fitHeight="15">
+
+<fx:root type="javafx.scene.layout.HBox" xmlns:fx="http://javafx.com/fxml" spacing="10" >
+
+    <ImageView fx:id="imageView" preserveRatio="true" fitHeight="25">
         <Image url="@icons/priority0.png"/>
-<!--        <GridPane.margin><Insets top="25"/></GridPane.margin>-->
     </ImageView>
-    <Label fx:id="eventName" text="Name of the event"
-           GridPane.columnIndex="1" GridPane.rowIndex="0">
-<!--        <GridPane.margin><Insets top="25"/></GridPane.margin>-->
-    </Label>
-    <Label fx:id="eventDetails" text="Sun 30.01.2022 16:00 - 17:00"
-           GridPane.columnIndex="1" GridPane.rowIndex="1">
-        <GridPane.margin><Insets top="16"/></GridPane.margin>
-    </Label>
+
+    <GridPane id="scrollpane-item" HBox.hgrow="ALWAYS">
+        <columnConstraints>
+            <ColumnConstraints percentWidth="80" />
+            <ColumnConstraints percentWidth="20" halignment="RIGHT"/>
+        </columnConstraints>
+
+        <Label fx:id="eventName" text="Name of the event"
+               GridPane.columnIndex="0" GridPane.rowIndex="0">
+        </Label>
+
+        <Label fx:id="eventDetails" text="Sun 30.01.2022 16:00 - 17:00"
+               GridPane.columnIndex="0" GridPane.rowIndex="1">
+            <GridPane.margin><Insets top="10"/></GridPane.margin>
+        </Label>
+
+        <Button text="View Details" fx:id="detailsButton" onAction="#onDetailsButton"
+                GridPane.columnIndex="1" GridPane.rowIndex="0"/>
+    </GridPane>
+
 </fx:root>
 

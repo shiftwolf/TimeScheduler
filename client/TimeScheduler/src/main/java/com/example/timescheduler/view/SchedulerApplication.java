@@ -8,8 +8,8 @@ import javafx.stage.Stage;
 import java.io.IOException;
 
 public class SchedulerApplication extends Application {
-    // TODO: new stage for main application
-    static Scene loginScene, registrationScene, homeScene;
+
+    static Scene loginScene, registrationScene, homeScene, adminScene;
 
     public static void main(String[] args) { launch(args); }
 
@@ -22,6 +22,9 @@ public class SchedulerApplication extends Application {
 
         FXMLLoader mainLoader = new FXMLLoader(SchedulerApplication.class.getResource("home_view.fxml"));
         homeScene = new Scene(mainLoader.load(), 1100, 720);
+
+        FXMLLoader adminLoader = new FXMLLoader(SchedulerApplication.class.getResource("admin_view.fxml"));
+        adminScene = new Scene(adminLoader.load(), 1100, 720);
 
         primaryStage.setScene(loginScene);
         primaryStage.setTitle("Time Scheduler");

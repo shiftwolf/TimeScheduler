@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Button?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.TextField?>
+
+<fx:root type="javafx.scene.layout.GridPane" xmlns:fx="http://javafx.com/fxml" vgap="30" >
+
+    <columnConstraints>
+        <ColumnConstraints percentWidth="35" />
+        <ColumnConstraints percentWidth="65" halignment="RIGHT" />
+    </columnConstraints>
+
+    <Label id="title" text="Edit User"
+           GridPane.columnIndex="0" GridPane.rowIndex="0"/>
+    <Button fx:id="saveButton" text="Save" onAction="#onSave"
+            GridPane.columnIndex="1" GridPane.rowIndex="0"/>
+
+    <Label text="Username"
+           GridPane.columnIndex="0" GridPane.rowIndex="1">
+        <GridPane.margin><Insets left="10"/></GridPane.margin>
+    </Label>
+    <Label text="Name"
+           GridPane.columnIndex="0" GridPane.rowIndex="2">
+        <GridPane.margin><Insets left="10"/></GridPane.margin>
+    </Label>
+    <Label text="Email Address"
+           GridPane.columnIndex="0" GridPane.rowIndex="3">
+        <GridPane.margin><Insets left="10"/></GridPane.margin>
+    </Label>
+
+    <TextField fx:id="usernameField" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+
+    <TextField fx:id="nameField" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+
+    <TextField fx:id="emailField" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+
+    <Button text="Delete User" onAction="#onDeleteUser"
+            GridPane.columnIndex="1" GridPane.rowIndex="4" alignment="CENTER_RIGHT"/>
+
+</fx:root>
+

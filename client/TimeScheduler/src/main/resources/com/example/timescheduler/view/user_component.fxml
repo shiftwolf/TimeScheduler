@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<fx:root type="javafx.scene.layout.GridPane" xmlns:fx="http://javafx.com/fxml"
+         id="scrollpane-item" HBox.hgrow="ALWAYS" vgap="10">
+
+    <columnConstraints>
+        <ColumnConstraints percentWidth="26" />
+        <ColumnConstraints percentWidth="26" />
+        <ColumnConstraints percentWidth="38" />
+        <ColumnConstraints percentWidth="10" halignment="RIGHT"/>
+    </columnConstraints>
+
+    <Label text="Username"
+           GridPane.columnIndex="0" GridPane.rowIndex="0">
+    </Label>
+    <Label fx:id="userName" id="user-value" text="_kuea_"
+           GridPane.columnIndex="0" GridPane.rowIndex="1">
+    </Label>
+
+    <Label text="Name"
+           GridPane.columnIndex="1" GridPane.rowIndex="0">
+    </Label>
+    <Label fx:id="name" id="user-value" text="Sarah Boeckel"
+           GridPane.columnIndex="1" GridPane.rowIndex="1">
+    </Label>
+
+    <Label text="Email"
+           GridPane.columnIndex="2" GridPane.rowIndex="0">
+    </Label>
+    <Label fx:id="email" id="user-value" text="sarahboeckel999@gmail.com"
+           GridPane.columnIndex="2" GridPane.rowIndex="1">
+    </Label>
+
+    <Button text="Edit" onAction="#onEdit" minWidth="55"
+            GridPane.columnIndex="3" GridPane.rowIndex="0"/>
+
+    <Button text="Delete" onAction="#onDelete" minWidth="55"
+            GridPane.columnIndex="3" GridPane.rowIndex="1"/>
+
+</fx:root>
