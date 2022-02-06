@@ -24,7 +24,7 @@ CREATE TABLE `users` (
     `username` varchar(50) NOT NULL,
     `name` varchar(50) NOT NULL,
     `hashedpw` varchar(100) NOT NULL,
-    `isAdmin` BOOL NOT NULL DEFAULT 0,
+    `is_admin` bit(1) NOT NULL DEFAULT b '0',
 
     PRIMARY KEY (`id`)
 
@@ -104,4 +104,4 @@ CREATE TABLE `tokens` (
     REFERENCES `users` (`id`) 
     ON DELETE NO ACTION 
     ON UPDATE NO ACTION
-) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4
+) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4;
