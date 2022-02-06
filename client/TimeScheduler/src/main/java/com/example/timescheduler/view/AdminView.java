@@ -1,11 +1,11 @@
 package com.example.timescheduler.view;
 
 import com.example.timescheduler.view.components.UserComponent;
+import com.example.timescheduler.view.components.UserEditComponent;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.geometry.Insets;
 import javafx.scene.Node;
-import javafx.scene.control.Button;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
@@ -13,27 +13,30 @@ import javafx.stage.Stage;
 
 public class AdminView {
 
+    boolean isEditVisible = false;
+    UserEditComponent userEdit;
+
     @FXML
     GridPane mainGrid;
     @FXML
-    ScrollPane userSection;
+    ScrollPane userScrollPane;
     @FXML
-    Button adminButton;
+    VBox userSection;
 
     @FXML
     public void initialize() {
-        VBox vbox = new VBox();
-        vbox.setFillWidth(true);
+        userEdit = new UserEditComponent(this);
+
+        userSection.setFillWidth(true);
 
         for (int i = 0; i<10; i++){
-            UserComponent user = new UserComponent();
-            vbox.getChildren().add(user);
+            UserComponent user = new UserComponent(this);
+            userSection.getChildren().add(user);
             VBox.setMargin(user, new Insets(10, 15, 0, 15));
         }
 
-        userSection.setContent(vbox);
-        userSection.setFitToWidth(true);
-
+        userScrollPane.setContent(userSection);
+        userScrollPane.setFitToWidth(true);
     }
 
     @FXML
@@ -48,4 +51,11 @@ public class AdminView {
         stage.setScene(SchedulerApplication.homeScene);
     }
 
+    public GridPane getMainGrid() { return mainGrid; }
+
+    public UserEditComponent getUserEdit() { return userEdit; }
+
+    public boolean getIsEditVisible() { return isEditVisible; }
+
+    public void setIsEditVisible(boolean val) { isEditVisible = val; }
 }

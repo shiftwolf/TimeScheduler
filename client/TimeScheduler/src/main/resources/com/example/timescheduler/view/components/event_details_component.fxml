@@ -25,38 +25,41 @@
            GridPane.columnIndex="0" GridPane.rowIndex="1">
         <GridPane.margin><Insets left="10"/></GridPane.margin>
     </Label>
+    <Label fx:id="name" text="..." GridPane.columnIndex="1" GridPane.rowIndex="1" />
+
     <Label text="Date"
            GridPane.columnIndex="0" GridPane.rowIndex="2">
         <GridPane.margin><Insets left="10"/></GridPane.margin>
     </Label>
+    <Label fx:id="date" text="..." GridPane.columnIndex="1" GridPane.rowIndex="2" />
+
     <Label text="Duration"
            GridPane.columnIndex="0" GridPane.rowIndex="3">
         <GridPane.margin><Insets left="10"/></GridPane.margin>
     </Label>
+    <Label fx:id="duration" text="..." GridPane.columnIndex="1" GridPane.rowIndex="3" />
+
     <Label text="Location"
            GridPane.columnIndex="0" GridPane.rowIndex="4">
         <GridPane.margin><Insets left="10"/></GridPane.margin>
     </Label>
+    <Label fx:id="location" text="..." GridPane.columnIndex="1" GridPane.rowIndex="4" />
+
     <Label text="Participants"
            GridPane.columnIndex="0" GridPane.rowIndex="5">
         <GridPane.margin><Insets left="10"/></GridPane.margin>
     </Label>
+    <ScrollPane  GridPane.columnIndex="1" GridPane.rowIndex="5"  maxHeight="130">
+        <VBox fx:id="participantsSection"/>
+    </ScrollPane>
+
     <Label text="Attachments"
            GridPane.columnIndex="0" GridPane.rowIndex="6">
         <GridPane.margin><Insets left="10"/></GridPane.margin>
     </Label>
-
-    <Label fx:id="name" text="..." GridPane.columnIndex="1" GridPane.rowIndex="1" />
-
-    <Label fx:id="date" text="..." GridPane.columnIndex="1" GridPane.rowIndex="2" />
-
-    <Label fx:id="duration" text="..." GridPane.columnIndex="1" GridPane.rowIndex="3" />
-
-    <Label fx:id="location" text="..." GridPane.columnIndex="1" GridPane.rowIndex="4" />
-
-    <Label fx:id="participants" text="..." GridPane.columnIndex="1" GridPane.rowIndex="5" />
-
-<!--TODO: attachments-->
+    <ScrollPane  GridPane.columnIndex="1" GridPane.rowIndex="6"  maxHeight="130">
+        <VBox fx:id="attachmentsSection"/>
+    </ScrollPane>
 
 </fx:root>
 

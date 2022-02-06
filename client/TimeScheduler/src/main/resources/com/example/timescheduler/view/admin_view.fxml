@@ -18,7 +18,7 @@
             <padding><Insets top="40" right="30" bottom="40" left="30"/></padding>
             <Label id="view-title" text="Users"/>
             <Pane HBox.hgrow="ALWAYS" />
-            <Button fx:id="adminButton" text="Event Panel" onAction="#onAdminButton" minHeight="35"/>
+            <Button text="Event Panel" onAction="#onAdminButton" minHeight="35"/>
             <Button id="logout-button" text="Log Out" onAction="#onLogout" minHeight="35"/>
         </HBox>
     </top>
@@ -31,11 +31,10 @@
                 <ColumnConstraints percentWidth="30"/>
             </columnConstraints>
 
-            <ScrollPane fx:id="userSection" maxWidth="Infinity"
+            <ScrollPane fx:id="userScrollPane" maxWidth="Infinity"
                         GridPane.columnIndex="0" GridPane.rowIndex="0">
+                <VBox fx:id="userSection" />
             </ScrollPane>
-
-            <UserEditComponent GridPane.columnIndex="1" GridPane.rowIndex="0"/>
 
         </GridPane>
     </center>

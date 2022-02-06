@@ -30,10 +30,10 @@
         <GridPane vgap="20" fx:id="mainGrid">
             <padding><Insets top="30" right="30" bottom="30" left="30"/></padding>
             <columnConstraints>
-                <ColumnConstraints percentWidth="20" halignment="LEFT"/>
-                <ColumnConstraints percentWidth="20"/>
-                <ColumnConstraints percentWidth="20" halignment="RIGHT"/>
-                <ColumnConstraints percentWidth="40"/>
+                <ColumnConstraints percentWidth="16" halignment="LEFT"/>
+                <ColumnConstraints percentWidth="16"/>
+                <ColumnConstraints percentWidth="16" halignment="RIGHT"/>
+                <ColumnConstraints percentWidth="50"/>
             </columnConstraints>
 
             <ScrollPane fx:id="eventSection" maxWidth="Infinity"
@@ -43,7 +43,7 @@
 
             <Button text="Export Schedule" minHeight="35"
                     GridPane.columnIndex="0" GridPane.rowIndex="1"/>
-            <Button text="Add Event" minHeight="35"
+            <Button text="Add Event" minHeight="35" onAction="#onAddEvent"
                     GridPane.columnIndex="2" GridPane.rowIndex="1">
                 <GridPane.margin><Insets right="30"/></GridPane.margin>
             </Button>
