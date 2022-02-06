@@ -39,7 +39,7 @@ public class UsersEntity {
     private String hashedpw;
 
     @Basic
-    @Column(name = "isAdmin")
+    @Column(name = "is_admin")
     private boolean isAdmin;
 
     public UsersEntity(String email,
