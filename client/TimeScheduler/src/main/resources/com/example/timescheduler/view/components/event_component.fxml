@@ -14,8 +14,8 @@
 
     <GridPane id="scrollpane-item" HBox.hgrow="ALWAYS">
         <columnConstraints>
-            <ColumnConstraints percentWidth="80" />
-            <ColumnConstraints percentWidth="20" halignment="RIGHT"/>
+            <ColumnConstraints percentWidth="70" />
+            <ColumnConstraints percentWidth="30" halignment="RIGHT"/>
         </columnConstraints>
 
         <Label fx:id="eventName" text="Name of the event"

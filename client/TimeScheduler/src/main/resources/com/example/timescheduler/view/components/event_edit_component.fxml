@@ -85,8 +85,11 @@
     <ScrollPane  GridPane.columnIndex="1" GridPane.rowIndex="5" GridPane.columnSpan="3" maxHeight="110">
         <VBox fx:id="participantsSection"/>
     </ScrollPane>
-    <Button text="+" onAction="#onAddParticipant" GridPane.columnIndex="4" GridPane.rowIndex="5"
-            GridPane.halignment="CENTER"/>
+    <VBox GridPane.columnIndex="4" GridPane.rowIndex="5" alignment="CENTER" spacing="8">
+        <padding><Insets left="6" /></padding>
+        <TextField fx:id="newParticipantField" promptText="Enter email address" />
+        <Button text="Add Participant" onAction="#onAddParticipant" />
+    </VBox>
 
     <Label text="Attachments:" GridPane.columnIndex="0" GridPane.rowIndex="6">
         <GridPane.margin><Insets left="10"/></GridPane.margin>

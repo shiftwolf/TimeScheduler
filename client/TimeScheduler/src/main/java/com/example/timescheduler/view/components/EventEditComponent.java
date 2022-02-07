@@ -1,6 +1,7 @@
 package com.example.timescheduler.view.components;
 
 import com.example.timescheduler.view.HomeView;
+import com.example.timescheduler.view.SchedulerApplication;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -64,24 +65,7 @@ public class EventEditComponent extends GridPane {
 
     @FXML
     public void initialize() {
-        // set time values from 00:00 to 23:55
-        for (int h = 0; h < 24; h++) {
-            for (int min = 0; min < 60; min += 5) {
-                String hour = formatTime(h);
-                String minutes = formatTime(min);
-                timePicker.getItems().add(String.format("%s:%s", hour, minutes));
-            }
-        }
-
-        // set hour values of the duration picker
-        for (int h = 0; h < 24; h++) {
-            durationHPicker.getItems().add(String.valueOf(h));
-        }
-
-        // set minutes values of the duration picker
-        for (int min = 5; min < 60; min += 5) {
-            durationMinPicker.getItems().add(String.valueOf(min));
-        }
+        SchedulerApplication.initializeDropDownMenus(timePicker, durationHPicker, durationMinPicker);
 
         // add participants to participantsSection
         for (String item : participants) {
@@ -129,14 +113,6 @@ public class EventEditComponent extends GridPane {
 
             //File in bytecode
             byte[] bytes = Files.readAllBytes(path);
-        }
-    }
-
-    String formatTime(int num) {
-        if (num <= 9) {
-            return String.format("0%d", num);
-        } else {
-            return String.valueOf(num);
         }
     }
 
