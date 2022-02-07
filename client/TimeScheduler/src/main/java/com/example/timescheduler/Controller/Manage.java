@@ -30,9 +30,7 @@ public class Manage {
     static String url = "http://192.168.178.28:8090";
 
     public static void main(String[] args) throws IOException, InterruptedException {
-        token t1 = new token(Long.valueOf(13),"a2cc029c-7b38-41ba-98b3-86c287349f3c");
-
-        User user = new User("Mannfred", "manni@1223.de", "manni123456","av1234");
+        User user = new User("Mannfred", "manni@1.de", "manni1","av1234");
 
         user.setId(Long.valueOf(4));
 
@@ -44,6 +42,11 @@ public class Manage {
 
         //getUsers(t1);
 
+        token token = login(user.getUsername(), user.getPassword());
+
+        System.out.println(token.toString());
+
+        deleteUser(token, user);
 
         //User user = getUserById(t1, Long.valueOf(13));
         //System.out.println(user.getName());
@@ -100,9 +103,49 @@ public class Manage {
 
         HttpRequest request = HttpRequest.newBuilder()
                 .GET()
-                .header("token", "a2cc029c-7b38-41ba-98b3-86c287349f3c")
-                .header("userID", "13")
-                .uri(URI.create(url + "/users/" + String.valueOf(id)))
+                .header("token", token.getTokenString())
+                .header("userID", String.valueOf(token.getUserID()))
+                .uri(URI.create(url + "/users?id=" + String.valueOf(id)))
+                .build();
+
+        HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
+
+        System.out.println(response.body());
+
+        ObjectMapper mapper = new ObjectMapper();
+
+        User user = mapper.readValue(response.body(), new TypeReference<User>(){});
+
+        return user;
+    }
+
+    public static User getUserByUsername(token token, String username) throws IOException, InterruptedException {
+        HttpClient client = HttpClient.newHttpClient();
+
+        HttpRequest request = HttpRequest.newBuilder()
+                .GET()
+                .header("token", token.getTokenString())
+                .header("userID", String.valueOf(token.getUserID()))
+                .uri(URI.create(url + "/users?username=" + String.valueOf(username)))
+                .build();
+
+        HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
+
+        ObjectMapper mapper = new ObjectMapper();
+
+        User user = mapper.readValue(response.body(), new TypeReference<User>(){});
+
+        return user;
+    }
+
+    public static User getUserByEmail(token token, String email) throws IOException, InterruptedException {
+        HttpClient client = HttpClient.newHttpClient();
+
+        HttpRequest request = HttpRequest.newBuilder()
+                .GET()
+                .header("token", token.getTokenString())
+                .header("userID", String.valueOf(token.getUserID()))
+                .uri(URI.create(url + "/users?email=" + String.valueOf(email)))
                 .build();
 
         HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
@@ -132,6 +175,32 @@ public class Manage {
 
         HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
 
+        System.out.println(response.body());
+
+        return response.body();
+    }
+
+    public static String changeUser(token token, User user) throws IOException, InterruptedException {
+        ObjectMapper mapper = new ObjectMapper();
+        //mapper.setSerializationInclusion(JsonInclude.Include.NON_NULL);
+        String jsonUser = mapper.writeValueAsString(user);
+
+        jsonUser = jsonUser.substring(0,jsonUser.length()-1) + ",\"password\":\""+ user.getPassword() + "\"}";
+
+        HttpClient client = HttpClient.newHttpClient();
+
+        HttpRequest request = HttpRequest.newBuilder()
+                .header("Content-Type", "application/json")
+                .PUT(HttpRequest.BodyPublishers.ofString(jsonUser))
+                .uri(URI.create(url + "/users/" + String.valueOf(user.getId())))
+                .header("userID", String.valueOf(token.getUserID()))
+                .header("tokenString", token.getTokenString())
+                .build();
+
+        HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
+
+        System.out.println(response.body());
+
         return response.body();
     }
 
@@ -140,12 +209,14 @@ public class Manage {
 
         HttpRequest request = HttpRequest.newBuilder()
                 .DELETE()
-                .uri(URI.create(url + "/users/4"))
-                .header("userID", String.valueOf(token.getUserID()))
-                .header("tokenString", token.getTokenString())
+                .uri(URI.create(url + "/users/id=" + user.getId()))
+                .header("userId", String.valueOf(token.getUserID()))
+                .header("token", token.getTokenString())
                 .build();
 
         HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
+
+        System.out.println(response.body());
 
     }
 
@@ -232,6 +303,27 @@ public class Manage {
         System.out.println(response.body());
     }
 
+    public static String changeEvent(token token, Event event) throws IOException, InterruptedException {
+        ObjectMapper mapper = new ObjectMapper();
+        //mapper.setSerializationInclusion(JsonInclude.Include.NON_NULL);
+        String jsonUser = mapper.writeValueAsString(event);
+
+        HttpClient client = HttpClient.newHttpClient();
+
+        HttpRequest request = HttpRequest.newBuilder()
+                .header("Content-Type", "application/json")
+                .PUT(HttpRequest.BodyPublishers.ofString(jsonUser))
+                .uri(URI.create(url + "/users/" + String.valueOf(event.getId())))
+                .header("userID", String.valueOf(token.getUserID()))
+                .header("tokenString", token.getTokenString())
+                .build();
+
+        HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
+
+        System.out.println(response.body());
+
+        return response.body();
+    }
 
 
     public static token login(String username, String password) throws IOException, InterruptedException {
@@ -251,21 +343,30 @@ public class Manage {
 
         token token = mapper.readValue(response.body(), new TypeReference<token>(){} );
 
+        System.out.println(response.body());
+
         return token;
 
     }
 
-    public static String logout(token token) {
+    public static String logout(token token) throws IOException, InterruptedException {
         HttpClient client = HttpClient.newHttpClient();
 
         HttpRequest request = HttpRequest.newBuilder()
                 .DELETE()
-                .header("userID", String.valueOf(token.getUserID()))
-                .header("tokenString", token.getTokenString())
+                .header("userId", String.valueOf(token.getUserID()))
+                .header("token", token.getTokenString())
                 .uri(URI.create(url + "/login"))
                 .build();
 
-        return " ";
+        HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
+
+        System.out.println(response.body());
+
+        return response.body();
     }
+
+
+
 
 }

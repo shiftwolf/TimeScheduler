@@ -8,6 +8,14 @@ public class token {
 
     public token() {};
 
+    @Override
+    public String toString() {
+        return "token{" +
+                "userID=" + userID +
+                ", tokenString='" + tokenString + '\'' +
+                '}';
+    }
+
     public token(Long userID, String tokenString) {
         this.userID = userID;
         this.tokenString = tokenString;
