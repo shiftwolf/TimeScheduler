@@ -1,6 +1,5 @@
 package com.example.timescheduler.view;
 
-import com.example.timescheduler.Presenter.Presenter;
 import com.example.timescheduler.Presenter.ViewListener;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -29,7 +28,6 @@ public class LoginView {
 
     public void addListener(final ViewListener listener) {
         listeners.add(listener);
-        System.out.println(listeners);
     }
 
     @FXML
@@ -40,15 +38,22 @@ public class LoginView {
 
     @FXML
     protected void onLogin(ActionEvent event) {
+        boolean hasFailed = false;
+
         // notify listeners
         for (final ViewListener listener : listeners) {
-            listener.onLogin(username.getText().trim(), password.getText().trim());
+            try {
+                listener.onLogin(username.getText().trim(), password.getText().trim());
+            } catch (Exception e) {
+                hasFailed = true;
+            }
         }
 
-        // for UI debugging
-        if (username.getText().equals("y")) {
+        // update GUI
+        if (hasFailed) {
             loginError.setVisible(true);
         } else {
+            // navigate to Home
             resetGUI();
             Stage stage = (Stage) ((Node)event.getSource()).getScene().getWindow();
             stage.setScene(SchedulerApplication.homeScene);

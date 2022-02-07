@@ -1,5 +1,6 @@
 package com.example.timescheduler.view;
 
+import com.example.timescheduler.APIobjects.token;
 import com.example.timescheduler.Model.User;
 import com.example.timescheduler.Presenter.Presenter;
 import javafx.application.Application;
@@ -11,6 +12,8 @@ import javafx.stage.Stage;
 import java.io.IOException;
 
 public class SchedulerApplication extends Application {
+
+    public static token token = new token();
 
     static Scene loginScene, registrationScene, homeScene, adminScene;
 
