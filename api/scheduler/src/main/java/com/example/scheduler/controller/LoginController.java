@@ -11,6 +11,12 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
+
+/**
+ * @author Max
+ * @version 1.0
+ * Entry-point for all user login related REST-API requests
+ */
 @RestController
 public class LoginController {
 
@@ -37,8 +43,10 @@ public class LoginController {
      */
     @PostMapping("/login")
     TokenDTO login(@RequestBody LoginDTO loginData) throws LoginFailedException{
+        //Checks validity of the given username
         UsersEntity user = userRepository.findUserByUsername(loginData.getUsername()).orElseThrow(LoginFailedException::new);
         BCryptPasswordEncoder b = new BCryptPasswordEncoder();
+        //Checks validity of the given password
         if(!b.matches(loginData.getPassword(), user.getHashedpw())){
             throw new LoginFailedException();
         }
@@ -49,10 +57,10 @@ public class LoginController {
     }
 
     /**
+     * User logout so client can not make forbidden requests until new user logs in
      * @param userId of the requesting user
      * @param token of the requesting user, used to validate his login status
      * @return Response that logging out was successful or unsuccessful
-     * User logout so client can not make forbidden requests until new user logs in
      */
     @DeleteMapping("/login")
     ResponseEntity<String> logout(@RequestHeader("userId") Long userId,

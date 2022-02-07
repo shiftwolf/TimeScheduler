@@ -21,6 +21,11 @@ import org.springframework.web.multipart.MultipartFile;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * @author Max
+ * @version 1.0
+ * Entry-point for all attachment file related REST-API requests
+ */
 @RestController
 public class AttachmentsController {
 
@@ -48,12 +53,12 @@ public class AttachmentsController {
     }
 
     /**
+     * Lists infos on the attachments of the event
      * @param eventId id of the event you want to get the info from
      * @param userId header that holds the requesting users id
      * @param token header that holds the requesting users auth token
      * @return infos(id, name) of the attachments associated with the event
      * @throws NoAuthorizationException if user authentication fails
-     * Lists infos on the attachments of the event
      */
     @GetMapping("/attachments/eventId={eventId}")
     List<AttachmentsInfoDTO> getInfoByEvent(@PathVariable Long eventId,
@@ -70,6 +75,7 @@ public class AttachmentsController {
     }
 
     /**
+     * Uploads a file to the database
      * @param eventId id of the event you want to add an attachment to
      * @param file File of unspecified type that is to be saved in the database
      * @param userId header that holds the requesting users id
@@ -77,7 +83,6 @@ public class AttachmentsController {
      * @return Http response if the upload was successful
      * @throws NoAuthorizationException if user authentication fails
      * @throws UploadFailedException if the file could not be saved
-     * Uploads a file to the database
      */
     @PostMapping("/attachments/eventId={eventId}")
     ResponseEntity<String> upload(@PathVariable Long eventId,
@@ -96,13 +101,13 @@ public class AttachmentsController {
     }
 
     /**
+     * Lets the client download an attachment
      * @param id of the attachment you want to download to
      * @param userId header that holds the requesting users id
      * @param token header that holds the requesting users auth token
      * @return the attachment as a byte array resource and a header that holds its info
      * @throws NoAuthorizationException if user authentication fails
      * @throws AttachmentNotFoundException if an attachment with the given id is not found
-     * Lets the client download an attachment
      */
     @GetMapping("/attachments/id={id}")
     ResponseEntity<ByteArrayResource> download(@PathVariable Long id,
@@ -117,10 +122,13 @@ public class AttachmentsController {
         return ResponseEntity.ok().header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + e.getName() + "\"").body(r);
     }
     /**
+     * Validates User to grant them access to Attachments, based on his admin role or his participation in the attachment is associated to
      * @param eventId of the event that the client wants to access
      * @param userId of the requesting user
      * @param token of the requesting user, used to validate his login status
-     *  validates User to grant them access to Events, based on his admin role or his participation in the event
+     * @return <code>true</code> if the given userId and token match a tokenEntity in the database
+     * and the accessing user is accessing an event he is participating or is an admin,
+     * <code>false</code>  otherwise;
      */
     boolean validateParticipants(Long eventId, Long userId, String token){
         if(!tokenRepository.isValid(token, userId)){ return false;}

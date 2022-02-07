@@ -16,6 +16,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
+ * @author Max
+ * @version 1.0
  * Entry-point for all user related REST-API requests
  */
 @RestController
@@ -96,6 +98,7 @@ public class UserController {
     /**
      * Edit Data of a specific user with the received data from the DTO
      * @param id user's ID in the database
+     * @param user DTO that hold all relevant data to edit the user
      * @param userId header that holds the requesting users id
      * @param token header that holds the requesting users auth token
      * @return Http response if the edit was successful
@@ -114,7 +117,7 @@ public class UserController {
         entity.setEmail(user.getEmail());
         entity.setUsername(user.getUsername());
         entity.setName(user.getName());
-        return ResponseEntity.ok().body("User: " + userRepository.save(entity).getId() +"edited successfully");
+        return ResponseEntity.ok().body("User: " + userRepository.save(entity).getId() +" edited successfully");
     }
 
     /**

@@ -4,10 +4,12 @@ import com.example.scheduler.DTOs.EventDTO;
 import com.example.scheduler.entities.*;
 import com.example.scheduler.exceptions.EventNotFoundException;
 import com.example.scheduler.exceptions.NoAuthorizationException;
+import com.example.scheduler.exceptions.UserNotFoundException;
 import com.example.scheduler.repositories.EventRepository;
 import com.example.scheduler.repositories.ParticipantRepository;
 import com.example.scheduler.repositories.TokenRepository;
 import com.example.scheduler.repositories.UserRepository;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.sql.Timestamp;
@@ -15,8 +17,11 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+
 /**
- * Entry-point for all event related REST-API requests
+ * @author Timo, Max
+ * @version 1.0
+ * Entry-point for all user related REST-API requests
  */
 @RestController
 public class EventController {
@@ -74,7 +79,7 @@ public class EventController {
     }
 
     @PostMapping("/events")
-    void newEvent(@RequestBody EventDTO newEvent,
+    ResponseEntity<String> newEvent(@RequestBody EventDTO newEvent,
                   @RequestHeader("userId") Long userId,
                   @RequestHeader("token") String token) {
 
@@ -97,15 +102,28 @@ public class EventController {
             participantRepository.save(new ParticipantsEntity(eventId, id));
         }
 
+        return ResponseEntity.ok().body("Event: " + eventId +" created successfully");
+
     }
 
+    /**
+     * Edit Data of a specific event with the received data from the DTO
+     * @param id of the event in the database
+     * @param event DTO that holds all relevant data to edit the event
+     * @param userId header that holds the requesting users id
+     * @param token header that holds the requesting users auth token
+     * @return Http response if the edit was successful
+     * @throws UserNotFoundException if user can't be found in the database
+     * @throws NoAuthorizationException if user authentication fails
+     */
     @PutMapping("/events/id={id}")
-    void editEvent(@PathVariable Long id,
-                   @RequestBody EventDTO event,
-                  @RequestHeader("userId") Long userId,
-                  @RequestHeader("token") String token){
+    ResponseEntity<String> editEvent(@PathVariable Long id,
+                                     @RequestBody EventDTO event,
+                                     @RequestHeader("userId") Long userId,
+                                     @RequestHeader("token") String token){
         if(!validateParticipants(id,userId,token)){throw new NoAuthorizationException(userId);}
 
+        //Update the values saved in the eventEntity
         EventsEntity eventsEntity = eventRepository.findById(id).orElseThrow(() ->new EventNotFoundException(id));
         eventsEntity.setName(event.getName());
         eventsEntity.setDate(new Timestamp(event.getDate()));
@@ -123,10 +141,30 @@ public class EventController {
         for (Long participantsId : event.getParticipants()) {
             participantRepository.save(new ParticipantsEntity(id, participantsId));
         }
+        return ResponseEntity.ok().body("Event: " + id +" edited successfully");
+    }
 
+    @PutMapping("/events/id={id}/participants/email={email}")
+    ResponseEntity<String> addParticipantsViaEmail(@PathVariable Long id,
+                                     @PathVariable String email,
+                                     @RequestHeader("userId") Long userId,
+                                     @RequestHeader("token") String token)
+                                    throws NoAuthorizationException,
+                                    UserNotFoundException{
+        if(!validateParticipants(id,userId,token)){throw new NoAuthorizationException(userId);}
+
+        UsersEntity participant = userRepository.findUserByEmail(email).orElseThrow(() -> new UserNotFoundException(email));
+        for (ParticipantsEntity e : participantRepository.findAllByEventId(id)){
+            if(e.getUserId().equals(participant.getId())){
+                return ResponseEntity.ok().body("User is already participating in the event");
+            }
+        }
+        participantRepository.save(new ParticipantsEntity(id, participant.getId()));
+        return ResponseEntity.ok().body("User: " + participant.getName() + " successfully added to the event");
     }
 
     /**
+     * Get Data of a specific event by including his its id in the request url
      * @param id event id in the database
      * @param userId of the requesting user
      * @param token of the requesting user, used to validate his login status
@@ -149,21 +187,22 @@ public class EventController {
     }
 
     /**
-     * @param id event id
+     * Delete a specific event
+     * @param id event id of the event you want to delete
      * @param userId of the requesting user
      * @param token of the requesting user, used to validate his login status
-     * delete a specific event
      */
     @DeleteMapping("/events/id={id}")
-    void deleteEvent(@PathVariable Long id,
+    ResponseEntity<String> deleteEvent(@PathVariable Long id,
                      @RequestHeader("userId") Long userId,
                      @RequestHeader("token") String token) {
         if(!validateParticipants(id,userId,token)){throw new NoAuthorizationException(userId);}
         eventRepository.deleteById(id);
+        return ResponseEntity.ok().body("Event: " + id + "deleted successfully");
     }
 
     /**
-     *  validates User to grant them access to Events, based on his admin role or his participation in the event
+     * Validates User to grant them access to Events, based on his admin role or his participation in the event
      * @param eventId of the event that the client wants to access
      * @param userId of the requesting user
      * @param token of the requesting user, used to validate his login status
