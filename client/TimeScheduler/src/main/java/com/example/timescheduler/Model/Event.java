@@ -46,7 +46,10 @@ public class Event {
                 '}';
     }
 
-    // Constructors
+    public void setId(long id) {
+        this.id = id;
+    }
+// Constructors
 
     public Event() {
     }

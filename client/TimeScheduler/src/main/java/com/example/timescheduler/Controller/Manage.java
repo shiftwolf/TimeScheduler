@@ -34,13 +34,16 @@ public class Manage {
 
         User user = new User("Mannfred", "manni@1223.de", "manni123456","av1234");
 
+        user.setId(Long.valueOf(4));
+
         List<User> list = new ArrayList<User>();
         Date d = new Date();
         Date dur = new Date();
 
         Event testevent = new Event("meeting",d, dur,"ffm",Event.priorities.RED,  list);
 
-        //List<User> users = getUsers(t1);
+        //getUsers(t1);
+
 
         //User user = getUserById(t1, Long.valueOf(13));
         //System.out.println(user.getName());
@@ -59,8 +62,11 @@ public class Manage {
         //token token = login(user);
         //System.out.println(token.getTokenString() + token.getUserID());
 
-        logout(t1);
+        //logout(t1);
 
+        //Event e1 = new Event();
+        //e1.setId(2);
+        //deleteEvent(t1, e1);
     }
 
 
@@ -78,6 +84,8 @@ public class Manage {
         // bodyhandler sets what is responded to response.body
         HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
 
+        System.out.println(response.body());
+
         // mapper json -> pojo java
         ObjectMapper mapper = new ObjectMapper();
 
@@ -85,7 +93,6 @@ public class Manage {
         List<User> users = mapper.readValue(response.body(), new TypeReference<List<User>>() {});
 
         return users;
-
     }
 
     public static User getUserById(token token, Long id) throws IOException, InterruptedException {
@@ -93,8 +100,8 @@ public class Manage {
 
         HttpRequest request = HttpRequest.newBuilder()
                 .GET()
-                .header("token", token.getTokenString())
-                .header("userID", String.valueOf(token.getUserID()))
+                .header("token", "a2cc029c-7b38-41ba-98b3-86c287349f3c")
+                .header("userID", "13")
                 .uri(URI.create(url + "/users/" + String.valueOf(id)))
                 .build();
 
@@ -126,6 +133,20 @@ public class Manage {
         HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
 
         return response.body();
+    }
+
+    public static void deleteUser(token token, User user) throws IOException, InterruptedException {
+        HttpClient client = HttpClient.newHttpClient();
+
+        HttpRequest request = HttpRequest.newBuilder()
+                .DELETE()
+                .uri(URI.create(url + "/users/4"))
+                .header("userID", String.valueOf(token.getUserID()))
+                .header("tokenString", token.getTokenString())
+                .build();
+
+        HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
+
     }
 
 
@@ -196,14 +217,27 @@ public class Manage {
         return response.body();
     }
 
+    public static void deleteEvent(token token, Event event) throws IOException, InterruptedException {
+        HttpClient client = HttpClient.newHttpClient();
 
-    public static token login(User user) throws IOException, InterruptedException {
-        //user -> json
+        HttpRequest request = HttpRequest.newBuilder()
+                .DELETE()
+                .header("userID", String.valueOf(token.getUserID()))
+                .header("tokenString", token.getTokenString())
+                .uri(URI.create(url + "/events/" + String.valueOf(event.getId())))
+                .build();
+
+        HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
+
+        System.out.println(response.body());
+    }
+
+
+
+    public static token login(String username, String password) throws IOException, InterruptedException {
         ObjectMapper mapper = new ObjectMapper();
-        //mapper.setSerializationInclusion(JsonInclude.Include.NON_NULL);
-        String jsonUser = mapper.writeValueAsString(user);
 
-        jsonUser = jsonUser.substring(0,jsonUser.length()-1) + ",\"password\":\""+ user.getPassword() + "\"}";
+        String jsonUser = "{\"username\": \"" + username + "\",\"password\": \"" + password + "\"}";
 
         HttpClient client = HttpClient.newHttpClient();
 
@@ -226,8 +260,8 @@ public class Manage {
 
         HttpRequest request = HttpRequest.newBuilder()
                 .DELETE()
-                .header("userID", "13")
-                .header("tokenString", "e1866625-a48f-4251-af78-67d2f08dfffc")
+                .header("userID", String.valueOf(token.getUserID()))
+                .header("tokenString", token.getTokenString())
                 .uri(URI.create(url + "/login"))
                 .build();
 
