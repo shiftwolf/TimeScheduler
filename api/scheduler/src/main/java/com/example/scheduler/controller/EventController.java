@@ -99,7 +99,7 @@ public class EventController {
 
     }
 
-    @PutMapping("/events/{id}")
+    @PutMapping("/events?id={id}")
     void editEvent(@PathVariable Long id,
                    @RequestBody EventDTO event,
                   @RequestHeader("userId") Long userId,
@@ -130,7 +130,7 @@ public class EventController {
      * @param id user's ID in the database
      * @return DTO of the database with all information
      */
-    @GetMapping("/events/{id}")
+    @GetMapping("/events?id={id}")
     EventsEntity one(@PathVariable Long id,
                      @RequestHeader("userId") Long userId,
                     @RequestHeader("token") String token) {
@@ -150,7 +150,7 @@ public class EventController {
      * @param id event ID
      * delete a specific event
      */
-    @DeleteMapping("/events/{id}")
+    @DeleteMapping("/events?id={id}")
     void deleteEvent(@PathVariable Long id,
                      @RequestHeader("userId") Long userId,
                      @RequestHeader("token") String token) {

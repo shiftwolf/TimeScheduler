@@ -33,22 +33,22 @@ public class LoginController {
     }
 
     /**
+     * User login to validate request from the client by receiving DTO containing username and the password
      * @param loginData holds username and password of the user trying to log in
      * @return the token the client uses to authenticate during request
      * @throws LoginFailedException if username or password do not match the user saved in the database
-     * User login to validate request from the client
      */
     @PostMapping("/login")
-    TokenDTO login(@RequestBody LoginDTO loginData) throws LoginFailedException{
+    ResponseEntity<String> login(@RequestBody LoginDTO loginData) throws LoginFailedException{
         UsersEntity user = userRepository.findUserByUsername(loginData.getUsername()).orElseThrow(LoginFailedException::new);
         BCryptPasswordEncoder b = new BCryptPasswordEncoder();
         if(!b.matches(loginData.getPassword(), user.getHashedpw())){
             throw new LoginFailedException();
         }
         TokensEntity token = new TokensEntity(user.getId());
-        tokenRepository.save(token);
+        token = tokenRepository.save(token);
 
-        return new TokenDTO( token.getUserId(), token.getToken());
+        return ResponseEntity.ok().header("userId", token.getUserId().toString()).header("token", token.getToken()).body("You were successfully logged in");
     }
 
     /**
