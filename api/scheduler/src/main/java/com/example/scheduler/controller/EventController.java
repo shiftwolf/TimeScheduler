@@ -27,12 +27,12 @@ public class EventController {
     private final UserRepository userRepository;
 
     /**
+     * using constructor injection (Dependency injection)
+     * meaning this constructor is typically not used manually.
      * @param eventRepository Repository that holds all events (injected)
      * @param tokenRepository Repository that holds all tokens of currently active Users (injected)
      * @param participantRepository Repository that holds all participants of events (injected)
      * @param userRepository Repository that holds all registered Users (injected)
-     * using constructor injection (Dependency injection)
-     * meaning this constructor is typically not used manually.
      */
     EventController(EventRepository eventRepository,
                     TokenRepository tokenRepository,
@@ -127,8 +127,10 @@ public class EventController {
     }
 
     /**
-     * @param id user's ID in the database
-     * @return DTO of the database with all information
+     * @param id event id in the database
+     * @param userId of the requesting user
+     * @param token of the requesting user, used to validate his login status
+     * @return DTO of the event with all information
      */
     @GetMapping("/events/id={id}")
     EventsEntity one(@PathVariable Long id,
@@ -147,7 +149,9 @@ public class EventController {
     }
 
     /**
-     * @param id event ID
+     * @param id event id
+     * @param userId of the requesting user
+     * @param token of the requesting user, used to validate his login status
      * delete a specific event
      */
     @DeleteMapping("/events/id={id}")
@@ -159,10 +163,13 @@ public class EventController {
     }
 
     /**
+     *  validates User to grant them access to Events, based on his admin role or his participation in the event
      * @param eventId of the event that the client wants to access
      * @param userId of the requesting user
      * @param token of the requesting user, used to validate his login status
-     *  validates User to grant them access to Events, based on his admin role or his participation in the event
+     * @return <code>true</code> if the given userId and token match a tokenEntity in the database
+     * and the accessing user is accessing an event he is participating or is an admin,
+     * <code>false</code>  otherwise;
      */
     boolean validateParticipants(Long eventId, Long userId, String token){
         if(!tokenRepository.isValid(token, userId)){ return false;}

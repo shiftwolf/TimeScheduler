@@ -8,10 +8,7 @@ import com.example.scheduler.exceptions.LoginFailedException;
 import com.example.scheduler.repositories.UserRepository;
 import com.example.scheduler.repositories.TokenRepository;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 @RestController
@@ -39,7 +36,7 @@ public class LoginController {
      * @throws LoginFailedException if username or password do not match the user saved in the database
      */
     @PostMapping("/login")
-    ResponseEntity<String> login(@RequestBody LoginDTO loginData) throws LoginFailedException{
+    TokenDTO login(@RequestBody LoginDTO loginData) throws LoginFailedException{
         UsersEntity user = userRepository.findUserByUsername(loginData.getUsername()).orElseThrow(LoginFailedException::new);
         BCryptPasswordEncoder b = new BCryptPasswordEncoder();
         if(!b.matches(loginData.getPassword(), user.getHashedpw())){
@@ -48,18 +45,20 @@ public class LoginController {
         TokensEntity token = new TokensEntity(user.getId());
         token = tokenRepository.save(token);
 
-        return ResponseEntity.ok().header("userId", token.getUserId().toString()).header("token", token.getToken()).body("You were successfully logged in");
+        return new TokenDTO(token.getUserId(), token.getToken());
     }
 
     /**
-     * @param token holds the login token of users logging out
+     * @param userId of the requesting user
+     * @param token of the requesting user, used to validate his login status
      * @return Response that logging out was successful or unsuccessful
      * User logout so client can not make forbidden requests until new user logs in
      */
     @DeleteMapping("/login")
-    ResponseEntity<String> logout(@RequestBody TokenDTO token){
-        if(tokenRepository.isValid(token.getTokenString(), token.getUserID())){
-            tokenRepository.deleteById(token.getTokenString());
+    ResponseEntity<String> logout(@RequestHeader("userId") Long userId,
+                                  @RequestHeader("token") String token){
+        if(tokenRepository.isValid(token, userId)){
+            tokenRepository.deleteById(token);
             return ResponseEntity.ok().body("You were successfully logged out");
         }
         else return ResponseEntity.badRequest().body("Could not match token to correct login data");
