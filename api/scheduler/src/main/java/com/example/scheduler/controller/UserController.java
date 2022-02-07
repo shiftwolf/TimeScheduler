@@ -102,7 +102,7 @@ public class UserController {
      * @throws UserNotFoundException if user can't be found in the database
      * @throws NoAuthorizationException if user authentication fails
      */
-    @PutMapping("/users?id={id}")
+    @PutMapping("/users/id={id}")
     ResponseEntity<String> editUser(@PathVariable Long id,
                                     @RequestBody UserDTO user,
                                     @RequestHeader("userId") Long userId,
@@ -126,7 +126,7 @@ public class UserController {
      * @throws UserNotFoundException if user can't be found in the database
      * @throws NoAuthorizationException if user authentication fails
      */
-    @GetMapping("/users?id={id}")
+    @GetMapping("/users/id={id}")
     UserDTO one(@PathVariable Long id,
                 @RequestHeader("userId") Long userId,
                 @RequestHeader("token") String token)
@@ -146,14 +146,14 @@ public class UserController {
      * @throws UserNotFoundException if user can't be found in the database
      * @throws NoAuthorizationException if user authentication fails
      */
-    @GetMapping("/users?name={username}")
+    @GetMapping("/users/name={username}")
     UserDTO oneByName(@PathVariable String username,
                       @RequestHeader("userId") Long userId,
                       @RequestHeader("token") String token)
             throws UserNotFoundException,
             NoAuthorizationException {
-        UsersEntity user = userRepository.findUserByUsername(username).orElseThrow(() -> new UserNotFoundException(username));
         if(!tokenRepository.isValid(token, userId)){throw new NoAuthorizationException(userId);}
+        UsersEntity user = userRepository.findUserByUsername(username).orElseThrow(() -> new UserNotFoundException(username));
         return new UserDTO(user.getId(), user.getUsername(), user.getName(), user.getEmail());
     }
     /**
@@ -165,14 +165,14 @@ public class UserController {
      * @throws UserNotFoundException if user can't be found in the database
      * @throws NoAuthorizationException if user authentication fails
      */
-    @GetMapping("/users?email={email}")
+    @GetMapping("/users/email={email}")
     UserDTO oneByEmail(@PathVariable String email,
                        @RequestHeader("userId") Long userId,
                        @RequestHeader("token") String token)
             throws UserNotFoundException,
             NoAuthorizationException {
-        UsersEntity user = userRepository.findUserByEmail(email).orElseThrow(() -> new UserNotFoundException(email));
         if(!tokenRepository.isValid(token, userId)){throw new NoAuthorizationException(userId);}
+        UsersEntity user = userRepository.findUserByEmail(email).orElseThrow(() -> new UserNotFoundException(email));
         return new UserDTO(user.getId(), user.getUsername(), user.getName(), user.getEmail());
     }
 
@@ -184,7 +184,7 @@ public class UserController {
      * @return Http response if the deletion was successful
      * @throws NoAuthorizationException if user authentication fails
      */
-    @DeleteMapping("/users?id={id}")
+    @DeleteMapping("/users/id={id}")
     ResponseEntity<String> deleteUser(@PathVariable Long id,
                                       @RequestHeader("userId") Long userId,
                                       @RequestHeader("token") String token)

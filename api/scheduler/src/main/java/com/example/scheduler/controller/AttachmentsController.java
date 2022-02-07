@@ -55,7 +55,7 @@ public class AttachmentsController {
      * @throws NoAuthorizationException if user authentication fails
      * Lists infos on the attachments of the event
      */
-    @GetMapping("/attachments?eventId={eventId}")
+    @GetMapping("/attachments/eventId={eventId}")
     List<AttachmentsInfoDTO> getInfoByEvent(@PathVariable Long eventId,
                                             @RequestHeader("userId") Long userId,
                                             @RequestHeader("token") String token)
@@ -79,7 +79,7 @@ public class AttachmentsController {
      * @throws UploadFailedException if the file could not be saved
      * Uploads a file to the database
      */
-    @PostMapping("/attachments?eventId={eventId}")
+    @PostMapping("/attachments/eventId={eventId}")
     ResponseEntity<String> upload(@PathVariable Long eventId,
                                   @RequestParam("file")MultipartFile file,
                                   @RequestHeader("userId") Long userId,
@@ -104,7 +104,7 @@ public class AttachmentsController {
      * @throws AttachmentNotFoundException if an attachment with the given id is not found
      * Lets the client download an attachment
      */
-    @GetMapping("/attachments?id={id}")
+    @GetMapping("/attachments/id={id}")
     ResponseEntity<ByteArrayResource> download(@PathVariable Long id,
                                                @RequestHeader("userId") Long userId,
                                                @RequestHeader("token") String token)
