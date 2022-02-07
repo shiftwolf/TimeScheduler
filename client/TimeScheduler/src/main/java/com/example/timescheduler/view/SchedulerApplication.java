@@ -1,5 +1,7 @@
 package com.example.timescheduler.view;
 
+import com.example.timescheduler.Model.User;
+import com.example.timescheduler.Presenter.Presenter;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -12,9 +14,16 @@ public class SchedulerApplication extends Application {
 
     static Scene loginScene, registrationScene, homeScene, adminScene;
 
+    public SchedulerApplication() {
+        LoginView loginView = new LoginView();
+        User user = new User();
+        new Presenter(loginView, user);
+    }
+
     public static void main(String[] args) { launch(args); }
 
     public void start(Stage primaryStage) throws IOException {
+
         FXMLLoader loginLoader = new FXMLLoader(SchedulerApplication.class.getResource("login_view.fxml"));
         loginScene = new Scene(loginLoader.load(), 450, 380);
 

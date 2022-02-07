@@ -1,5 +1,7 @@
 package com.example.timescheduler.view;
 
+import com.example.timescheduler.Presenter.Presenter;
+import com.example.timescheduler.Presenter.ViewListener;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
@@ -9,7 +11,11 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleButton;
 import javafx.stage.Stage;
 
+import java.util.ArrayList;
+
 public class LoginView {
+    private static final ArrayList<ViewListener> listeners = new ArrayList<>();
+
     @FXML
     TextField username;
     @FXML
@@ -21,6 +27,11 @@ public class LoginView {
     @FXML
     Label loginError;
 
+    public void addListener(final ViewListener listener) {
+        listeners.add(listener);
+        System.out.println(listeners);
+    }
+
     @FXML
     public void initialize() {
         password.textProperty().bindBidirectional(passwordVisible.textProperty());
@@ -29,7 +40,10 @@ public class LoginView {
 
     @FXML
     protected void onLogin(ActionEvent event) {
-        // TODO
+        // notify listeners
+        for (final ViewListener listener : listeners) {
+            listener.onLogin(username.getText().trim(), password.getText().trim());
+        }
 
         // for UI debugging
         if (username.getText().equals("y")) {
