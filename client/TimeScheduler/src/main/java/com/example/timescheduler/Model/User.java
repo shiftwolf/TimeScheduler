@@ -34,14 +34,10 @@ public class User {
                 '}';
     }
 
-    public void setId(Long id) {
-        this.id = id;
-    }
-
     // Constructors
+
     public User() {
     }
-
     public User(String name, String email, String username, String password) {
         this.name = name;
         this.email = email;
@@ -59,14 +55,14 @@ public class User {
         this.events = events;
     }
 
-    // Getters
 
+    // Getters
 
     public String getPassword() {
         return password;
     }
-    public Long getId() {return id;}
 
+    public Long getId() {return id;}
     public Date getCreated_at() {return createdAt;}
 
     public String getEmail() {
@@ -82,6 +78,10 @@ public class User {
     }
 
     public List<Event> getEvents() {return events;}
+
+    public void setId(Long id) {
+        this.id = id;
+    }
 
     // Methods
     public void addEvent(Event event){}

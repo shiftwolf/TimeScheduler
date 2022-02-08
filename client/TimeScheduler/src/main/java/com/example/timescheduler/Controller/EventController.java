@@ -66,8 +66,8 @@ public class EventController {
     }
 
     /**
-     * A user can get an Events data that belongs to it, with using just the Id
-     * @param token Token that validate the user
+     * A user can get an Events data that belongs to it, with using just the Id.
+     * @param token Token that validates the user
      * @param id Id of the searched Event
      * @return A Model.Event object
      * @throws IOException - Occurs if in the client.send or in the mapper.readValue command an error arises
@@ -99,11 +99,11 @@ public class EventController {
     }
 
     /**
-     *
-     * @param token
-     * @param event
-     * @param user
-     * @return
+     * User can create a new Event in the database in the server.
+     * @param token Token that validates the user
+     * @param event Model.Event object that should be inserted in the database
+     * @param user User that creates the event, matches to the token
+     * @return Return message given by the server
      * @throws IOException - Occurs if in the client.send or in the mapper.readValue command an error arises
      * @throws InterruptedException - Occurs if in the client.send a thread has been interrupted
      */
@@ -132,9 +132,9 @@ public class EventController {
     }
 
     /**
-     *
-     * @param token
-     * @param id
+     * User can delete an Event he belongs to
+     * @param token Token that validates the user
+     * @param id Id of the event that should be deleted
      * @throws IOException - Occurs if in the client.send or in the mapper.readValue command an error arises
      * @throws InterruptedException - Occurs if in the client.send a thread has been interrupted
      */
@@ -154,10 +154,10 @@ public class EventController {
     }
 
     /**
-     *
-     * @param token
-     * @param event
-     * @return
+     * User can change an events data
+     * @param token Token that validates the user
+     * @param event Model.Event object that represents the new event
+     * @return Return message of the server
      * @throws IOException - Occurs if in the client.send or in the mapper.readValue command an error arises
      * @throws InterruptedException - Occurs if in the client.send a thread has been interrupted
      */
@@ -184,11 +184,11 @@ public class EventController {
     }
 
     /**
-     *
-     * @param token
-     * @param user
-     * @param event
-     * @return
+     * User can add a participant to an event via its email
+     * @param token Token that validates the user
+     * @param user Model.User object that should be added to the event
+     * @param event Event to which the new participant should be added
+     * @return Return message of Server
      * @throws IOException - Occurs if in the client.send or in the mapper.readValue command an error arises
      * @throws InterruptedException - Occurs if in the client.send a thread has been interrupted
      */
