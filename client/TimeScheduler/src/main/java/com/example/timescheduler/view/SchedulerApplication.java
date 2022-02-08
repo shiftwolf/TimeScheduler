@@ -2,7 +2,7 @@ package com.example.timescheduler.view;
 
 import com.example.timescheduler.APIobjects.token;
 import com.example.timescheduler.Model.User;
-import com.example.timescheduler.Presenter.Presenter;
+import com.example.timescheduler.Presenter.LoginPresenter;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -20,7 +20,7 @@ public class SchedulerApplication extends Application {
     public SchedulerApplication() {
         LoginView loginView = new LoginView();
         User user = new User();
-        new Presenter(loginView, user);
+        new LoginPresenter(loginView, user);
     }
 
     public static void main(String[] args) { launch(args); }

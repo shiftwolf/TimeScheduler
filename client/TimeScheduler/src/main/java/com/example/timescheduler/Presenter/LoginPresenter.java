@@ -7,12 +7,12 @@ import com.example.timescheduler.view.SchedulerApplication;
 
 import java.io.IOException;
 
-public class Presenter implements ViewListener {
+public class LoginPresenter implements LoginViewListener {
 
     private final LoginView loginView;
     private final User user;
 
-    public Presenter(LoginView loginView, User user) {
+    public LoginPresenter(LoginView loginView, User user) {
         this.loginView = loginView;
         this.loginView.addListener(this);
         this.user = user;

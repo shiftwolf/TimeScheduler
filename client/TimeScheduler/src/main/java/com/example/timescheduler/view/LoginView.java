@@ -1,6 +1,6 @@
 package com.example.timescheduler.view;
 
-import com.example.timescheduler.Presenter.ViewListener;
+import com.example.timescheduler.Presenter.LoginViewListener;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
@@ -13,7 +13,7 @@ import javafx.stage.Stage;
 import java.util.ArrayList;
 
 public class LoginView {
-    private static final ArrayList<ViewListener> listeners = new ArrayList<>();
+    private static final ArrayList<LoginViewListener> listeners = new ArrayList<>();
 
     @FXML
     TextField username;
@@ -26,7 +26,7 @@ public class LoginView {
     @FXML
     Label loginError;
 
-    public void addListener(final ViewListener listener) {
+    public void addListener(final LoginViewListener listener) {
         listeners.add(listener);
     }
 
@@ -41,7 +41,7 @@ public class LoginView {
         boolean hasFailed = false;
 
         // notify listeners
-        for (final ViewListener listener : listeners) {
+        for (final LoginViewListener listener : listeners) {
             try {
                 listener.onLogin(username.getText().trim(), password.getText().trim());
             } catch (Exception e) {
