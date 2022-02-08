@@ -30,10 +30,6 @@ public class ParticipantsEntity {
     @JsonBackReference
     private EventsEntity events;
 
-    public EventsEntity getEvents() {
-        return events;
-    }
-
     public ParticipantsEntity() {
 
     }
@@ -68,6 +64,10 @@ public class ParticipantsEntity {
 
     public void setUserId(Long userId) {
         this.userId = userId;
+    }
+
+    public EventsEntity getEvents() {
+        return events;
     }
 
     @Override

@@ -5,10 +5,7 @@ import com.example.scheduler.entities.*;
 import com.example.scheduler.exceptions.EventNotFoundException;
 import com.example.scheduler.exceptions.NoAuthorizationException;
 import com.example.scheduler.exceptions.UserNotFoundException;
-import com.example.scheduler.repositories.EventRepository;
-import com.example.scheduler.repositories.ParticipantRepository;
-import com.example.scheduler.repositories.TokenRepository;
-import com.example.scheduler.repositories.UserRepository;
+import com.example.scheduler.repositories.*;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -30,25 +27,36 @@ public class EventController {
     private final TokenRepository tokenRepository;
     private final ParticipantRepository participantRepository;
     private final UserRepository userRepository;
+    private final ReminderRepository reminderRepository;
 
     /**
      * using constructor injection (Dependency injection)
      * meaning this constructor is typically not used manually.
      * @param eventRepository Repository that holds all events (injected)
-     * @param tokenRepository Repository that holds all tokens of currently active Users (injected)
+     * @param tokenRepository Repository that holds all tokens of currently active users (injected)
      * @param participantRepository Repository that holds all participants of events (injected)
-     * @param userRepository Repository that holds all registered Users (injected)
+     * @param userRepository Repository that holds all registered users (injected)
+     * @param reminderRepository Repository that holds all reminders (injected)
      */
     EventController(EventRepository eventRepository,
                     TokenRepository tokenRepository,
                     ParticipantRepository participantRepository,
-                    UserRepository userRepository) {
+                    UserRepository userRepository,
+                    ReminderRepository reminderRepository) {
         this.eventRepository = eventRepository;
         this.tokenRepository = tokenRepository;
         this.participantRepository = participantRepository;
         this.userRepository = userRepository;
+        this.reminderRepository = reminderRepository;
     }
-
+    /**
+     ** Lists all events saved in the database and returns them
+     * @param userId header that holds the requesting users id
+     * @param token header that holds the requesting users auth token
+     * @return List of all Events registered in the database
+     * @throws UserNotFoundException if user can't be found in the database
+     * @throws NoAuthorizationException if user authentication fails
+     */
     @GetMapping("/events")
     List<EventsEntity> all(@RequestHeader("userId") Long userId,
                            @RequestHeader("token") String token) {
@@ -102,6 +110,8 @@ public class EventController {
             participantRepository.save(new ParticipantsEntity(eventId, id));
         }
 
+        reminderRepository.save(new RemindersEntity(eventId, new Timestamp(newEvent.getReminder())));
+
         return ResponseEntity.ok().body("Event: " + eventId +" created successfully");
 
     }
@@ -143,7 +153,16 @@ public class EventController {
         }
         return ResponseEntity.ok().body("Event: " + id +" edited successfully");
     }
-
+    /**
+     * Add a participant Data of a specific event with the received data from the DTO
+     * @param id of the event in the database
+     * @param email of the participant you want to add
+     * @param userId header that holds the requesting users id
+     * @param token header that holds the requesting users auth token
+     * @return Http response if the edit was successful
+     * @throws UserNotFoundException if user can't be found in the database
+     * @throws NoAuthorizationException if user authentication fails
+     */
     @PutMapping("/events/id={id}/participants/email={email}")
     ResponseEntity<String> addParticipantsViaEmail(@PathVariable Long id,
                                      @PathVariable String email,

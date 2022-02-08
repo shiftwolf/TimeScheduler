@@ -8,14 +8,16 @@ public class UserDTO {
     private String username;
     private String name;
     private String email;
+    private boolean isAdmin;
 
     public UserDTO()  {}
 
-    public UserDTO(Long id, String username, String name, String email){
+    public UserDTO(Long id, String username, String name, String email, boolean isAdmin){
         this.id = id;
         this.username = username;
         this.name = name;
         this.email = email;
+        this.isAdmin = isAdmin;
     }
 
     public Long getId() { return id;}
@@ -33,4 +35,8 @@ public class UserDTO {
     public String getEmail() { return email;}
 
     public void setEmail(String email) { this.email = email;}
+
+    public boolean isAdmin() { return isAdmin;}
+
+    public void setAdmin(boolean admin) { isAdmin = admin;}
 }

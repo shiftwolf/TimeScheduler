@@ -40,7 +40,7 @@ public class UserController {
     /**
      * Lists all users saved in the database, converts them to DTOs and returns them
      * This request is intended to only be used by an admin since
-     * normal users should not be granted access to other users data
+     * normal users should not be granted access to all other users data
      * @param userId header that holds the requesting users id
      * @param token header that holds the requesting users auth token
      * @return all Users registered in the database
@@ -57,7 +57,8 @@ public class UserController {
                 UserDTO dTO = new UserDTO(e.getId(),
                         e.getUsername(),
                         e.getName(),
-                        e.getEmail());
+                        e.getEmail(),
+                        e.isAdmin());
                 dTOs.add(dTO);
             }
             return dTOs;
@@ -135,9 +136,9 @@ public class UserController {
                 @RequestHeader("token") String token)
             throws UserNotFoundException,
             NoAuthorizationException {
-        if(!validateUser(id, userId, token)){throw new NoAuthorizationException(userId);}
+        if(!tokenRepository.isValid(token, userId)){throw new NoAuthorizationException(userId);}
         UsersEntity user = userRepository.findById(id).orElseThrow(() -> new UserNotFoundException(id));
-        return new UserDTO(user.getId(), user.getUsername(), user.getName(), user.getEmail());
+        return new UserDTO(user.getId(), user.getUsername(), user.getName(), user.getEmail(), user.isAdmin());
     }
 
     /**
@@ -157,7 +158,7 @@ public class UserController {
             NoAuthorizationException {
         if(!tokenRepository.isValid(token, userId)){throw new NoAuthorizationException(userId);}
         UsersEntity user = userRepository.findUserByUsername(username).orElseThrow(() -> new UserNotFoundException(username));
-        return new UserDTO(user.getId(), user.getUsername(), user.getName(), user.getEmail());
+        return new UserDTO(user.getId(), user.getUsername(), user.getName(), user.getEmail(), user.isAdmin());
     }
     /**
      * Get Data of a specific user by including his email in the request url
@@ -176,7 +177,7 @@ public class UserController {
             NoAuthorizationException {
         if(!tokenRepository.isValid(token, userId)){throw new NoAuthorizationException(userId);}
         UsersEntity user = userRepository.findUserByEmail(email).orElseThrow(() -> new UserNotFoundException(email));
-        return new UserDTO(user.getId(), user.getUsername(), user.getName(), user.getEmail());
+        return new UserDTO(user.getId(), user.getUsername(), user.getName(), user.getEmail(), user.isAdmin());
     }
 
     /**
