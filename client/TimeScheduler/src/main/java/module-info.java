@@ -30,4 +30,6 @@ module com.example.timescheduler {
     exports com.example.timescheduler.APIobjects;
     exports com.example.timescheduler.view.components;
     opens com.example.timescheduler.view.components to javafx.fxml;
+    exports com.example.timescheduler.DeSerializer;
+    opens com.example.timescheduler.DeSerializer to com.fasterxml.jackson.databind;
 }

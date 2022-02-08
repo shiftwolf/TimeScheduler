@@ -1,6 +1,6 @@
 package com.example.timescheduler.Presenter;
 
-import com.example.timescheduler.Controller.Manage;
+import com.example.timescheduler.Controller.LoginController;
 import com.example.timescheduler.Model.User;
 import com.example.timescheduler.view.LoginView;
 import com.example.timescheduler.view.SchedulerApplication;
@@ -20,6 +20,6 @@ public class LoginPresenter implements LoginViewListener {
 
     @Override
     public void onLogin(String username, String password) throws IOException, InterruptedException {
-        SchedulerApplication.token = Manage.login(username, password);
+        SchedulerApplication.token = LoginController.login(username, password);
     }
 }

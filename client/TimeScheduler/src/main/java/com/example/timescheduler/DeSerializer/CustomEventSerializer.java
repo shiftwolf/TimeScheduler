@@ -1,4 +1,4 @@
-package com.example.timescheduler.Controller;
+package com.example.timescheduler.DeSerializer;
 
 import com.example.timescheduler.Model.Event;
 import com.example.timescheduler.Model.User;

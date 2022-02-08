@@ -6,7 +6,7 @@
 
 package com.example.timescheduler.Model;
 
-import com.example.timescheduler.Controller.CustomEventSerializer;
+import com.example.timescheduler.DeSerializer.CustomEventSerializer;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
