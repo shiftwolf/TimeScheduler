@@ -23,7 +23,7 @@
 
     <Label id="title" text="Create a new Event" GridPane.columnIndex="0" GridPane.rowIndex="0" GridPane.columnSpan="3"/>
     <HBox GridPane.columnIndex="3" GridPane.rowIndex="0" GridPane.columnSpan="2"
-          alignment="CENTER_RIGHT" spacing="20">
+          alignment="CENTER_RIGHT" spacing="15">
         <Button text="Cancel" onAction="#onCancel"/>
         <Button text="Save" onAction="#onSave"/>
     </HBox>

@@ -17,7 +17,7 @@
     <Label text="Username"
            GridPane.columnIndex="0" GridPane.rowIndex="0">
     </Label>
-    <Label fx:id="userName" id="user-value" text="_kuea_"
+    <Label fx:id="username" id="user-value" text="_kuea_"
            GridPane.columnIndex="0" GridPane.rowIndex="1">
     </Label>
 

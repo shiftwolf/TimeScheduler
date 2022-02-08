@@ -67,7 +67,7 @@ public class EventEditComponent extends GridPane {
 
     @FXML
     public void initialize() {
-        SchedulerApplication.initializeDropDownMenus(timePicker, durationHPicker, durationMinPicker);
+        homeView.initializeDropDownMenus(timePicker, durationHPicker, durationMinPicker);
 
         // add participants to participantsSection
         for (String item : participants) {

@@ -15,8 +15,11 @@
 
     <Label id="title" text="Edit User"
            GridPane.columnIndex="0" GridPane.rowIndex="0"/>
-    <Button fx:id="saveButton" text="Save" onAction="#onSave"
-            GridPane.columnIndex="1" GridPane.rowIndex="0"/>
+    <HBox GridPane.columnIndex="1" GridPane.rowIndex="0" spacing="15" alignment="BASELINE_RIGHT">
+        <Button text="Cancel" onAction="#onCancel" />
+        <Button fx:id="saveButton" text="Save" onAction="#onSave" />
+    </HBox>
+
 
     <Label text="Username"
            GridPane.columnIndex="0" GridPane.rowIndex="1">

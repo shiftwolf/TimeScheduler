@@ -19,7 +19,6 @@ public class SchedulerApplication extends Application {
     public static token token = new token();
 
     static Scene loginScene, registrationScene, homeScene;
-//    static Scene adminScene;
 
     public SchedulerApplication() {
         LoginView loginView = new LoginView();
@@ -44,41 +43,9 @@ public class SchedulerApplication extends Application {
         FXMLLoader mainLoader = new FXMLLoader(SchedulerApplication.class.getResource("home_view.fxml"));
         homeScene = new Scene(mainLoader.load(), 1100, 720);
 
-//        FXMLLoader adminLoader = new FXMLLoader(SchedulerApplication.class.getResource("admin_view.fxml"));
-//        adminScene = new Scene(adminLoader.load(), 1100, 720);
-
         primaryStage.setScene(loginScene);
         primaryStage.setTitle("Time Scheduler");
         primaryStage.show();
-    }
-
-    public static void initializeDropDownMenus(ComboBox timePicker, ComboBox durationHPicker, ComboBox durationMinPicker) {
-        // set time values from 00:00 to 23:55
-        for (int h = 0; h < 24; h++) {
-            for (int min = 0; min < 60; min += 5) {
-                String hour = SchedulerApplication.formatTime(h);
-                String minutes = SchedulerApplication.formatTime(min);
-                timePicker.getItems().add(String.format("%s:%s", hour, minutes));
-            }
-        }
-
-        // set hour values of the duration picker
-        for (int h = 0; h < 24; h++) {
-            durationHPicker.getItems().add(String.valueOf(h));
-        }
-
-        // set minutes values of the duration picker
-        for (int min = 5; min < 60; min += 5) {
-            durationMinPicker.getItems().add(String.valueOf(min));
-        }
-    }
-
-    public static String formatTime(int num) {
-        if (num <= 9) {
-            return String.format("0%d", num);
-        } else {
-            return String.valueOf(num);
-        }
     }
 
 }

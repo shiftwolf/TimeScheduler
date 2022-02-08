@@ -1,7 +1,9 @@
 package com.example.timescheduler.Presenter;
 
 import com.example.timescheduler.APIobjects.token;
+import com.example.timescheduler.Controller.EventController;
 import com.example.timescheduler.Controller.UserController;
+import com.example.timescheduler.Model.Event;
 import com.example.timescheduler.Model.User;
 import com.example.timescheduler.view.HomeView;
 
@@ -20,8 +22,19 @@ public class HomePresenter implements HomeViewListener {
     }
 
     @Override
+    public List<Event> getEvents(token token) throws IOException, InterruptedException {
+        // TODO
+        return EventController.getEvents(token);
+    }
+
+    @Override
     public List<User> getUsers(token token) throws IOException, InterruptedException {
-        
+        // TODO
         return UserController.getUsers(token);
+    }
+
+    @Override
+    public void editUser(token token, User user, String newUsername, String newName, String newEmail) {
+        // TODO
     }
 }
