@@ -39,6 +39,8 @@ public class EventEditComponent extends GridPane {
     @FXML
     ComboBox durationMinPicker;
     @FXML
+    ComboBox reminderPicker;
+    @FXML
     TextField locationField;
     @FXML
     VBox participantsSection;
@@ -84,16 +86,16 @@ public class EventEditComponent extends GridPane {
 
     @FXML
     public void onSave() {
-        homeView.getMainGrid().add(homeView.getEventDetailsComponent(), 3, 0);
+        // TODO
+
+        homeView.getMainGrid().add(homeView.getEventDetailsComponent(), 1, 0);
         homeView.getMainGrid().getChildren().remove(this);
-        homeView.setIsEdit(false);
     }
 
     @FXML
     public void onCancel() {
-        homeView.getMainGrid().add(homeView.getEventDetailsComponent(), 3, 0);
+        homeView.getMainGrid().add(homeView.getEventDetailsComponent(), 1, 0);
         homeView.getMainGrid().getChildren().remove(this);
-        homeView.setIsEdit(false);
     }
 
     @FXML

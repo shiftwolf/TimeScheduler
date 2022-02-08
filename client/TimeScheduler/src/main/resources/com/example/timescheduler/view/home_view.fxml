@@ -9,7 +9,6 @@
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.control.ScrollPane?>
-<?import javafx.scene.layout.ColumnConstraints?>
 
 <BorderPane xmlns="http://javafx.com/javafx/17"
             xmlns:fx="http://javafx.com/fxml/1"
@@ -17,11 +16,11 @@
     <stylesheets><URL value="@homeStyles.css"/></stylesheets>
 
     <top>
-        <HBox id="top-bar" minHeight="100" spacing="15">
+        <HBox fx:id="topBar" id="top-bar" minHeight="100" spacing="15">
             <padding><Insets top="40" right="30" bottom="40" left="30"/></padding>
-            <Label id="view-title" text="Upcoming Events"/>
+            <Label fx:id="panelTitle" id="view-title" text="Upcoming Events"/>
             <Pane HBox.hgrow="ALWAYS" />
-            <Button fx:id="adminButton" text="Admin Panel" onAction="#onAdminButton" minHeight="35"/>
+            <Button fx:id="switchToAdminButton" text="Admin Panel" onAction="#onSwitchToAdminButton" minHeight="35"/>
             <Button id="logout-button" text="Log Out" onAction="#onLogout" minHeight="35"/>
         </HBox>
     </top>
@@ -29,24 +28,20 @@
     <center>
         <GridPane vgap="20" fx:id="mainGrid">
             <padding><Insets top="30" right="30" bottom="30" left="30"/></padding>
-            <columnConstraints>
-                <ColumnConstraints percentWidth="16" halignment="LEFT"/>
-                <ColumnConstraints percentWidth="16"/>
-                <ColumnConstraints percentWidth="16" halignment="RIGHT"/>
-                <ColumnConstraints percentWidth="50"/>
-            </columnConstraints>
 
-            <ScrollPane fx:id="eventSection" maxWidth="Infinity"
-                        GridPane.columnIndex="0" GridPane.rowIndex="0" GridPane.columnSpan="3">
+            <ScrollPane fx:id="scrollPane" maxWidth="Infinity"
+                        GridPane.columnIndex="0" GridPane.rowIndex="0">
                 <GridPane.margin><Insets right="30"/></GridPane.margin>
             </ScrollPane>
 
-            <Button text="Export Schedule" minHeight="35"
-                    GridPane.columnIndex="0" GridPane.rowIndex="1"/>
-            <Button text="Add Event" minHeight="35" onAction="#onAddEvent"
-                    GridPane.columnIndex="2" GridPane.rowIndex="1">
+            <HBox fx:id="eventActions" GridPane.columnIndex="0" GridPane.rowIndex="1">
                 <GridPane.margin><Insets right="30"/></GridPane.margin>
-            </Button>
+                <Button text="Export Schedule" minHeight="35"/>
+                <Pane HBox.hgrow="ALWAYS" />
+                <Button text="Add Event" minHeight="35" onAction="#onAddEvent">
+                    <GridPane.margin><Insets right="30"/></GridPane.margin>
+                </Button>
+            </HBox>
 
         </GridPane>
     </center>

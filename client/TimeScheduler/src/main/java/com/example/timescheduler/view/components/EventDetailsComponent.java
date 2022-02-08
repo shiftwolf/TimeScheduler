@@ -4,7 +4,6 @@ import com.example.timescheduler.view.HomeView;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
-import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
@@ -61,9 +60,8 @@ public class EventDetailsComponent extends GridPane {
 
     @FXML
     public void onEdit() {
-        homeView.getMainGrid().add(homeView.getEventEditComponent(), 3, 0);
+        homeView.getMainGrid().add(homeView.getEventEditComponent(), 1, 0);
         homeView.getMainGrid().getChildren().remove(this);
-        homeView.setIsEdit(true);
     }
 
     @FXML

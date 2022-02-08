@@ -31,6 +31,8 @@ public class EventCreateComponent extends GridPane {
     @FXML
     ComboBox durationMinPicker;
     @FXML
+    ComboBox reminderPicker;
+    @FXML
     VBox participantsSection;
     @FXML
     TextField newParticipantField;
@@ -58,18 +60,14 @@ public class EventCreateComponent extends GridPane {
 
     @FXML
     public void onSave() {
-        homeView.getMainGrid().add(homeView.getEventDetailsComponent(), 3, 0);
+        homeView.getMainGrid().add(homeView.getEventDetailsComponent(), 1, 0);
         homeView.getMainGrid().getChildren().remove(this);
-        homeView.setIsEdit(false);
-        System.out.println("Create " + homeView.getIsEdit());
     }
 
     @FXML
     public void onCancel() {
-        homeView.getMainGrid().add(homeView.getEventDetailsComponent(), 3, 0);
+        homeView.getMainGrid().add(homeView.getEventDetailsComponent(), 1, 0);
         homeView.getMainGrid().getChildren().remove(this);
-        homeView.setIsEdit(false);
-        System.out.println("Create " + homeView.getIsEdit());
     }
 
     @FXML

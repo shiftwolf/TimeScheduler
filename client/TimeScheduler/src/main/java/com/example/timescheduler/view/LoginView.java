@@ -26,10 +26,6 @@ public class LoginView {
     @FXML
     Label loginError;
 
-    public void addListener(final LoginViewListener listener) {
-        listeners.add(listener);
-    }
-
     @FXML
     public void initialize() {
         password.textProperty().bindBidirectional(passwordVisible.textProperty());
@@ -88,5 +84,9 @@ public class LoginView {
         password.toFront();
         passwordVisible.toBack();
         loginError.setVisible(false);
+    }
+
+    public void addListener(final LoginViewListener listener) {
+        listeners.add(listener);
     }
 }

@@ -1,6 +1,6 @@
 package com.example.timescheduler.view.components;
 
-import com.example.timescheduler.view.AdminView;
+import com.example.timescheduler.view.HomeView;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -11,15 +11,15 @@ import java.io.IOException;
 
 public class UserComponent extends GridPane {
 
-    AdminView adminView;
+    HomeView homeView;
 
     @FXML
     Label userName;
     @FXML
     Label name;
 
-    public UserComponent(AdminView adminView) {
-        this.adminView = adminView;
+    public UserComponent(HomeView homeView) {
+        this.homeView = homeView;
 
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("user_component.fxml"));
         fxmlLoader.setRoot(this);
@@ -37,9 +37,8 @@ public class UserComponent extends GridPane {
         // TODO: unfinished
 
         // load UserEditComponent
-        if (!adminView.getIsEditVisible()) {
-            adminView.getMainGrid().add(adminView.getUserEdit(), 1, 0);
-            adminView.setIsEditVisible(true);
+        if (!homeView.isInGrid(homeView.getUserEdit())) {
+            homeView.getMainGrid().add(homeView.getUserEdit(), 1, 0);
         }
     }
 
