@@ -11,7 +11,6 @@ import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -30,49 +29,40 @@ public class Manage {
     static String url = "http://192.168.178.28:8090";
 
     public static void main(String[] args) throws IOException, InterruptedException {
-        User user = new User("Mannfred", "manni@1.de", "manni1","av1234");
-
-        user.setId(Long.valueOf(4));
-
-        List<User> list = new ArrayList<User>();
-        Date d = new Date();
-        Date dur = new Date();
-
-        Event testevent = new Event("meeting",d, dur,"ffm",Event.priorities.RED,  list);
-
-        //getUsers(t1);
-
+        User user = new User("Mannfred", "mannii@1.de", "mannii1","av1234");
+        user.setId(Long.valueOf(22));
+        //newUser(user);
         token token = login(user.getUsername(), user.getPassword());
 
-        System.out.println(token.toString());
+        User[] lsit = {};
 
-        deleteUser(token, user);
+        Event e3 = new Event("meeting", new Date(1234132), new Date(1234133), "ffm", Event.priorities.RED,lsit);
 
-        //User user = getUserById(t1, Long.valueOf(13));
-        //System.out.println(user.getName());
+        Event e4 = new Event("frühstücken", new Date(1234132), new Date(1234133), "ffm", Event.priorities.RED,lsit);
 
-        //List<Event> events = getEvents(t1);
-        //for(Event event: events){System.out.println(event.toString());for(User user: event.getParticipantsEntities()){System.out.println(user.toString());}}
+        e4.setId(Long.valueOf(28));
 
-        //Event event = getEventById(t1, Long.valueOf(1));
-        //System.out.println(event.toString());
+        //changeEvent(token, e4);
 
-        //String response = newUser(user);
-        //System.out.println(response);
+        addParticipantsViaEmail(token, user, e4);
 
-        //String response = newEvent(t1, testevent, user);
+        logout(token);
+        //Event e1 = getEventById(token, user.getId());
+        //System.out.println(e1.toString());
+        //System.out.println(e1.getName());
 
-        //token token = login(user);
-        //System.out.println(token.getTokenString() + token.getUserID());
+        //List<Event> evList1 = getEvents(token);
 
-        //logout(t1);
+       // for(Event event : evList1){
+         //   System.out.println(event.toString());
+            //for(User user: event.getParticipantsEntities())
+            //System.out.println(event.getParticipantsEntities().get(0).getClass().getName());
+        //}
 
-        //Event e1 = new Event();
-        //e1.setId(2);
-        //deleteEvent(t1, e1);
+        //Event e1 = getEvents(token);
+        //System.out.println(e1.toString());
+
     }
-
-
 
     public static List<User> getUsers(token token) throws IOException, InterruptedException {
         HttpClient client = HttpClient.newHttpClient();
@@ -105,7 +95,7 @@ public class Manage {
                 .GET()
                 .header("token", token.getTokenString())
                 .header("userID", String.valueOf(token.getUserID()))
-                .uri(URI.create(url + "/users?id=" + String.valueOf(id)))
+                .uri(URI.create(url + "/users/id=" + String.valueOf(id)))
                 .build();
 
         HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
@@ -126,7 +116,7 @@ public class Manage {
                 .GET()
                 .header("token", token.getTokenString())
                 .header("userID", String.valueOf(token.getUserID()))
-                .uri(URI.create(url + "/users?username=" + String.valueOf(username)))
+                .uri(URI.create(url + "/users/name=" + String.valueOf(username)))
                 .build();
 
         HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
@@ -145,7 +135,7 @@ public class Manage {
                 .GET()
                 .header("token", token.getTokenString())
                 .header("userID", String.valueOf(token.getUserID()))
-                .uri(URI.create(url + "/users?email=" + String.valueOf(email)))
+                .uri(URI.create(url + "/users/email=" + String.valueOf(email)))
                 .build();
 
         HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
@@ -234,13 +224,13 @@ public class Manage {
         // bodyhandler sets what is responded to response.body
         HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
 
+        System.out.println(response.body());
+
         // mapper json -> pojo java
         ObjectMapper mapper = new ObjectMapper();
 
         // type reference to declare the type of return value
-        List<Event> events = mapper.readValue(response.body(), new TypeReference<List<Event>>() {});
-
-        // TODO: map events.user into java
+        List<Event> events = mapper.readValue(response.body(), new TypeReference<List<Event>>(){});
 
         return events;
 
@@ -253,14 +243,16 @@ public class Manage {
                 .GET()
                 .header("token", token.getTokenString())
                 .header("userID", String.valueOf(token.getUserID()))
-                .uri(URI.create(url + "/events/" + String.valueOf(id)))
+                .uri(URI.create(url + "/events/id=" + String.valueOf(id)))
                 .build();
 
         HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
 
+        System.out.println(response.body());
+
         ObjectMapper mapper = new ObjectMapper();
 
-        Event event = mapper.readValue(response.body(), new TypeReference<Event>(){});
+        Event event = mapper.readValue(response.body(), Event.class);
 
         return event;
     }
@@ -270,32 +262,33 @@ public class Manage {
         ObjectMapper mapper = new ObjectMapper();
         //mapper.setSerializationInclusion(JsonInclude.Include.NON_NULL);
         String jsonUser = mapper.writeValueAsString(event);
-
         System.out.println(jsonUser);
 
         HttpClient client = HttpClient.newHttpClient();
 
-        // TODO: richtig formattieren
-
         HttpRequest request = HttpRequest.newBuilder()
                 .header("Content-Type", "application/json")
-                .uri(URI.create(url + "/users"))
+                .header("userId", String.valueOf(token.getUserID()))
+                .header("token", token.getTokenString())
+                .uri(URI.create(url + "/events"))
                 .POST(HttpRequest.BodyPublishers.ofString(jsonUser))
                 .build();
 
         HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
 
+        System.out.println(response.body());
+
         return response.body();
     }
 
-    public static void deleteEvent(token token, Event event) throws IOException, InterruptedException {
+    public static void deleteEvent(token token, Long id) throws IOException, InterruptedException {
         HttpClient client = HttpClient.newHttpClient();
 
         HttpRequest request = HttpRequest.newBuilder()
                 .DELETE()
-                .header("userID", String.valueOf(token.getUserID()))
-                .header("tokenString", token.getTokenString())
-                .uri(URI.create(url + "/events/" + String.valueOf(event.getId())))
+                .header("userId", String.valueOf(token.getUserID()))
+                .header("token", token.getTokenString())
+                .uri(URI.create(url + "/events/id=" + String.valueOf(id)))
                 .build();
 
         HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
@@ -313,9 +306,27 @@ public class Manage {
         HttpRequest request = HttpRequest.newBuilder()
                 .header("Content-Type", "application/json")
                 .PUT(HttpRequest.BodyPublishers.ofString(jsonUser))
-                .uri(URI.create(url + "/users/" + String.valueOf(event.getId())))
-                .header("userID", String.valueOf(token.getUserID()))
-                .header("tokenString", token.getTokenString())
+                .uri(URI.create(url + "/events/id=" + String.valueOf(event.getId())))
+                .header("userId", String.valueOf(token.getUserID()))
+                .header("token", token.getTokenString())
+                .build();
+
+        HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
+
+        System.out.println(response.body());
+
+        return response.body();
+    }
+
+    public static String addParticipantsViaEmail(token token, User user, Event event) throws IOException, InterruptedException {
+        HttpClient client = HttpClient.newHttpClient();
+
+        HttpRequest request = HttpRequest.newBuilder()
+                .header("Content-Type", "application/json")
+                .PUT(HttpRequest.BodyPublishers.ofString(""))
+                .uri(URI.create(url + "/events/id=" + String.valueOf(event.getId()) + "/participants/email=" + String.valueOf(user.getEmail())))
+                .header("userId", String.valueOf(token.getUserID()))
+                .header("token", token.getTokenString())
                 .build();
 
         HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());

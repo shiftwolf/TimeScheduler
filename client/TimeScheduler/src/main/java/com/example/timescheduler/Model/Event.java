@@ -6,12 +6,13 @@
 
 package com.example.timescheduler.Model;
 
+import com.example.timescheduler.Controller.CustomEventSerializer;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 
+@JsonSerialize(using = CustomEventSerializer.class)
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class Event {
 
@@ -28,7 +29,7 @@ public class Event {
     private String location;
     private String description;
     private priorities priority;
-    public List<User> participantsEntities;
+    public User[] participantsEntities;
 
 
     @Override
@@ -53,8 +54,11 @@ public class Event {
 
     public Event() {
     }
+    public Event(long id) {
+        this.id = id;
+    }
 
-    public Event(String name, Date date, Date duration, String location, priorities priority, List<User> participantsEntities) {
+    public Event(String name, Date date, Date duration, String location, priorities priority, User[] participantsEntities) {
         this.name = name;
         this.date = date;
         this.duration = duration;
@@ -63,7 +67,7 @@ public class Event {
         this.participantsEntities = participantsEntities;
     }
 
-    public Event(long id, String name, Date date, Date duration, String location, String description, priorities priority, ArrayList<User> participants) {
+    public Event(long id, String name, Date date, Date duration, String location, String description, priorities priority, User[] participants) {
         this.id = id;
         this.createdAt = new Date();
         this.name = name;
@@ -108,7 +112,7 @@ public class Event {
         return priority;
     }
 
-    public List<User> getParticipantsEntities() {
+    public User[] getParticipantsEntities() {
         return participantsEntities;
     }
 
@@ -134,8 +138,8 @@ public class Event {
     }
 
     // Methods
-    public void addParticipants(User newParticipant) {
-        participantsEntities.add(newParticipant);
-    }
+    //public void addParticipants(User newParticipant) {
+      //  participantsEntities.add(newParticipant);
+    //}
 
 }

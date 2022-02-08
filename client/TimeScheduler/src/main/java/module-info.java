@@ -23,6 +23,9 @@ module com.example.timescheduler {
     opens com.example.timescheduler.Model to com.fasterxml.jackson.databind;
     exports com.example.timescheduler.Model;
 
+    opens com.example.timescheduler.Controller to com.fasterxml.jackson.databind;
+    exports com.example.timescheduler.Controller;
+
     opens com.example.timescheduler.APIobjects to com.fasterxml.jackson.databind;
     exports com.example.timescheduler.APIobjects;
     exports com.example.timescheduler.view.components;
