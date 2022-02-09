@@ -22,9 +22,7 @@ import java.io.Console;
 import java.io.IOException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 @Controller
 public class PdfExportController {
@@ -72,7 +70,12 @@ public class PdfExportController {
             eventsEntities.add(eventRepository.findById(entity.getEventId())
                     .orElseThrow(() -> new EventNotFoundException(entity.getEventId())));
         }
-
+        eventsEntities.sort(new Comparator<EventsEntity>() {
+            @Override
+            public int compare(EventsEntity o1, EventsEntity o2) {
+                return (int) (o1.getDate().getTime()/1000 - o2.getDate().getTime()/1000);
+            }
+        });
         if (eventsEntities.size() == 0)
             System.out.println("No events listed"); //todo: make new exception
         else
