@@ -44,11 +44,22 @@ public class User {
     public User() {
     }
 
+    public User(Long id) {
+        this.id = id;
+    }
+
     public User(String name, String email, String username, String password) {
         this.name = name;
         this.email = email;
         this.username = username;
         this.password = password;
+    }
+
+    public User(Long id, String name, String email, String username) {
+        this.id = id;
+        this.name = name;
+        this.email = email;
+        this.username = username;
     }
 
     public User(Long id, String email, String username, String name, String password, List<Event> events) {
@@ -118,10 +129,22 @@ public class User {
         }
     }
 
-    public String edit(token token, Long id, String email, String username, String name, String password, List<Event> events){
-        User temp = new User(id, email, username, name, password, events);
+    /**
+     * With this method we can edit a user object.
+     * @param token Token for verfication.
+     * @param id should be the id of the user that is about to get changed
+     * @param email
+     * @param username
+     * @param name
+     * @return Return message of Server.
+     */
+    public String admin_edit(token token, Long id, String email, String username, String name){
+        if(!this.isAdmin()) {
+            return null;
+        }
+        User newUser = new User(id, email, username,name);
         try{
-            String message = UserController.changeUser(token, temp);
+            String message = UserController.changeUser(token, newUser);
             System.out.println(message);
             return message;
         }catch (IOException | InterruptedException e){
@@ -130,9 +153,18 @@ public class User {
         }
     }
 
-    public String delete(token token){
+    /**
+     * With this method a user is deleted from the database by an admin.
+     * @param token Token to validate the admin
+     * @param id Id of user that is going to be deleted.
+     * @return return message.
+     */
+    public String admin_delete(token token, Long id){
+        if(!this.isAdmin()) {
+            return null;
+        }
         try {
-            String message = UserController.deleteUser(token, this);
+            String message = UserController.deleteUser(token, new User(id));
             return message;
         }catch (IOException | InterruptedException e){
             System.out.println(e.getMessage());
