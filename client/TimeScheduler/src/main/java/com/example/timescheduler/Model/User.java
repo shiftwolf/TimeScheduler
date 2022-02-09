@@ -53,7 +53,7 @@ public class User {
 
     public User(Long id, String email, String username, String name, String password, List<Event> events) {
         this.id = id;
-        this.createdAt = new Date();;
+        this.createdAt = new Date();
         this.email = email;
         this.username = username;
         this.name = name;
@@ -118,6 +118,28 @@ public class User {
         }
     }
 
+    public String edit(token token, Long id, String email, String username, String name, String password, List<Event> events){
+        User temp = new User(id, email, username, name, password, events);
+        try{
+            String message = UserController.changeUser(token, temp);
+            System.out.println(message);
+            return message;
+        }catch (IOException | InterruptedException e){
+            System.out.println(e.getMessage());
+            return e.getMessage();
+        }
+    }
+
+    public String delete(token token){
+        try {
+            String message = UserController.deleteUser(token, this);
+            return message;
+        }catch (IOException | InterruptedException e){
+            System.out.println(e.getMessage());
+            return e.getMessage();
+        }
+    }
+
     /**
      *
      * @param event
@@ -145,5 +167,7 @@ public class User {
      * @param event
      */
     public void deleteEvent(Event event){
+        return;
     }
+
 }

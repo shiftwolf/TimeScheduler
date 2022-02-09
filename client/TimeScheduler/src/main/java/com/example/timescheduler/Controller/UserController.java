@@ -210,7 +210,7 @@ public class UserController {
      * @throws IOException - Occurs if in the client.send or in the mapper.readValue command an error arises
      * @throws InterruptedException - Occurs if in the client.send a thread has been interrupted
      */
-    public static void deleteUser(token token, User user) throws IOException, InterruptedException {
+    public static String deleteUser(token token, User user) throws IOException, InterruptedException {
         HttpClient client = HttpClient.newHttpClient();
 
         HttpRequest request = HttpRequest.newBuilder()
@@ -223,6 +223,8 @@ public class UserController {
         HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
 
         System.out.println(response.body());
+
+        return response.body();
 
     }
 
