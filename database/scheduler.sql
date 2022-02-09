@@ -43,8 +43,8 @@ CREATE TABLE `reminders` (
     CONSTRAINT `reminders_ibfk_1` 
     FOREIGN KEY (`event_id`) 
     REFERENCES `events` (`id`) 
-    ON DELETE NO ACTION 
-    ON UPDATE NO ACTION
+    ON DELETE CASCADE
+    ON UPDATE CASCADE
 
 ) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4;
 
@@ -63,8 +63,8 @@ CREATE TABLE `attachments` (
     CONSTRAINT `attachments_relation_1` 
     FOREIGN KEY (`event_id`) 
     REFERENCES `events` (`id`) 
-    ON DELETE NO ACTION 
-    ON UPDATE NO ACTION
+    ON DELETE CASCADE
+    ON UPDATE CASCADE
 
 ) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4;
 
@@ -81,14 +81,14 @@ CREATE TABLE `participants` (
     CONSTRAINT `participants_relation_1` 
     FOREIGN KEY (`event_id`) 
     REFERENCES `events` (`id`) 
-    ON DELETE NO ACTION 
-    ON UPDATE NO ACTION,
+    ON DELETE CASCADE
+    ON UPDATE CASCADE
 
     CONSTRAINT `participants_relation_2` 
     FOREIGN KEY (`user_id`) 
-    REFERENCES `users` (`id`) 
-    ON DELETE NO ACTION 
-    ON UPDATE NO ACTION
+    REFERENCES `users` (`id`)     
+    ON DELETE CASCADE
+    ON UPDATE CASCADE
 
 ) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4;
 
@@ -102,6 +102,6 @@ CREATE TABLE `tokens` (
     CONSTRAINT `tokens_relation_1` 
     FOREIGN KEY (`user_id`) 
     REFERENCES `users` (`id`) 
-    ON DELETE NO ACTION 
-    ON UPDATE NO ACTION
+    ON DELETE CASCADE
+    ON UPDATE CASCADE
 ) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4;
