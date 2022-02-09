@@ -61,8 +61,11 @@ public class UserComponent extends GridPane {
     }
 
     @FXML
-    public void onDelete(ActionEvent event) {
-        // TODO
+    public void onDelete() {
+        // TODO: GUI update
+
+        // notify listener
+        homeView.notifyOnDeleteUser(user);
     }
 
 }

@@ -37,4 +37,9 @@ public class HomePresenter implements HomeViewListener {
     public void editUser(token token, User user, String newUsername, String newName, String newEmail) {
         // TODO
     }
+
+    @Override
+    public void deleteUser(User user) {
+        // TODO
+    }
 }

@@ -15,4 +15,6 @@ public interface HomeViewListener {
 
     void editUser(token token, User user, String newUsername, String newName, String newEmail);
 
+    void deleteUser(User user);
+
 }

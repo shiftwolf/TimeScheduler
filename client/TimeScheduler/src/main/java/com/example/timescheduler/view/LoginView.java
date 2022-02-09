@@ -49,6 +49,8 @@ public class LoginView {
         if (hasFailed) {
             loginError.setVisible(true);
         } else {
+            // notify application that login was successfull
+            SchedulerApplication.onSuccessfullLogin();
             // navigate to Home
             resetGUI();
             Stage stage = (Stage) ((Node)event.getSource()).getScene().getWindow();

@@ -34,7 +34,7 @@ public class HomeView {
     private UserEditComponent userEdit;
 
     private VBox usersSection;
-    private VBox eventsSection;
+    private VBox eventsSection = new VBox();
 
     Button switchToEventsButton;
     ColumnConstraints gridCol0;
@@ -66,17 +66,9 @@ public class HomeView {
         mainGrid.getColumnConstraints().addAll(gridCol0, gridCol1);
 
         // initialize the events panel
-        eventsSection = new VBox();
+//        eventsSection = new VBox();
         eventsSection.setFillWidth(true);
 
-        // add the events TODO
-        for (int i = 0; i < 10; i++){
-            EventComponent event = new EventComponent();
-            eventsSection.getChildren().add(event);
-            VBox.setMargin(event, new Insets(10, 15, 0, 15));
-        }
-
-        // display the events in the ScrollPane
         scrollPane.setContent(eventsSection);
         scrollPane.setFitToWidth(true);
 
@@ -121,7 +113,7 @@ public class HomeView {
 
     @FXML
     protected void onLogout(ActionEvent event) {
-        // TODO: delete token
+        // TODO: delete token, clear
 
         // navigate to Login
         Stage stage = (Stage) ((Node)event.getSource()).getScene().getWindow();
@@ -180,10 +172,13 @@ public class HomeView {
         topBar.getChildren().remove(switchToEventsButton);
         topBar.getChildren().add(2, switchToAdminButton);
 
+        // TODO: clear before?
+        // clear eventsSection
+        eventsSection.getChildren().clear();
+
         // add events to eventsSection
-        // TODO: use real data
-        for (int i = 0; i < 10; i++){
-            EventComponent eventComponent = new EventComponent();
+        for (Event event : events) {
+            EventComponent eventComponent = new EventComponent(this, event);
             eventsSection.getChildren().add(eventComponent);
             VBox.setMargin(eventComponent, new Insets(10, 15, 0, 15));
         }
@@ -213,6 +208,16 @@ public class HomeView {
         return false;
     }
 
+    public void notifyOnGetEvents() {
+        for (HomeViewListener listener : listeners) {
+            try {
+                events = listener.getEvents(SchedulerApplication.token);
+            } catch (Exception e) {
+                System.out.println("Requesting events failed.");
+            }
+        }
+    }
+
     public void notifyOnSwitchToAdminPanel() {
         for (final HomeViewListener listener : listeners) {
             try {
@@ -225,12 +230,40 @@ public class HomeView {
 
     public void notifyOnEditUser(String newUsername, String newName, String newEmail) {
         for (HomeViewListener listener : listeners) {
-            listener.editUser(
-                    SchedulerApplication.token,
-                    selectedUser,
-                    newUsername,
-                    newName,
-                    newEmail);
+            try {
+                listener.editUser(
+                        SchedulerApplication.token,
+                        selectedUser,
+                        newUsername,
+                        newName,
+                        newEmail);
+            } catch (Exception e) {
+                System.out.println("Edit user failed.");
+            }
+        }
+    }
+
+    public void notifyOnDeleteUser(User user) {
+        for (HomeViewListener listener : listeners) {
+            try {
+                listener.deleteUser(user);
+            } catch (Exception e) {
+                System.out.println("Delete user failed.");
+            }
+        }
+    }
+
+    public void initializeEvents() {
+        System.out.println("initialize events");
+
+        // notify listener: getEvents
+        notifyOnGetEvents();
+
+        // add events to events section
+        for (Event event : events) {
+            EventComponent eventComponent = new EventComponent(this, event);
+            eventsSection.getChildren().add(eventComponent);
+            VBox.setMargin(eventComponent, new Insets(10, 15, 0, 15));
         }
     }
 
@@ -273,8 +306,6 @@ public class HomeView {
     }
 
     // Getters & Setters
-
-    public List<HomeViewListener> getListeners() { return listeners; }
 
     public EventDetailsComponent getEventDetailsComponent() { return eventDetails; }
 

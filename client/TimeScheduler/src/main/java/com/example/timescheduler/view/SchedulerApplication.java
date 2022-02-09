@@ -7,7 +7,6 @@ import com.example.timescheduler.Presenter.LoginPresenter;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
-import javafx.scene.control.ComboBox;
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -17,15 +16,17 @@ import java.io.IOException;
 public class SchedulerApplication extends Application {
 
     public static token token = new token();
+    static LoginView loginView = new LoginView();
+    static HomeView homeView = new HomeView();
 
     static Scene loginScene, registrationScene, homeScene;
 
     public SchedulerApplication() {
-        LoginView loginView = new LoginView();
+//        loginView = new LoginView();
         User loginUser = new User();
         new LoginPresenter(loginView, loginUser);
 
-        HomeView homeView = new HomeView();
+//        homeView = new HomeView();
         User user = new User();
         new HomePresenter(homeView, user);
     }
@@ -48,4 +49,7 @@ public class SchedulerApplication extends Application {
         primaryStage.show();
     }
 
+    static public void onSuccessfullLogin() {
+        homeView.initializeEvents();
+    }
 }
