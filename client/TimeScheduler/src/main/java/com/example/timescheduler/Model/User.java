@@ -5,8 +5,11 @@
 
 package com.example.timescheduler.Model;
 
+import com.example.timescheduler.APIobjects.token;
+import com.example.timescheduler.Controller.UserController;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
+import java.io.IOException;
 import java.util.Date;
 import java.util.List;
 
@@ -20,6 +23,7 @@ public class User {
     private String password;
     private Date createdAt;
     private List<Event> events;
+    private boolean admin;
 
     @Override
     public String toString() {
@@ -31,6 +35,7 @@ public class User {
                 ", password='" + password + '\'' +
                 ", createdAt=" + createdAt +
                 ", events=" + events +
+                ", admin=" + admin +
                 '}';
     }
 
@@ -38,6 +43,7 @@ public class User {
 
     public User() {
     }
+
     public User(String name, String email, String username, String password) {
         this.name = name;
         this.email = email;
@@ -55,15 +61,19 @@ public class User {
         this.events = events;
     }
 
-
     // Getters
+
+    public boolean isAdmin() {
+        return admin;
+    }
 
     public String getPassword() {
         return password;
     }
 
     public Long getId() {return id;}
-    public Date getCreated_at() {return createdAt;}
+
+    public Date getCreatedAt() {return createdAt;}
 
     public String getEmail() {
         return email;
@@ -79,13 +89,52 @@ public class User {
 
     public List<Event> getEvents() {return events;}
 
+    // Setters
+
     public void setId(Long id) {
         this.id = id;
     }
 
+    public void setAdmin(boolean admin){
+        this.admin = admin;
+    }
+
     // Methods
+
+    /**
+     * Here an admin, that is a User can get all the Users that are stored in the database.
+     * @param token Token of admin for verification.
+     * @return List of Users.
+     */
+    public List<User> admin_getUsers(token token){
+        if(!this.isAdmin()){
+            return null;
+        }
+        try{
+            return UserController.getUsers(token);
+        }catch (InterruptedException | IOException e){
+            System.out.println(e.getMessage());
+            return null;
+        }
+    }
+
+    /**
+     *
+     * @param event
+     */
     public void addEvent(Event event){}
 
+    /**
+     *
+     * @param name
+     * @param date
+     * @param duration
+     * @param location
+     * @param description
+     * @param priority
+     * @param participants
+     * @return
+     */
     public boolean createEvent(String name, Date date, Date duration, String location, String description, Event.priorities priority, List<User> participants){
         return true;
     }
@@ -97,5 +146,4 @@ public class User {
      */
     public void deleteEvent(Event event){
     }
-
 }

@@ -25,7 +25,8 @@ public class AttachmentsController {
      * @throws InterruptedException - Occurs if in the client.send a thread has been interrupted
      */
     public static String getInfoByEvent(token token, Long id){
-        return "";
+        return " ";
+
     }
 
     /**

@@ -6,8 +6,6 @@ public class token {
 
     private String tokenString;
 
-    public token() {};
-
     @Override
     public String toString() {
         return "token{" +
@@ -16,10 +14,15 @@ public class token {
                 '}';
     }
 
+    // Constructors
+
+    public token() {};
     public token(Long userID, String tokenString) {
         this.userID = userID;
         this.tokenString = tokenString;
     }
+
+    // Setter
 
     public void setUserID(Long userID) {
         this.userID = userID;
@@ -28,6 +31,8 @@ public class token {
     public void setTokenString(String tokenString) {
         this.tokenString = tokenString;
     }
+
+    // Getter
 
     public Long getUserID() {
         return userID;

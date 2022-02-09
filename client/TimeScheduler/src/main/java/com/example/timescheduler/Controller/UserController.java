@@ -154,7 +154,7 @@ public class UserController {
         //mapper.setSerializationInclusion(JsonInclude.Include.NON_NULL);
         String jsonUser = mapper.writeValueAsString(user);
 
-        jsonUser = jsonUser.substring(0, jsonUser.length() - 1) + ",\"password\":\"" + user.getPassword() + "\"}";
+        System.out.println(jsonUser);
 
         HttpClient client = HttpClient.newHttpClient();
 
