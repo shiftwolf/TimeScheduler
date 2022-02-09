@@ -1,5 +1,6 @@
 package com.example.timescheduler.view;
 
+import com.example.timescheduler.Presenter.LoginViewListener;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
@@ -9,7 +10,11 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleButton;
 import javafx.stage.Stage;
 
+import java.util.ArrayList;
+
 public class LoginView {
+    private static final ArrayList<LoginViewListener> listeners = new ArrayList<>();
+
     @FXML
     TextField username;
     @FXML
@@ -29,12 +34,24 @@ public class LoginView {
 
     @FXML
     protected void onLogin(ActionEvent event) {
-        // TODO
+        boolean hasFailed = false;
 
-        // for UI debugging
-        if (username.getText().equals("y")) {
+        // notify listeners
+        for (final LoginViewListener listener : listeners) {
+            try {
+                listener.onLogin(username.getText().trim(), password.getText().trim());
+            } catch (Exception e) {
+                hasFailed = true;
+            }
+        }
+
+        // update GUI
+        if (hasFailed) {
             loginError.setVisible(true);
         } else {
+            // notify application that login was successfull
+            SchedulerApplication.onSuccessfullLogin();
+            // navigate to Home
             resetGUI();
             Stage stage = (Stage) ((Node)event.getSource()).getScene().getWindow();
             stage.setScene(SchedulerApplication.homeScene);
@@ -69,5 +86,9 @@ public class LoginView {
         password.toFront();
         passwordVisible.toBack();
         loginError.setVisible(false);
+    }
+
+    public void addListener(final LoginViewListener listener) {
+        listeners.add(listener);
     }
 }

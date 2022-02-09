@@ -10,18 +10,20 @@ public class EventDTO {
     private List<Long> participants;
     private Long date;
     private Long duration;
+    private Long reminder;
     private String location;
     private Integer priority;
 
     EventDTO()  {}
 
     public EventDTO(Long id, String name, List<Long> participants, Long date,
-                    Long duration, String location, Integer priority){
+                    Long duration, Long reminder, String location, Integer priority){
         this.id = id;
         this.name = name;
         this.participants = participants;
         this.date = date;
         this.duration = duration;
+        this.reminder = reminder;
         this.location = location;
         this.priority = priority;
     }
@@ -61,6 +63,10 @@ public class EventDTO {
     public void setDuration(Long duration) {
         this.duration = duration;
     }
+
+    public Long getReminder() { return reminder;}
+
+    public void setReminder(Long reminder) { this.reminder = reminder;}
 
     public String getLocation() {
         return location;

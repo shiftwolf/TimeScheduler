@@ -1,5 +1,9 @@
 package com.example.timescheduler.view;
 
+import com.example.timescheduler.APIobjects.token;
+import com.example.timescheduler.Model.User;
+import com.example.timescheduler.Presenter.HomePresenter;
+import com.example.timescheduler.Presenter.LoginPresenter;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -7,13 +11,30 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 
+// TODO: delete token when close app
+
 public class SchedulerApplication extends Application {
-    // TODO: new stage for main application
+
+    public static token token = new token();
+    static LoginView loginView = new LoginView();
+    static HomeView homeView = new HomeView();
+
     static Scene loginScene, registrationScene, homeScene;
+
+    public SchedulerApplication() {
+//        loginView = new LoginView();
+        User loginUser = new User();
+        new LoginPresenter(loginView, loginUser);
+
+//        homeView = new HomeView();
+        User user = new User();
+        new HomePresenter(homeView, user);
+    }
 
     public static void main(String[] args) { launch(args); }
 
     public void start(Stage primaryStage) throws IOException {
+
         FXMLLoader loginLoader = new FXMLLoader(SchedulerApplication.class.getResource("login_view.fxml"));
         loginScene = new Scene(loginLoader.load(), 450, 380);
 
@@ -26,5 +47,9 @@ public class SchedulerApplication extends Application {
         primaryStage.setScene(loginScene);
         primaryStage.setTitle("Time Scheduler");
         primaryStage.show();
+    }
+
+    static public void onSuccessfullLogin() {
+        homeView.initializeEvents();
     }
 }

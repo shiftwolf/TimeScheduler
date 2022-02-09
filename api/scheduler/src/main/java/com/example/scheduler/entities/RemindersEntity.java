@@ -11,6 +11,7 @@ import java.util.Objects;
 public class RemindersEntity {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private Long id;
 
@@ -23,6 +24,16 @@ public class RemindersEntity {
     @Column(name = "date")
     private Timestamp date;
 
+    @Basic
+    @Column(name = "eventId")
+    private Long eventId;
+
+    public RemindersEntity(){}
+
+    public RemindersEntity(Long eventId, Timestamp date){
+        this.eventId = eventId;
+        this.date = date;
+    }
 
     public Long getId() {
         return id;
@@ -49,6 +60,11 @@ public class RemindersEntity {
     public void setDate(Timestamp date) {
         this.date = date;
     }
+
+
+    public Long getEventId() { return eventId;}
+
+    public void setEventId(Long eventId) { this.eventId = eventId;}
 
     @Override
     public boolean equals(Object o) {

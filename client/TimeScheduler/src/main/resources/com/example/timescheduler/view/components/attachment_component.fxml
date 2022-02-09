@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Button?>
+
+<fx:root type="javafx.scene.layout.HBox" xmlns:fx="http://javafx.com/fxml"
+         spacing="15" alignment="CENTER_LEFT" maxWidth="Infinity">
+
+    <Label fx:id="fileName" />
+    <Pane HBox.hgrow="ALWAYS"/>
+    <Button text="download" onAction="#onDownload" />
+
+</fx:root>

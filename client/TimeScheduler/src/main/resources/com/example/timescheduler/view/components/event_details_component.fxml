@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+
+<fx:root type="javafx.scene.layout.GridPane" xmlns:fx="http://javafx.com/fxml" vgap="30">
+
+    <columnConstraints>
+        <ColumnConstraints percentWidth="40" />
+        <ColumnConstraints percentWidth="60" />
+    </columnConstraints>
+
+    <Label id="title" text="Event Details"
+           GridPane.columnIndex="0" GridPane.rowIndex="0" GridPane.columnSpan="1"/>
+
+    <HBox alignment="CENTER_RIGHT" spacing="20"
+          GridPane.columnIndex="1" GridPane.rowIndex="0">
+        <Button fx:id="deleteButton" text="Delete" onAction="#onDelete"/>
+        <Button fx:id="editButton" text="Edit" onAction="#onEdit"/>
+    </HBox>
+
+
+    <Label text="Name"
+           GridPane.columnIndex="0" GridPane.rowIndex="1">
+        <GridPane.margin><Insets left="10"/></GridPane.margin>
+    </Label>
+    <Label fx:id="name" text="..." GridPane.columnIndex="1" GridPane.rowIndex="1" />
+
+    <Label text="Date"
+           GridPane.columnIndex="0" GridPane.rowIndex="2">
+        <GridPane.margin><Insets left="10"/></GridPane.margin>
+    </Label>
+    <Label fx:id="date" text="..." GridPane.columnIndex="1" GridPane.rowIndex="2" />
+
+    <Label text="Duration"
+           GridPane.columnIndex="0" GridPane.rowIndex="3">
+        <GridPane.margin><Insets left="10"/></GridPane.margin>
+    </Label>
+    <Label fx:id="duration" text="..." GridPane.columnIndex="1" GridPane.rowIndex="3" />
+
+    <Label text="Location"
+           GridPane.columnIndex="0" GridPane.rowIndex="4">
+        <GridPane.margin><Insets left="10"/></GridPane.margin>
+    </Label>
+    <Label fx:id="location" text="..." GridPane.columnIndex="1" GridPane.rowIndex="4" />
+
+    <Label text="Participants"
+           GridPane.columnIndex="0" GridPane.rowIndex="5">
+        <GridPane.margin><Insets left="10"/></GridPane.margin>
+    </Label>
+    <ScrollPane  GridPane.columnIndex="1" GridPane.rowIndex="5"  maxHeight="130">
+        <VBox fx:id="participantsSection"/>
+    </ScrollPane>
+
+    <Label text="Attachments"
+           GridPane.columnIndex="0" GridPane.rowIndex="6">
+        <GridPane.margin><Insets left="10"/></GridPane.margin>
+    </Label>
+    <ScrollPane  GridPane.columnIndex="1" GridPane.rowIndex="6"  maxHeight="130">
+        <VBox fx:id="attachmentsSection"/>
+    </ScrollPane>
+
+</fx:root>
+

@@ -38,14 +38,20 @@ public class UsersEntity {
     @Column(name = "hashedpw")
     private String hashedpw;
 
+    @Basic
+    @Column(name = "is_admin")
+    private boolean isAdmin;
+
     public UsersEntity(String email,
                 String username,
                 String name,
-                String hashedpw) {
+                String hashedpw,
+                boolean isAdmin) {
         this.email = email;
         this.username = username;
         this.name = name;
         this.hashedpw = hashedpw;
+        this.isAdmin = isAdmin;
     }
 
     public UsersEntity() {
@@ -101,6 +107,9 @@ public class UsersEntity {
         return hashedpw;
     }
 
+    public boolean isAdmin() { return isAdmin;}
+
+    public void setAdmin(boolean admin) { isAdmin = admin;}
 
     public UsersEntity hashPassword() {
         BCryptPasswordEncoder encoder = new BCryptPasswordEncoder(10, new SecureRandom());

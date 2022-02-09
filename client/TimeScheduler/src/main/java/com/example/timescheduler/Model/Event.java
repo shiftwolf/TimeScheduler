@@ -6,9 +6,14 @@
 
 package com.example.timescheduler.Model;
 
-import java.util.ArrayList;
+import com.example.timescheduler.DeSerializer.CustomEventSerializer;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+
 import java.util.Date;
 
+@JsonSerialize(using = CustomEventSerializer.class)
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class Event {
 
     public static enum priorities {
@@ -16,27 +21,62 @@ public class Event {
     }
 
     // Attributes
-    private final long id;
-    private final Date created_at;
-    private final String name;
+    private long id;
+    private Date createdAt;
+    private String name;
     private Date date;
     private Date duration;
     private String location;
     private String description;
     private priorities priority;
-    public ArrayList<User> participants;
+    public User[] participantsEntities;
 
-    // Constructor
-    public Event(long id, String name, Date date, Date duration, String location, String description, priorities priority, ArrayList<User> participants) {
+
+    @Override
+    public String toString() {
+        return "Event{" +
+                "id=" + id +
+                ", createdAt=" + createdAt +
+                ", name='" + name + '\'' +
+                ", date=" + date +
+                ", duration=" + duration +
+                ", location='" + location + '\'' +
+                ", description='" + description + '\'' +
+                ", priority=" + priority +
+                ", participantsEntities=" + participantsEntities +
+                '}';
+    }
+
+    public void setId(long id) {
         this.id = id;
-        this.created_at = new Date();
+    }
+// Constructors
+
+    public Event() {
+    }
+    public Event(long id) {
+        this.id = id;
+    }
+
+    public Event(String name, Date date, Date duration, String location, priorities priority, User[] participantsEntities) {
+        this.name = name;
+        this.date = date;
+        this.duration = duration;
+        this.location = location;
+        this.priority = priority;
+        this.participantsEntities = participantsEntities;
+    }
+
+    public Event(long id, String name, Date date, Date duration, String location, String description, priorities priority, User[] participants) {
+        this.id = id;
+        this.createdAt = new Date();
         this.name = name;
         this.date = date;
         this.duration = duration;
         this.location = location;
         this.description = description;
         this.priority = priority;
-        this.participants = participants;
+        this.participantsEntities = participants;
     }
 
     // Getters
@@ -44,8 +84,8 @@ public class Event {
         return id;
     }
 
-    public Date getCreated_at() {
-        return created_at;
+    public Date getCreatedAt() {
+        return createdAt;
     }
 
     public String getName() {
@@ -72,8 +112,8 @@ public class Event {
         return priority;
     }
 
-    public ArrayList<User> getParticipants() {
-        return participants;
+    public User[] getParticipantsEntities() {
+        return participantsEntities;
     }
 
     // Setters
@@ -98,8 +138,8 @@ public class Event {
     }
 
     // Methods
-    public void addParticipants(User newParticipant) {
-        participants.add(newParticipant);
-    }
+    //public void addParticipants(User newParticipant) {
+      //  participantsEntities.add(newParticipant);
+    //}
 
 }

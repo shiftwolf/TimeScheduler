@@ -2,14 +2,33 @@
     -fx-background-color: white;
 }
 
+#scrollpane-item {
+    -fx-padding: 10px;
+    -fx-background-color: #d7d7d7;
+    -fx-background-radius: 12px;
+    -fx-border-radius: 12px;
+}
+
 .button {
     -fx-background-color: #3983D9;
     -fx-background-radius: 8px;
+    -fx-border-radius: 8px;
     -fx-text-fill: white;
 }
 
 #logout-button {
     -fx-background-color: #b4b4b4;
+}
+
+.text-field {
+    -fx-background-radius: 8px;
+    -fx-background-color: #e8e8e8;
+    -fx-border-color: #d5d5d5;
+    -fx-border-radius: 8px;
+}
+
+.text-field:focused {
+    -fx-background-color: #e8e8e8;
 }
 
 #top-bar {
@@ -18,6 +37,7 @@
 
 .scroll-pane {
     -fx-background-radius: 8px;
+    -fx-border-color: transparent;
 }
 
 .scroll-bar:horizontal, .scroll-bar:vertical{
@@ -44,6 +64,11 @@
 }
 
 #eventName {
+    -fx-font-size: 14;
+    -fx-text-fill: #28282a;
+}
+
+#user-value {
     -fx-font-size: 14;
     -fx-text-fill: #28282a;
 }
