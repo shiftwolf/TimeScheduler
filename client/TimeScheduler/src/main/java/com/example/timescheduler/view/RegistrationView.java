@@ -2,13 +2,17 @@ package com.example.timescheduler.view;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleButton;
 import javafx.stage.Stage;
 
+import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
 
@@ -45,16 +49,28 @@ public class RegistrationView {
     }
 
     @FXML
-    protected void onSignUp(ActionEvent event) {
+    protected void onSignUp(ActionEvent event) throws IOException {
         // TODO: trim spaces
 
         boolean isValid = validateSignUp();
 
         if (isValid) {
-            stage = (Stage) ((Node)event.getSource()).getScene().getWindow();
-            stage.setScene(SchedulerApplication.homeScene);
-            stage.setX(200);
-            stage.setY(100);
+//            stage = (Stage) ((Node)event.getSource()).getScene().getWindow();
+//            stage.setScene(SchedulerApplication.homeScene);
+//            stage.setX(200);
+//            stage.setY(100);
+
+            // new window for main app
+            Parent fxml = FXMLLoader.load(getClass().getResource("home_view.fxml"));
+            Scene scene = new Scene(fxml);
+            Stage appStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+            appStage.setScene(scene);
+            appStage.setWidth(1100);
+            appStage.setHeight(720);
+            appStage.setX(200);
+            appStage.setY(100);
+            appStage.show();
+            appStage.centerOnScreen();
         }
     }
 

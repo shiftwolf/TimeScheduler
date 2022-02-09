@@ -63,7 +63,7 @@
     -fx-font-size: 18;
 }
 
-#eventName {
+#event-name {
     -fx-font-size: 14;
     -fx-text-fill: #28282a;
 }

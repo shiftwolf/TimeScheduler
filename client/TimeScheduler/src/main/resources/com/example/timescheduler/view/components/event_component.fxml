@@ -18,16 +18,16 @@
             <ColumnConstraints percentWidth="30" halignment="RIGHT"/>
         </columnConstraints>
 
-        <Label fx:id="eventName" text="Name of the event"
+        <Label fx:id="nameField" id="event-name" text="Name of the event"
                GridPane.columnIndex="0" GridPane.rowIndex="0">
         </Label>
 
-        <Label fx:id="eventDetails" text="Sun 30.01.2022 16:00 - 17:00"
+        <Label fx:id="detailsField" text="Sun 30.01.2022 16:00 - 17:00"
                GridPane.columnIndex="0" GridPane.rowIndex="1">
             <GridPane.margin><Insets top="10"/></GridPane.margin>
         </Label>
 
-        <Button text="View Details" fx:id="detailsButton" onAction="#onDetailsButton"
+        <Button text="View Details" onAction="#onDetailsButton"
                 GridPane.columnIndex="1" GridPane.rowIndex="0"/>
     </GridPane>
 

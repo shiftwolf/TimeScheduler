@@ -1,11 +1,9 @@
 package com.example.timescheduler.Presenter;
 
-import com.example.timescheduler.Controller.LoginController;
+import com.example.timescheduler.APIobjects.token;
+import com.example.timescheduler.Model.Organizer;
 import com.example.timescheduler.Model.User;
 import com.example.timescheduler.view.LoginView;
-import com.example.timescheduler.view.SchedulerApplication;
-
-import java.io.IOException;
 
 public class LoginPresenter implements LoginViewListener {
 
@@ -19,7 +17,7 @@ public class LoginPresenter implements LoginViewListener {
     }
 
     @Override
-    public void onLogin(String username, String password) throws IOException, InterruptedException {
-        SchedulerApplication.token = LoginController.login(username, password);
+    public token onLogin(String username, String password) {
+        return Organizer.login(username, password);
     }
 }

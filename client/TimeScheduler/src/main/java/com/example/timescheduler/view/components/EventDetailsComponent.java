@@ -19,6 +19,14 @@ public class EventDetailsComponent extends GridPane {
     List<String> attachments;
 
     @FXML
+    Label name;
+    @FXML
+    Label date;
+    @FXML
+    Label duration;
+    @FXML
+    Label eventLocation;
+    @FXML
     VBox participantsSection;
     @FXML
     VBox attachmentsSection;
