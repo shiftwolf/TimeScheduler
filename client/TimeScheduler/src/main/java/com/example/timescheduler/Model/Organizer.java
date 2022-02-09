@@ -23,7 +23,7 @@ public class Organizer {
         return user;
     }
 
-    public static token login(String username, String password) throws IOException, InterruptedException {
+    public static token login(String username, String password) {
         token token;
         try{
             token = LoginController.login(username, password);
