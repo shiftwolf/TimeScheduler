@@ -12,7 +12,7 @@ import java.util.Properties;
 @Component
 public class JavaMailUtil {
 
-    public void sendMail(String recipient) throws MessagingException {
+    public void sendMail(String recipient, String subject, String message) throws MessagingException {
         Properties prop = new Properties();
 
         prop.put("mail.smtp.auth", true);
@@ -30,21 +30,19 @@ public class JavaMailUtil {
             }
         });
 
-        Message message = new MimeMessage(session);
-        message.setFrom(new InternetAddress(username));
-        message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(recipient));
-        message.setSubject("Test");
-
-        String msg = "Test Mail for Java project.";
+        Message msg = new MimeMessage(session);
+        msg.setFrom(new InternetAddress(username));
+        msg.setRecipients(Message.RecipientType.TO, InternetAddress.parse(recipient));
+        msg.setSubject(subject);
 
         MimeBodyPart mimeBodyPart = new MimeBodyPart();
-        mimeBodyPart.setContent(msg, "text/html; charset=utf-8");
+        mimeBodyPart.setContent(message, "text/html; charset=utf-8");
 
         Multipart multipart = new MimeMultipart();
         multipart.addBodyPart(mimeBodyPart);
 
-        message.setContent(multipart);
+        msg.setContent(multipart);
 
-        Transport.send(message);
+        Transport.send(msg);
     }
 }

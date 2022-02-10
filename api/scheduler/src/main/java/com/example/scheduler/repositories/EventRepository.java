@@ -3,6 +3,8 @@ package com.example.scheduler.repositories;
 import com.example.scheduler.entities.EventsEntity;
 import org.springframework.data.repository.CrudRepository;
 
+import java.util.Optional;
+
 /**
  * Special Interface for a CrudRepository that works on event entities
  * Note: Implementations for this interface are automatically
@@ -12,4 +14,5 @@ import org.springframework.data.repository.CrudRepository;
 public interface EventRepository extends CrudRepository<EventsEntity, Long> {
 
     EventsEntity findTopByOrderByIdDesc();
+    EventsEntity findEventById(Long eventId);
 }

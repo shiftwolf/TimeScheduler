@@ -3,6 +3,8 @@ package com.example.scheduler.repositories;
 import com.example.scheduler.entities.RemindersEntity;
 import org.springframework.data.repository.CrudRepository;
 
+import java.util.List;
+
 /**
  * Special Interface for a CrudRepository that works on reminder entities
  * Note: Implementations for this interface are automatically
@@ -11,6 +13,6 @@ import org.springframework.data.repository.CrudRepository;
  */
 public interface ReminderRepository extends CrudRepository<RemindersEntity, Long> {
 
-    RemindersEntity findTopByOrderByDateAsc();
+    List<RemindersEntity> findByOrderByDateAsc();
 
 }
