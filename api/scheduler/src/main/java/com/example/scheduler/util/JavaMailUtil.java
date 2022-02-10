@@ -9,9 +9,19 @@ import javax.mail.internet.MimeMessage;
 import javax.mail.internet.MimeMultipart;
 import java.util.Properties;
 
+/**
+ * Mail util that sends emails
+ * Can also be configured to work with other host email address.
+ */
 @Component
 public class JavaMailUtil {
 
+    /**
+     * @param recipient recipient mail address
+     * @param subject subject of the email
+     * @param message message of the email.
+     * @throws MessagingException
+     */
     public void sendMail(String recipient, String subject, String message) throws MessagingException {
         Properties prop = new Properties();
 
