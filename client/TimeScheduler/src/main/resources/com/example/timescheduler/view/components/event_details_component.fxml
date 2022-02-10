@@ -16,8 +16,8 @@
 
     <HBox alignment="CENTER_RIGHT" spacing="20"
           GridPane.columnIndex="1" GridPane.rowIndex="0">
-        <Button fx:id="deleteButton" text="Delete" onAction="#onDelete"/>
-        <Button fx:id="editButton" text="Edit" onAction="#onEdit"/>
+        <Button text="Delete" onAction="#onDelete"/>
+        <Button text="Edit" onAction="#onEdit"/>
     </HBox>
 
 
@@ -43,7 +43,7 @@
            GridPane.columnIndex="0" GridPane.rowIndex="4">
         <GridPane.margin><Insets left="10"/></GridPane.margin>
     </Label>
-    <Label fx:id="location" text="..." GridPane.columnIndex="1" GridPane.rowIndex="4" />
+    <Label fx:id="eventLocation" text="..." GridPane.columnIndex="1" GridPane.rowIndex="4" />
 
     <Label text="Participants"
            GridPane.columnIndex="0" GridPane.rowIndex="5">

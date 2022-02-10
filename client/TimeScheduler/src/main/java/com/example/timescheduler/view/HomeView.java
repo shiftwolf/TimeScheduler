@@ -7,8 +7,11 @@ import com.example.timescheduler.view.components.*;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
 import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
@@ -16,7 +19,10 @@ import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.*;
 import javafx.stage.Stage;
 
+import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class HomeView {
@@ -53,8 +59,13 @@ public class HomeView {
     @FXML
     Button switchToAdminButton;
 
+    public HomeView() {
+        System.out.println("HomeView created");
+    }
+
     @FXML
     public void initialize() {
+        System.out.println("HomeView initialize function");
         // TODO: check if user is admin
         // TODO: disable button if not admin
 
@@ -65,8 +76,17 @@ public class HomeView {
         gridCol1.setPercentWidth(50);
         mainGrid.getColumnConstraints().addAll(gridCol0, gridCol1);
 
+        // notify listener: getEvents
+        notifyOnGetEvents();
+
+        // add events to events section
+        for (Event event : events) {
+            EventComponent eventComponent = new EventComponent(this, event);
+            eventsSection.getChildren().add(eventComponent);
+            VBox.setMargin(eventComponent, new Insets(10, 15, 0, 15));
+        }
+
         // initialize the events panel
-//        eventsSection = new VBox();
         eventsSection.setFillWidth(true);
 
         scrollPane.setContent(eventsSection);
@@ -88,7 +108,6 @@ public class HomeView {
         switchToEventsButton.setMinHeight(35);
         switchToEventsButton.setOnAction(new EventHandler<ActionEvent>() {
             @Override public void handle(ActionEvent event) {
-                // TODO: request events again?
                 showEventsPanel();
             }
         });
@@ -112,12 +131,24 @@ public class HomeView {
     }
 
     @FXML
-    protected void onLogout(ActionEvent event) {
+    protected void onLogout(ActionEvent event) throws IOException {
         // TODO: delete token, clear
 
         // navigate to Login
-        Stage stage = (Stage) ((Node)event.getSource()).getScene().getWindow();
-        stage.setScene(SchedulerApplication.loginScene);
+//        Stage stage = (Stage) ((Node)event.getSource()).getScene().getWindow();
+//        stage.setScene(SchedulerApplication.loginScene);
+
+        // new window for login
+        Parent fxml = FXMLLoader.load(getClass().getResource("login_view.fxml"));
+        Scene scene = new Scene(fxml);
+        Stage loginStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        loginStage.setScene(scene);
+        loginStage.setWidth(450);
+        loginStage.setHeight(380);
+        loginStage.setX(200);
+        loginStage.setY(100);
+        loginStage.show();
+        loginStage.centerOnScreen();
     }
 
     @FXML
@@ -149,6 +180,9 @@ public class HomeView {
         // configure left half
         // 1. replace events section with users section
         scrollPane.setContent(usersSection);
+
+        System.out.println("scrollpane 1: " + scrollPane);
+
         // 2. configure ratio of the ScrollPane (7:3)
         gridCol0.setPercentWidth(70);
         gridCol1.setPercentWidth(30);
@@ -165,16 +199,18 @@ public class HomeView {
         }
     }
 
-    private void showEventsPanel() {
+    public void showEventsPanel() {
         // configure top bar:
         panelTitle.setText("Upcoming Events");
         // replace buttons
         topBar.getChildren().remove(switchToEventsButton);
         topBar.getChildren().add(2, switchToAdminButton);
 
-        // TODO: clear before?
         // clear eventsSection
         eventsSection.getChildren().clear();
+
+        // load events
+        notifyOnGetEvents();
 
         // add events to eventsSection
         for (Event event : events) {
@@ -182,6 +218,7 @@ public class HomeView {
             eventsSection.getChildren().add(eventComponent);
             VBox.setMargin(eventComponent, new Insets(10, 15, 0, 15));
         }
+        eventsSection.setFillWidth(true);
 
         // configure left half
         // 1. replace users section with events section
@@ -253,18 +290,23 @@ public class HomeView {
         }
     }
 
-    public void initializeEvents() {
-        System.out.println("initialize events");
-
-        // notify listener: getEvents
-        notifyOnGetEvents();
-
-        // add events to events section
-        for (Event event : events) {
-            EventComponent eventComponent = new EventComponent(this, event);
-            eventsSection.getChildren().add(eventComponent);
-            VBox.setMargin(eventComponent, new Insets(10, 15, 0, 15));
-        }
+    // remove later if everything works
+    public void loadEvents() {
+//        System.out.println("initialize events");
+//
+//        // notify listener: getEvents
+//        notifyOnGetEvents();
+//
+//        // add events to events section
+//        for (Event event : events) {
+//            EventComponent eventComponent = new EventComponent(this, event);
+//            eventsSection.getChildren().add(eventComponent);
+//            VBox.setMargin(eventComponent, new Insets(10, 15, 0, 15));
+//        }
+//        System.out.println("eventsSection children: " + eventsSection.getChildren());
+//
+//        System.out.println("scrollpane 2: " + scrollPane);
+        // scrollPane.setContent(eventsSection);
     }
 
     public void addListener(final HomeViewListener listener) { listeners.add(listener); }
@@ -305,11 +347,19 @@ public class HomeView {
         return String.format("%s:%s", hh, mm);
     }
 
+    public String formatDate(Date date) {
+        SimpleDateFormat format = new SimpleDateFormat("EE  dd.MM.yyyy HH:mm");
+        String dateString = format.format(date);
+        return dateString;
+    }
+
     // Getters & Setters
 
     public EventDetailsComponent getEventDetailsComponent() { return eventDetails; }
 
     public EventEditComponent getEventEditComponent() { return eventEdit; }
+
+    public EventCreateComponent getEventCreateComponent() { return eventCreate; }
 
     public GridPane getMainGrid() { return mainGrid; }
 
@@ -319,4 +369,7 @@ public class HomeView {
 
     public User getSelectedUser() { return selectedUser; }
 
+    public Event getSelectedEvent() { return selectedEvent; }
+
+    public void setSelectedEvent(Event selectedEvent) { this.selectedEvent = selectedEvent; }
 }

@@ -19,7 +19,8 @@ public class SchedulerApplication extends Application {
     static LoginView loginView = new LoginView();
     static HomeView homeView = new HomeView();
 
-    static Scene loginScene, registrationScene, homeScene;
+    static Scene loginScene, registrationScene;
+//    static Scene homeScene;
 
     public SchedulerApplication() {
 //        loginView = new LoginView();
@@ -41,8 +42,8 @@ public class SchedulerApplication extends Application {
         FXMLLoader registrationLoader = new FXMLLoader(SchedulerApplication.class.getResource("registration_view.fxml"));
         registrationScene = new Scene(registrationLoader.load(), 550, 550);
 
-        FXMLLoader mainLoader = new FXMLLoader(SchedulerApplication.class.getResource("home_view.fxml"));
-        homeScene = new Scene(mainLoader.load(), 1100, 720);
+//        FXMLLoader mainLoader = new FXMLLoader(SchedulerApplication.class.getResource("home_view.fxml"));
+//        homeScene = new Scene(mainLoader.load(), 1100, 720);
 
         primaryStage.setScene(loginScene);
         primaryStage.setTitle("Time Scheduler");
@@ -50,6 +51,7 @@ public class SchedulerApplication extends Application {
     }
 
     static public void onSuccessfullLogin() {
-        homeView.initializeEvents();
+//        homeView.initializeEvents();
+//        homeView.showEventsPanel();
     }
 }

@@ -4,7 +4,6 @@ import com.example.timescheduler.Model.Event;
 import com.example.timescheduler.view.HomeView;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.HBox;
 
@@ -16,11 +15,9 @@ public class EventComponent extends HBox {
     Event event;
 
     @FXML
-    Label name;
+    Label nameField;
     @FXML
-    Label details;
-    @FXML
-    Button detailsButton;
+    Label detailsField;
     
     public EventComponent(HomeView homeView, Event event) {
         this.homeView = homeView;
@@ -42,13 +39,35 @@ public class EventComponent extends HBox {
         // TODO
 
         // set values
-//        name.setText(event.getName());
-//        System.out.println("event date " + event.getDate());
+        nameField.setText(event.getName());
+
+        // format & display the date
+
+        detailsField.setText(homeView.formatDate(event.getDate()));
     }
 
     @FXML
     public void onDetailsButton() {
         // TODO
+        // keep track of the currently selected event
+        homeView.setSelectedEvent(event);
+
+        // remove the other components and add the details component
+        if (homeView.isInGrid(homeView.getEventEditComponent())) {
+            homeView.getMainGrid().getChildren().remove(homeView.getEventEditComponent());
+            homeView.getMainGrid().add(homeView.getEventDetailsComponent(), 1, 0);
+        } else if (homeView.isInGrid(homeView.getEventCreateComponent())) {
+            homeView.getMainGrid().getChildren().remove(homeView.getEventCreateComponent());
+            homeView.getMainGrid().add(homeView.getEventDetailsComponent(), 1, 0);
+        }
+
+        showDetails();
     }
 
+    private void showDetails() {
+        // TODO
+        homeView.getEventDetailsComponent().name.setText(event.getName());
+        homeView.getEventDetailsComponent().date.setText(homeView.formatDate(event.getDate()));
+
+    }
 }

@@ -5,8 +5,11 @@
 
 package com.example.timescheduler.Model;
 
+import com.example.timescheduler.APIobjects.token;
+import com.example.timescheduler.Controller.UserController;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
+import java.io.IOException;
 import java.util.Date;
 import java.util.List;
 
@@ -20,6 +23,7 @@ public class User {
     private String password;
     private Date createdAt;
     private List<Event> events;
+    private boolean admin;
 
     @Override
     public String toString() {
@@ -31,6 +35,7 @@ public class User {
                 ", password='" + password + '\'' +
                 ", createdAt=" + createdAt +
                 ", events=" + events +
+                ", admin=" + admin +
                 '}';
     }
 
@@ -38,6 +43,11 @@ public class User {
 
     public User() {
     }
+
+    public User(Long id) {
+        this.id = id;
+    }
+
     public User(String name, String email, String username, String password) {
         this.name = name;
         this.email = email;
@@ -45,9 +55,16 @@ public class User {
         this.password = password;
     }
 
+    public User(Long id, String name, String email, String username) {
+        this.id = id;
+        this.name = name;
+        this.email = email;
+        this.username = username;
+    }
+
     public User(Long id, String email, String username, String name, String password, List<Event> events) {
         this.id = id;
-        this.createdAt = new Date();;
+        this.createdAt = new Date();
         this.email = email;
         this.username = username;
         this.name = name;
@@ -55,15 +72,19 @@ public class User {
         this.events = events;
     }
 
-
     // Getters
+
+    public boolean isAdmin() {
+        return admin;
+    }
 
     public String getPassword() {
         return password;
     }
 
     public Long getId() {return id;}
-    public Date getCreated_at() {return createdAt;}
+
+    public Date getCreatedAt() {return createdAt;}
 
     public String getEmail() {
         return email;
@@ -79,13 +100,95 @@ public class User {
 
     public List<Event> getEvents() {return events;}
 
+    // Setters
+
     public void setId(Long id) {
         this.id = id;
     }
 
+    public void setAdmin(boolean admin){
+        this.admin = admin;
+    }
+
     // Methods
+
+    /**
+     * Here an admin, that is a User can get all the Users that are stored in the database.
+     * @param token Token of admin for verification.
+     * @return List of Users.
+     */
+    public List<User> admin_getUsers(token token){
+        if(!this.isAdmin()){
+            return null;
+        }
+        try{
+            return UserController.getUsers(token);
+        }catch (InterruptedException | IOException e){
+            System.out.println(e.getMessage());
+            return null;
+        }
+    }
+
+    /**
+     * With this method we can edit a user object.
+     * @param token Token for verfication.
+     * @param id should be the id of the user that is about to get changed
+     * @param email
+     * @param username
+     * @param name
+     * @return Return message of Server.
+     */
+    public String admin_edit(token token, Long id, String email, String username, String name){
+        if(!this.isAdmin()) {
+            return null;
+        }
+        User newUser = new User(id, email, username,name);
+        try{
+            String message = UserController.changeUser(token, newUser);
+            System.out.println(message);
+            return message;
+        }catch (IOException | InterruptedException e){
+            System.out.println(e.getMessage());
+            return e.getMessage();
+        }
+    }
+
+    /**
+     * With this method a user is deleted from the database by an admin.
+     * @param token Token to validate the admin
+     * @param id Id of user that is going to be deleted.
+     * @return return message.
+     */
+    public String admin_delete(token token, Long id){
+        if(!this.isAdmin()) {
+            return null;
+        }
+        try {
+            String message = UserController.deleteUser(token, new User(id));
+            return message;
+        }catch (IOException | InterruptedException e){
+            System.out.println(e.getMessage());
+            return e.getMessage();
+        }
+    }
+
+    /**
+     *
+     * @param event
+     */
     public void addEvent(Event event){}
 
+    /**
+     *
+     * @param name
+     * @param date
+     * @param duration
+     * @param location
+     * @param description
+     * @param priority
+     * @param participants
+     * @return
+     */
     public boolean createEvent(String name, Date date, Date duration, String location, String description, Event.priorities priority, List<User> participants){
         return true;
     }
@@ -96,6 +199,7 @@ public class User {
      * @param event
      */
     public void deleteEvent(Event event){
+        return;
     }
 
 }

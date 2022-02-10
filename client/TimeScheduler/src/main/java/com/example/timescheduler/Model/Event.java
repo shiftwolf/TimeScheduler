@@ -1,4 +1,4 @@
-/* Event
+/** Event
  * Version: 1
  * 30.12.2021
  * Hendrik
