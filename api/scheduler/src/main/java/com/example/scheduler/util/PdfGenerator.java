@@ -75,7 +75,7 @@ public class PdfGenerator {
 
     private void newDesign(Document document, List<EventsEntity> eventsEntities,
                            Long userId, UserRepository userRepository) throws IOException {
-        //●⏺⬤
+
         Table table;
 
         //set the title of the Pdf
