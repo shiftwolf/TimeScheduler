@@ -1,6 +1,5 @@
 package com.example.scheduler.util;
 
-import com.example.scheduler.controller.EventController;
 import com.example.scheduler.entities.EventsEntity;
 import com.example.scheduler.entities.ParticipantsEntity;
 import com.example.scheduler.entities.TokensEntity;
@@ -11,19 +10,22 @@ import com.example.scheduler.repositories.EventRepository;
 import com.example.scheduler.repositories.ParticipantRepository;
 import com.example.scheduler.repositories.TokenRepository;
 import com.example.scheduler.repositories.UserRepository;
-import org.apache.catalina.User;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestHeader;
 
 import javax.servlet.http.HttpServletResponse;
-import java.io.Console;
 import java.io.IOException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.Date;
+import java.util.List;
 
+/**
+ * Controller for time schedule export
+ */
 @Controller
 public class PdfExportController {
     private final PdfGenerator pdfGenerator;
@@ -33,6 +35,13 @@ public class PdfExportController {
     private final UserRepository userRepository;
 
 
+    /**
+     * @param pdfGenerator injected
+     * @param participantRepository injected
+     * @param eventRepository injected
+     * @param tokenRepository injected
+     * @param userRepository injected
+     */
     public PdfExportController(PdfGenerator pdfGenerator,
                                ParticipantRepository participantRepository,
                                EventRepository eventRepository,
@@ -46,6 +55,12 @@ public class PdfExportController {
     }
 
 
+    /**
+     * @param response response object
+     * @param userId User's ID
+     * @param token User's token
+     * @throws IOException
+     */
     @GetMapping("/pdf/generate")
     public void generatePdf(HttpServletResponse response, @RequestHeader("userId") Long userId,
                             @RequestHeader("token") String token) throws IOException {
