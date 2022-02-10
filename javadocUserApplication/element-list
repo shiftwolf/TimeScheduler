@@ -1,0 +1,8 @@
+module:com.example.timescheduler
+com.example.timescheduler.APIobjects
+com.example.timescheduler.Controller
+com.example.timescheduler.DeSerializer
+com.example.timescheduler.Model
+com.example.timescheduler.Presenter
+com.example.timescheduler.view
+com.example.timescheduler.view.components
