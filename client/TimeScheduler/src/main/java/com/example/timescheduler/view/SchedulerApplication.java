@@ -11,8 +11,12 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 
-// TODO: delete token when close app
+// TODO: reset token when close app
 
+
+/**
+ * This class is the starting point of the client application.
+ */
 public class SchedulerApplication extends Application {
 
     public static token token = new token();
@@ -20,14 +24,14 @@ public class SchedulerApplication extends Application {
     static HomeView homeView = new HomeView();
 
     static Scene loginScene, registrationScene;
-//    static Scene homeScene;
 
+    /**
+     * The constructor creates the presenters for each view
+     */
     public SchedulerApplication() {
-//        loginView = new LoginView();
         User loginUser = new User();
         new LoginPresenter(loginView, loginUser);
 
-//        homeView = new HomeView();
         User user = new User();
         new HomePresenter(homeView, user);
     }
@@ -35,23 +39,18 @@ public class SchedulerApplication extends Application {
     public static void main(String[] args) { launch(args); }
 
     public void start(Stage primaryStage) throws IOException {
-
+        // initializes the Scenes for the first window
         FXMLLoader loginLoader = new FXMLLoader(SchedulerApplication.class.getResource("login_view.fxml"));
         loginScene = new Scene(loginLoader.load(), 450, 380);
 
         FXMLLoader registrationLoader = new FXMLLoader(SchedulerApplication.class.getResource("registration_view.fxml"));
         registrationScene = new Scene(registrationLoader.load(), 550, 550);
 
-//        FXMLLoader mainLoader = new FXMLLoader(SchedulerApplication.class.getResource("home_view.fxml"));
-//        homeScene = new Scene(mainLoader.load(), 1100, 720);
-
+        // sets the content of the window
         primaryStage.setScene(loginScene);
         primaryStage.setTitle("Time Scheduler");
-        primaryStage.show();
-    }
 
-    static public void onSuccessfullLogin() {
-//        homeView.initializeEvents();
-//        homeView.showEventsPanel();
+        // displays the window
+        primaryStage.show();
     }
 }

@@ -20,6 +20,7 @@ import javafx.scene.layout.*;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -59,13 +60,8 @@ public class HomeView {
     @FXML
     Button switchToAdminButton;
 
-    public HomeView() {
-        System.out.println("HomeView created");
-    }
-
     @FXML
     public void initialize() {
-        System.out.println("HomeView initialize function");
         // TODO: check if user is admin
         // TODO: disable button if not admin
 
@@ -349,8 +345,23 @@ public class HomeView {
 
     public String formatDate(Date date) {
         SimpleDateFormat format = new SimpleDateFormat("EE  dd.MM.yyyy HH:mm");
-        String dateString = format.format(date);
-        return dateString;
+        return format.format(date);
+    }
+
+    public String formatDuration(Event event) {
+        long milliseconds = event.getDuration().getTime();
+        // millisec -> hours
+        long hours = (((milliseconds/1000)/60)/60);
+        // millisec -> minutes
+        long minutes = (((milliseconds/1000)/60)%60);
+
+        String durationString = "";
+        if (hours > 0) {
+            durationString = String.format("%dh ", hours);
+        }
+        durationString = durationString + String.format("%dmin", minutes);
+
+        return durationString;
     }
 
     // Getters & Setters
@@ -372,4 +383,5 @@ public class HomeView {
     public Event getSelectedEvent() { return selectedEvent; }
 
     public void setSelectedEvent(Event selectedEvent) { this.selectedEvent = selectedEvent; }
+
 }
