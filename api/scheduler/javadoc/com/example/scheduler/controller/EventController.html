@@ -200,7 +200,7 @@ extends java.lang.Object</pre>
 <th class="colLast" scope="col">Description</th>
 </tr>
 <tr id="i0" class="altColor">
-<td class="colFirst"><code>(package private) java.util.List&lt;<a href="../DTOs/EventDTO.html" title="class in com.example.scheduler.DTOs">EventDTO</a>&gt;</code></td>
+<td class="colFirst"><code>(package private) java.util.List&lt;<a href="../DTOs/NewEventDTO.html" title="class in com.example.scheduler.DTOs">EventDTO</a>&gt;</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#all()">all</a></span>()</code></th>
 <td class="colLast">&nbsp;</td>
 </tr>
@@ -210,12 +210,12 @@ extends java.lang.Object</pre>
 <td class="colLast">&nbsp;</td>
 </tr>
 <tr id="i2" class="altColor">
-<td class="colFirst"><code>(package private) <a href="../DTOs/EventDTO.html" title="class in com.example.scheduler.DTOs">EventDTO</a></code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#newEvent(com.example.scheduler.DTOs.EventDTO)">newEvent</a></span>&#8203;(<a href="../DTOs/EventDTO.html" title="class in com.example.scheduler.DTOs">EventDTO</a>&nbsp;newEvent)</code></th>
+<td class="colFirst"><code>(package private) <a href="../DTOs/NewEventDTO.html" title="class in com.example.scheduler.DTOs">EventDTO</a></code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#newEvent(com.example.scheduler.DTOs.EventDTO)">newEvent</a></span>&#8203;(<a href="../DTOs/NewEventDTO.html" title="class in com.example.scheduler.DTOs">EventDTO</a>&nbsp;newEvent)</code></th>
 <td class="colLast">&nbsp;</td>
 </tr>
 <tr id="i3" class="rowColor">
-<td class="colFirst"><code>(package private) <a href="../DTOs/EventDTO.html" title="class in com.example.scheduler.DTOs">EventDTO</a></code></td>
+<td class="colFirst"><code>(package private) <a href="../DTOs/NewEventDTO.html" title="class in com.example.scheduler.DTOs">EventDTO</a></code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#one(java.lang.Long)">one</a></span>&#8203;(java.lang.Long&nbsp;id)</code></th>
 <td class="colLast">&nbsp;</td>
 </tr>
@@ -293,7 +293,7 @@ extends java.lang.Object</pre>
 <li class="blockList">
 <h4>all</h4>
 <pre class="methodSignature">@GetMapping("/events")
-java.util.List&lt;<a href="../DTOs/EventDTO.html" title="class in com.example.scheduler.DTOs">EventDTO</a>&gt;&nbsp;all()</pre>
+java.util.List&lt;<a href="../DTOs/NewEventDTO.html" title="class in com.example.scheduler.DTOs">EventDTO</a>&gt;&nbsp;all()</pre>
 </li>
 </ul>
 <a id="newEvent(com.example.scheduler.DTOs.EventDTO)">
@@ -303,8 +303,8 @@ java.util.List&lt;<a href="../DTOs/EventDTO.html" title="class in com.example.sc
 <li class="blockList">
 <h4>newEvent</h4>
 <pre class="methodSignature">@PostMapping("/events")
-<a href="../DTOs/EventDTO.html" title="class in com.example.scheduler.DTOs">EventDTO</a>&nbsp;newEvent&#8203;(@RequestBody
-                  <a href="../DTOs/EventDTO.html" title="class in com.example.scheduler.DTOs">EventDTO</a>&nbsp;newEvent)</pre>
+<a href="../DTOs/NewEventDTO.html" title="class in com.example.scheduler.DTOs">EventDTO</a>&nbsp;newEvent&#8203;(@RequestBody
+                  <a href="../DTOs/NewEventDTO.html" title="class in com.example.scheduler.DTOs">EventDTO</a>&nbsp;newEvent)</pre>
 </li>
 </ul>
 <a id="one(java.lang.Long)">
@@ -314,7 +314,7 @@ java.util.List&lt;<a href="../DTOs/EventDTO.html" title="class in com.example.sc
 <li class="blockList">
 <h4>one</h4>
 <pre class="methodSignature">@GetMapping("/events/{id}")
-<a href="../DTOs/EventDTO.html" title="class in com.example.scheduler.DTOs">EventDTO</a>&nbsp;one&#8203;(@PathVariable
+<a href="../DTOs/NewEventDTO.html" title="class in com.example.scheduler.DTOs">EventDTO</a>&nbsp;one&#8203;(@PathVariable
              java.lang.Long&nbsp;id)</pre>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>

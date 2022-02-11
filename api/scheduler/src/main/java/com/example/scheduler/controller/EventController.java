@@ -1,11 +1,12 @@
 package com.example.scheduler.controller;
 
-import com.example.scheduler.DTOs.EventDTO;
+import com.example.scheduler.DTOs.NewEventDTO;
 import com.example.scheduler.entities.*;
 import com.example.scheduler.exceptions.EventNotFoundException;
 import com.example.scheduler.exceptions.NoAuthorizationException;
 import com.example.scheduler.exceptions.UserNotFoundException;
 import com.example.scheduler.repositories.*;
+import com.example.scheduler.util.JavaMailUtil;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -28,6 +29,7 @@ public class EventController {
     private final ParticipantRepository participantRepository;
     private final UserRepository userRepository;
     private final ReminderRepository reminderRepository;
+    private final JavaMailUtil mailUtil;
 
     /**
      * using constructor injection (Dependency injection)
@@ -37,17 +39,20 @@ public class EventController {
      * @param participantRepository Repository that holds all participants of events (injected)
      * @param userRepository Repository that holds all registered users (injected)
      * @param reminderRepository Repository that holds all reminders (injected)
+     * @param mailUtil Utility class used to send mails (injected)
      */
     EventController(EventRepository eventRepository,
                     TokenRepository tokenRepository,
                     ParticipantRepository participantRepository,
                     UserRepository userRepository,
-                    ReminderRepository reminderRepository) {
+                    ReminderRepository reminderRepository,
+                    JavaMailUtil mailUtil) {
         this.eventRepository = eventRepository;
         this.tokenRepository = tokenRepository;
         this.participantRepository = participantRepository;
         this.userRepository = userRepository;
         this.reminderRepository = reminderRepository;
+        this.mailUtil = mailUtil;
     }
     /**
      ** Lists all events saved in the database and returns them
@@ -87,7 +92,7 @@ public class EventController {
     }
 
     @PostMapping("/events")
-    ResponseEntity<String> newEvent(@RequestBody EventDTO newEvent,
+    ResponseEntity<String> newEvent(@RequestBody NewEventDTO newEvent,
                   @RequestHeader("userId") Long userId,
                   @RequestHeader("token") String token) {
 
@@ -101,13 +106,29 @@ public class EventController {
                 new Timestamp(newEvent.getDuration()),
                 newEvent.getLocation(), newEvent.getPriority()
         );
-        eventRepository.save(eventsEntity);
+        eventsEntity = eventRepository.save(eventsEntity);
         Long eventId = eventRepository.findTopByOrderByIdDesc().getId();
 
         // Add all participants to the participants table
+        UsersEntity creator = userRepository.findById(userId).orElseThrow(()-> new UserNotFoundException(userId));
         participantRepository.save(new ParticipantsEntity(eventId, userId));
+
         for (Long id : newEvent.getParticipants()) {
+            UsersEntity participant = userRepository.findById(id).orElseThrow(()-> new UserNotFoundException(id));
+            try {
+                mailUtil.sendMail(participant.getEmail(),
+                        "You have been added to Event: " + eventsEntity.getName(),
+                        "Hello " + participant.getName() + ", \n"
+                                + "You have been invited to participate in the Event "
+                                + "\"" + eventsEntity.getName() + "\" at the following date: "
+                                + eventsEntity.getDate().toString() +" and location: "
+                                + eventsEntity.getLocation() + "by "
+                                + creator.getName() +"! ");
+            }catch (Exception e){
+                return ResponseEntity.internalServerError().body("Messaging Error occurred: " + e.getMessage());
+            }
             participantRepository.save(new ParticipantsEntity(eventId, id));
+
         }
 
         reminderRepository.save(new RemindersEntity(eventId, new Timestamp(newEvent.getReminder())));
@@ -128,7 +149,7 @@ public class EventController {
      */
     @PutMapping("/events/id={id}")
     ResponseEntity<String> editEvent(@PathVariable Long id,
-                                     @RequestBody EventDTO event,
+                                     @RequestBody NewEventDTO event,
                                      @RequestHeader("userId") Long userId,
                                      @RequestHeader("token") String token){
         if(!validateParticipants(id,userId,token)){throw new NoAuthorizationException(userId);}
@@ -149,6 +170,14 @@ public class EventController {
         // Add all new participants to the participants table
         participantRepository.save(new ParticipantsEntity(id, userId));
         for (Long participantsId : event.getParticipants()) {
+            UsersEntity participant = userRepository.findById(participantsId).orElseThrow(()-> new UserNotFoundException(participantsId));
+            try {
+                mailUtil.sendMail(participant.getEmail(),
+                        "Event: " + eventsEntity.getName() +" has been edited",
+                        "Hello " + participant.getName() + ", \n" + "The Event you are participating in has been edited! ");
+            }catch (Exception e){
+               return ResponseEntity.internalServerError().body("Messaging Error occurred: " + e.getMessage());
+            }
             participantRepository.save(new ParticipantsEntity(id, participantsId));
         }
         return ResponseEntity.ok().body("Event: " + id +" edited successfully");
@@ -173,12 +202,27 @@ public class EventController {
         if(!validateParticipants(id,userId,token)){throw new NoAuthorizationException(userId);}
 
         UsersEntity participant = userRepository.findUserByEmail(email).orElseThrow(() -> new UserNotFoundException(email));
+        EventsEntity event = eventRepository.findById(id).orElseThrow(()-> new EventNotFoundException(id));
+        UsersEntity creator = userRepository.findById(userId).orElseThrow(()-> new UserNotFoundException(userId));
+
         for (ParticipantsEntity e : participantRepository.findAllByEventId(id)){
             if(e.getUserId().equals(participant.getId())){
                 return ResponseEntity.ok().body("User is already participating in the event");
             }
         }
         participantRepository.save(new ParticipantsEntity(id, participant.getId()));
+        try {
+            mailUtil.sendMail(participant.getEmail(),
+                    "You have been added to Event: " + event.getName(),
+                    "Hello " + participant.getName() + ", \n"
+                            + "You have been invited to participate in the scheduled Event "
+                            + "\"" + event.getName() + "\" at the following date: "
+                            + event.getDate().toString() +" and location: "
+                            + event.getLocation() + "by "
+                            + creator.getName() +"! ");
+        }catch (Exception e){
+            return ResponseEntity.internalServerError().body("Messaging Error occurred: " + e.getMessage());
+        }
         return ResponseEntity.ok().body("User: " + participant.getName() + " successfully added to the event");
     }
 
@@ -216,7 +260,21 @@ public class EventController {
                      @RequestHeader("userId") Long userId,
                      @RequestHeader("token") String token) {
         if(!validateParticipants(id,userId,token)){throw new NoAuthorizationException(userId);}
-        eventRepository.deleteById(id);
+        EventsEntity event = eventRepository.findById(id).orElseThrow(()-> new EventNotFoundException(id));
+        UsersEntity creator = userRepository.findById(userId).orElseThrow(()-> new UserNotFoundException(userId));
+        for (ParticipantsEntity entity: participantRepository.findAllByEventId(id)){
+            UsersEntity participant = userRepository.findById(entity.getUserId()).orElseThrow(() -> new UserNotFoundException(entity.getUserId()));
+            try {
+                mailUtil.sendMail(participant.getEmail(),
+                        "Event: " + event.getName() + " has been deleted!",
+                        "Hello " + participant.getName() + ", \n"
+                                + "The Event you are participating in has been deleted by "
+                                + creator.getName() +"! ");
+            }catch (Exception e){
+                return ResponseEntity.internalServerError().body("Messaging Error occurred: " + e.getMessage());
+            }
+        }
+        eventRepository.delete(event);
         return ResponseEntity.ok().body("Event: " + id + "deleted successfully");
     }
 

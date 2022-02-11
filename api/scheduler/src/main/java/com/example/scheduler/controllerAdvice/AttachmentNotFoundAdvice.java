@@ -1,7 +1,6 @@
 package com.example.scheduler.controllerAdvice;
 
 import com.example.scheduler.exceptions.AttachmentNotFoundException;
-import com.example.scheduler.exceptions.UserNotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;

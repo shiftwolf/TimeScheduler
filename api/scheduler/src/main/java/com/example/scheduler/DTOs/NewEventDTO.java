@@ -2,7 +2,7 @@ package com.example.scheduler.DTOs;
 
 import java.util.List;
 
-public class EventDTO {
+public class NewEventDTO {
 
     private Long id;
     private String name;
@@ -14,10 +14,10 @@ public class EventDTO {
     private String location;
     private Integer priority;
 
-    EventDTO()  {}
+    NewEventDTO()  {}
 
-    public EventDTO(Long id, String name, List<Long> participants, Long date,
-                    Long duration, Long reminder, String location, Integer priority){
+    public NewEventDTO(Long id, String name, List<Long> participants, Long date,
+                       Long duration, Long reminder, String location, Integer priority){
         this.id = id;
         this.name = name;
         this.participants = participants;
