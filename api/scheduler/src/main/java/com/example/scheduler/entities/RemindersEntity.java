@@ -25,7 +25,7 @@ public class RemindersEntity {
     private Timestamp date;
 
     @Basic
-    @Column(name = "eventId")
+    @Column(name = "event_id")
     private Long eventId;
 
     public RemindersEntity(){}
