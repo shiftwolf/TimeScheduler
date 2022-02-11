@@ -36,19 +36,14 @@ public class EventComponent extends HBox {
 
     @FXML
     public void initialize() {
-        // TODO
-
-        // set values
+        // set name
         nameField.setText(event.getName());
-
         // format & display the date
-
         detailsField.setText(homeView.formatDate(event.getDate()));
     }
 
     @FXML
     public void onDetailsButton() {
-        // TODO
         // keep track of the currently selected event
         homeView.setSelectedEvent(event);
 
@@ -65,9 +60,7 @@ public class EventComponent extends HBox {
     }
 
     private void showDetails() {
-        // TODO
-        homeView.getEventDetailsComponent().name.setText(event.getName());
-        homeView.getEventDetailsComponent().date.setText(homeView.formatDate(event.getDate()));
-
+        // calls a function in the details component to update the displayed information
+        homeView.getEventDetailsComponent().setDetails(event);
     }
 }

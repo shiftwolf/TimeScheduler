@@ -1,5 +1,7 @@
 package com.example.timescheduler.view.components;
 
+import com.example.timescheduler.Model.Event;
+import com.example.timescheduler.Model.User;
 import com.example.timescheduler.view.HomeView;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -15,7 +17,7 @@ import java.util.List;
 public class EventDetailsComponent extends GridPane {
 
     HomeView homeView;
-    List<String> participants;
+    List<User> participants;
     List<String> attachments;
 
     @FXML
@@ -34,9 +36,8 @@ public class EventDetailsComponent extends GridPane {
     public EventDetailsComponent(HomeView homeView) {
         this.homeView = homeView;
 
-        // for debugging
-        participants = Arrays.asList("Sarah Boeckel", "Timo Wolf", "Bob Tester", "Ember");
-        attachments = Arrays.asList("01.txt", "02.txt", "03.txt");
+        participants = List.of();
+        attachments = Arrays.asList("text1.pdf", "bhkjekvc.txt", "A.txt", "ein_laengerer_titel.txt");
 
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("event_details_component.fxml"));
         fxmlLoader.setRoot(this);
@@ -52,8 +53,8 @@ public class EventDetailsComponent extends GridPane {
     @FXML
     public void initialize() {
         // add participants to participantsSection
-        for (String item : participants) {
-            Label participant = new Label(item);
+        for (User user : participants) {
+            Label participant = new Label(user.getName());
             participantsSection.getChildren().add(participant);
             VBox.setMargin(participant, new Insets(6, 15, 0, 15));
         }
@@ -70,10 +71,20 @@ public class EventDetailsComponent extends GridPane {
     public void onEdit() {
         homeView.getMainGrid().add(homeView.getEventEditComponent(), 1, 0);
         homeView.getMainGrid().getChildren().remove(this);
+
+        homeView.getEventEditComponent().setInitialValues(homeView.getSelectedEvent());
     }
 
     @FXML
     public void onDelete() {
         // TODO
+    }
+
+    public void setDetails(Event event) {
+        name.setText(event.getName());
+        date.setText(homeView.formatDate(event.getDate()));
+        duration.setText(homeView.formatDuration(event));
+        eventLocation.setText(event.getLocation());
+        // TODO: participants, attachments
     }
 }

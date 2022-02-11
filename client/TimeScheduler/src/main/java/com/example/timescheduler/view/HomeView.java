@@ -130,10 +130,6 @@ public class HomeView {
     protected void onLogout(ActionEvent event) throws IOException {
         // TODO: delete token, clear
 
-        // navigate to Login
-//        Stage stage = (Stage) ((Node)event.getSource()).getScene().getWindow();
-//        stage.setScene(SchedulerApplication.loginScene);
-
         // new window for login
         Parent fxml = FXMLLoader.load(getClass().getResource("login_view.fxml"));
         Scene scene = new Scene(fxml);
@@ -286,28 +282,9 @@ public class HomeView {
         }
     }
 
-    // remove later if everything works
-    public void loadEvents() {
-//        System.out.println("initialize events");
-//
-//        // notify listener: getEvents
-//        notifyOnGetEvents();
-//
-//        // add events to events section
-//        for (Event event : events) {
-//            EventComponent eventComponent = new EventComponent(this, event);
-//            eventsSection.getChildren().add(eventComponent);
-//            VBox.setMargin(eventComponent, new Insets(10, 15, 0, 15));
-//        }
-//        System.out.println("eventsSection children: " + eventsSection.getChildren());
-//
-//        System.out.println("scrollpane 2: " + scrollPane);
-        // scrollPane.setContent(eventsSection);
-    }
-
     public void addListener(final HomeViewListener listener) { listeners.add(listener); }
 
-    public static void initializeDropDownMenus(ComboBox timePicker, ComboBox durationHPicker, ComboBox durationMinPicker) {
+    public void initializeDropDownMenus(ComboBox timePicker, ComboBox durationHPicker, ComboBox durationMinPicker) {
         // set time values from 00:00 to 23:55
         for (int h = 0; h < 24; h++) {
             for (int min = 0; min < 60; min += 5) {
@@ -324,7 +301,7 @@ public class HomeView {
         }
     }
 
-    public static String formatTime(int h, int m) {
+    public String formatTime(int h, int m) {
         String hh;
         String mm;
 
@@ -383,5 +360,4 @@ public class HomeView {
     public Event getSelectedEvent() { return selectedEvent; }
 
     public void setSelectedEvent(Event selectedEvent) { this.selectedEvent = selectedEvent; }
-
 }
