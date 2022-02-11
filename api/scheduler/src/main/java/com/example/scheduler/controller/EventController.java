@@ -176,6 +176,10 @@ public class EventController {
 
         eventRepository.save(eventsEntity);
 
+        // Add new Reminder
+        reminderRepository.delete(reminderRepository.findByEventId(eventsEntity.getId()));
+        reminderRepository.save(new RemindersEntity(eventsEntity.getId(),new Timestamp(event.getReminder())));
+
         // Delete all old participants
         participantRepository.deleteAll(participantRepository.findAllByEventId(id));
 
