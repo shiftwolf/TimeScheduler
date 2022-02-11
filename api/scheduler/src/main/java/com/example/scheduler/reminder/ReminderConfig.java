@@ -66,7 +66,7 @@ public class ReminderConfig {
                     mailUtil.sendMail(usersEntity.getEmail(),
                             "Reminder for Event: " + eventsEntity.getName(),
                             "Your event " + eventsEntity.getName()
-                                    + " is scheduled in " + getNeatDuration(eventsEntity.getDate().getTime() - remindersEntity.getDate().getTime()));
+                                    + " is scheduled in " + getNeatDuration(eventsEntity.getDate().getTime() - currentTimestamp.getTime()));
                     System.out.println("Status: Reminders were sent.");
                     reminderRepository.deleteById(remindersEntity.getId());
                 }
