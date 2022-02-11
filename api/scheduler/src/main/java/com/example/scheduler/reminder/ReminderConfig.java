@@ -56,7 +56,9 @@ public class ReminderConfig {
                 .orElseThrow(MessagingException::new);
 
         for (RemindersEntity remindersEntity : remindersEntities) {
-            if (remindersEntity.getDate().before(currentTimestamp)) {
+            if (remindersEntity.getDate().before(currentTimestamp) && !remindersEntity.getCompleted()) {
+                remindersEntity.setCompleted(true);
+                reminderRepository.save(remindersEntity);
 
                 List<ParticipantsEntity> participantsEntities = participantRepository.findAllByEventId(remindersEntity.getEventId());
 
@@ -68,7 +70,6 @@ public class ReminderConfig {
                             "Your event " + eventsEntity.getName()
                                     + " is scheduled in " + getNeatDuration(eventsEntity.getDate().getTime() - currentTimestamp.getTime()));
                     System.out.println("Status: Reminders were sent.");
-                    reminderRepository.deleteById(remindersEntity.getId());
                 }
             }
         }

@@ -28,6 +28,10 @@ public class RemindersEntity {
     @Column(name = "event_id")
     private Long eventId;
 
+    @Basic
+    @Column(name = "is_completed")
+    private Boolean isCompleted = false;
+
     public RemindersEntity(){}
 
     public RemindersEntity(Long eventId, Timestamp date){
@@ -77,5 +81,14 @@ public class RemindersEntity {
     @Override
     public int hashCode() {
         return Objects.hash(id, createdAt, date);
+    }
+
+
+    public Boolean getCompleted() {
+        return isCompleted;
+    }
+
+    public void setCompleted(Boolean completed) {
+        isCompleted = completed;
     }
 }
