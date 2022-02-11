@@ -43,5 +43,26 @@ public class Organizer {
         return null;
         }
     }
+
+    /**
+     * Creates a new user in server and returns user
+     * @param name
+     * @param email
+     * @param username
+     * @param password
+     * @return created user
+     */
+    public static User createUser(String name, String email, String username, String password){
+        User newUser = new User(name, email ,username, password);
+        try{
+            UserController.newUser(newUser);
+        } catch (IOException | InterruptedException e){
+            System.out.println(e.getMessage());
+            return null;
+        }
+        login(username, password)
+        newUser = UserController.getUserByUsername(token, username);
+        return newUser;
+    }
 }
 

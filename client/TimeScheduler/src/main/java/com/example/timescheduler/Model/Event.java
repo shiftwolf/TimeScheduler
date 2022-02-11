@@ -29,7 +29,8 @@ public class Event {
     private String location;
     private String description;
     private priorities priority;
-    public User[] participantsEntities;
+    private User[] participantsEntities;
+    private Date reminder;
 
 
     @Override
@@ -67,19 +68,20 @@ public class Event {
         this.participantsEntities = participantsEntities;
     }
 
-    public Event(long id, String name, Date date, Date duration, String location, String description, priorities priority, User[] participants) {
-        this.id = id;
-        this.createdAt = new Date();
+    public Event(String name, Date date, Date duration, String location, String description, priorities priority, User[] participantsEntities, Date reminder) {
         this.name = name;
         this.date = date;
         this.duration = duration;
         this.location = location;
         this.description = description;
         this.priority = priority;
-        this.participantsEntities = participants;
+        this.participantsEntities = participantsEntities;
+        this.reminder = reminder;
     }
 
     // Getters
+
+
     public long getId() {
         return id;
     }
@@ -116,7 +118,17 @@ public class Event {
         return participantsEntities;
     }
 
+    public Date getReminder() {
+        return reminder;
+    }
+
     // Setters
+
+
+    public void setReminder(Date reminder) {
+        this.reminder = reminder;
+    }
+
     public void setDate(Date date) {
         this.date = date;
     }
