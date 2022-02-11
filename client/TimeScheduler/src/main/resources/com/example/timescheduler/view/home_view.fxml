@@ -20,7 +20,8 @@
             <padding><Insets top="40" right="30" bottom="40" left="30"/></padding>
             <Label fx:id="panelTitle" id="view-title" text="Upcoming Events"/>
             <Pane HBox.hgrow="ALWAYS" />
-            <Button fx:id="switchToAdminButton" text="Admin Panel" onAction="#onSwitchToAdminButton" minHeight="35"/>
+            <Button fx:id="switchToAdminButton" text="Admin Panel" onAction="#onSwitchToAdminButton"
+                    minHeight="35" disable="true" visible="false"/>
             <Button id="logout-button" text="Log Out" onAction="#onLogout" minHeight="35"/>
         </HBox>
     </top>

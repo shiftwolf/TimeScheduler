@@ -20,12 +20,15 @@ import javafx.scene.layout.*;
 import javafx.stage.Stage;
 
 import java.io.IOException;
-import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+/**
+ * This class is the controller of the home_view.fxml.
+ * It handles the user interactions with the home window and loads the required GUI components.
+ */
 public class HomeView {
 
     private static final ArrayList<HomeViewListener> listeners = new ArrayList<>();
@@ -34,6 +37,7 @@ public class HomeView {
     private User selectedUser;
     private List<Event> events = new ArrayList<>();
     private Event selectedEvent;
+    private User loggedUser;
 
     private EventDetailsComponent eventDetails;
     private EventEditComponent eventEdit;
@@ -60,10 +64,14 @@ public class HomeView {
     @FXML
     Button switchToAdminButton;
 
+    /**
+     * This function configures the layout of the home window when it is created.
+     * It requests and loads the events and initializes the admin panel.
+     */
     @FXML
     public void initialize() {
-        // TODO: check if user is admin
-        // TODO: disable button if not admin
+        loggedUser = notifyOnGetLoggedUser();
+        System.out.println("User is admin: " + loggedUser.isAdmin());
 
         // set mainGrid column ratio (1:1)
         gridCol0 = new ColumnConstraints();
@@ -84,7 +92,6 @@ public class HomeView {
 
         // initialize the events panel
         eventsSection.setFillWidth(true);
-
         scrollPane.setContent(eventsSection);
         scrollPane.setFitToWidth(true);
 
@@ -100,6 +107,7 @@ public class HomeView {
         // initialize the users section of the admin panel in order to add items later
         usersSection = new VBox();
 
+        // create the button that navigates back to the events panel, so it can be displayed later
         switchToEventsButton = new Button("Events Panel");
         switchToEventsButton.setMinHeight(35);
         switchToEventsButton.setOnAction(new EventHandler<ActionEvent>() {
@@ -109,10 +117,21 @@ public class HomeView {
         });
 
         userEdit = new UserEditComponent(this);
+
+        // only show the switch to admin panel button if the user is admin
+        if (loggedUser.isAdmin()) {
+            switchToAdminButton.setDisable(false);
+            switchToAdminButton.setVisible(true);
+        }
+
     }
 
+    /**
+     * This function is called when the add event button is pressed.
+     * It loads the create event compopnent in the right half of the events panel.
+     */
     @FXML
-    protected void onAddEvent(ActionEvent event) {
+    protected void onAddEvent() {
         // check which component is currently visible in order to remove the correct component
         if (isInGrid(eventEdit)) {
             mainGrid.getChildren().remove(eventEdit);
@@ -126,6 +145,12 @@ public class HomeView {
         }
     }
 
+    /**
+     * This function is called when the log out button is pressed.
+     * It navigates the user back to the login and registration window.
+     * @param event Event that represents the action that the corresponding button has been pressed.
+     * @throws IOException Exception that occurs if an error arises in FXMLLoader.load.
+     */
     @FXML
     protected void onLogout(ActionEvent event) throws IOException {
         // TODO: delete token, clear
@@ -143,8 +168,12 @@ public class HomeView {
         loginStage.centerOnScreen();
     }
 
+    /**
+     * This function is called when the button that loads the admin panel is pressed.
+     * When this happens, all user information is requested and the events panel is replaced with the admin panel.
+     */
     @FXML
-    protected void onSwitchToAdminButton(ActionEvent event) {
+    protected void onSwitchToAdminButton() {
         // notify listeners
         notifyOnSwitchToAdminPanel();
 
@@ -152,6 +181,10 @@ public class HomeView {
         showAdminPanel();
     }
 
+    /**
+     * This function is called after the switch to admin button is pressed and handles replacing the events panel
+     * with the admin panel.
+     */
     private void showAdminPanel() {
         panelTitle.setText("Users");
 
@@ -191,6 +224,10 @@ public class HomeView {
         }
     }
 
+    /**
+     * This function is called after the button that switches back to the events panel is pressed.
+     * It requests to update the events list and handles loading the events panel.
+     */
     public void showEventsPanel() {
         // configure top bar:
         panelTitle.setText("Upcoming Events");
@@ -230,13 +267,18 @@ public class HomeView {
          mainGrid.add(eventDetails, 1, 0);
     }
 
-    public boolean isInGrid(Node node) {
-        for (Node gridItem : mainGrid.getChildren()) {
-            if (node == gridItem) { return true; }
+    public User notifyOnGetLoggedUser() {
+        User user = new User();
+        for (HomeViewListener listener : listeners) {
+            user = listener.getLoggedUser(SchedulerApplication.token);
         }
-        return false;
+        return user;
     }
 
+    /**
+     * This function is used by the view to notify the listeners about a specific interaction.
+     * In this case, the view notifies the presenter that it needs a list of all events of this user.
+     */
     public void notifyOnGetEvents() {
         for (HomeViewListener listener : listeners) {
             try {
@@ -247,20 +289,39 @@ public class HomeView {
         }
     }
 
-    public void notifyOnSwitchToAdminPanel() {
-        for (final HomeViewListener listener : listeners) {
+    public void notifyListenerOnDelete(Event event) {
+        for (HomeViewListener listener : listeners) {
             try {
-                users = listener.getUsers(SchedulerApplication.token);
+                listener.deleteEvent(SchedulerApplication.token, selectedEvent);
             } catch (Exception e) {
-                System.out.println("Requesting users failed.");
+                System.out.println("Requesting events failed.");
             }
         }
     }
 
+    /**
+     * This function is used by the view to notify the listeners about a specific interaction.
+     * In this case, the view notifies the presenter that the admin panel is requested, so it needs a list of all
+     * users.
+     */
+    public void notifyOnSwitchToAdminPanel() {
+        for (final HomeViewListener listener : listeners) {
+            users = listener.admin_getUsers(SchedulerApplication.token);
+        }
+    }
+
+    /**
+     * This function is used by the view to notify the listeners about a specific interaction.
+     * In this case, the view notifies the presenter that the admin has edited a user and wants to save the
+     * changes.
+     * @param newUsername Updated username if the admin has modified it.
+     * @param newName Updated name of the user if the admin has modified it.
+     * @param newEmail Updated email address of the user if the admin has modified it.
+     */
     public void notifyOnEditUser(String newUsername, String newName, String newEmail) {
         for (HomeViewListener listener : listeners) {
             try {
-                listener.editUser(
+                listener.admin_editUser(
                         SchedulerApplication.token,
                         selectedUser,
                         newUsername,
@@ -272,18 +333,46 @@ public class HomeView {
         }
     }
 
+    /**
+     * This function is used by the view to notify the listeners about a specific interaction.
+     * In this case, the view notifies the presenter that the admin wants to delete a user account.
+     * @param user User object to be deleted.
+     */
     public void notifyOnDeleteUser(User user) {
         for (HomeViewListener listener : listeners) {
             try {
-                listener.deleteUser(user);
+                listener.admin_deleteUser(SchedulerApplication.token, user);
             } catch (Exception e) {
                 System.out.println("Delete user failed.");
             }
         }
     }
 
+    /**
+     * This function adds a listener to the HomeView which will from then on be notified when the user interacts with the GUI.
+     * @param listener Listener that implements the interface HomeViewListener (presenter).
+     */
     public void addListener(final HomeViewListener listener) { listeners.add(listener); }
 
+    /**
+     * This is a helper function that it used frequently to determine if a certain node is currently in the grid.
+     * @param node This is the node that should be searched in the grid.
+     * @return It returns true if the node is in the grid and false if it is not.
+     */
+    public boolean isInGrid(Node node) {
+        for (Node gridItem : mainGrid.getChildren()) {
+            if (node == gridItem) { return true; }
+        }
+        return false;
+    }
+
+    /**
+     * This is a helper function that is used to initially set the values of all necessary drop-down menus.
+     * @param timePicker ComboBox that enables the user to choose the time of an event.
+     * @param durationHPicker ComboBox that enables the user to pick how many hours the event will take.
+     * @param durationMinPicker ComboBox that enables the user to pick how many minutes the event will take in addition
+     *                          to the hours.
+     */
     public void initializeDropDownMenus(ComboBox timePicker, ComboBox durationHPicker, ComboBox durationMinPicker) {
         // set time values from 00:00 to 23:55
         for (int h = 0; h < 24; h++) {
@@ -291,16 +380,22 @@ public class HomeView {
                 timePicker.getItems().add(formatTime(h, min));
             }
         }
-        // set hour values of the duration picker
+        // set hour values of the duration picker from 0 to 23
         for (int h = 0; h < 24; h++) {
             durationHPicker.getItems().add(String.valueOf(h));
         }
-        // set minutes values of the duration picker
-        for (int min = 5; min < 60; min += 5) {
+        // set minutes values of the duration picker from 0 to 55
+        for (int min = 0; min < 60; min += 5) {
             durationMinPicker.getItems().add(String.valueOf(min));
         }
     }
 
+    /**
+     * This is a helper function that converts a time given as hours and minutes to this format: hh:mm.
+     * @param h Hours.
+     * @param m Minutes.
+     * @return Time in hh:mm format.
+     */
     public String formatTime(int h, int m) {
         String hh;
         String mm;
@@ -320,11 +415,21 @@ public class HomeView {
         return String.format("%s:%s", hh, mm);
     }
 
+    /**
+     * This is a helper function that converts a date to this format: DayOfTheWeek dd.mm.yyyy hh:mm.
+     * @param date Date to be converted.
+     * @return Date in 'DayOfTheWeek dd.mm.yyyy hh:mm' format.
+     */
     public String formatDate(Date date) {
         SimpleDateFormat format = new SimpleDateFormat("EE  dd.MM.yyyy HH:mm");
         return format.format(date);
     }
 
+    /**
+     * This is a helper function that converts the duration of an event to this format: e.g. 1h 30min.
+     * @param event Event object that stores the start time of the event and the duration as a Date.
+     * @return String in the new format.
+     */
     public String formatDuration(Event event) {
         long milliseconds = event.getDuration().getTime();
         // millisec -> hours

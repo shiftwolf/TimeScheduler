@@ -77,7 +77,7 @@ public class EventEditComponent extends GridPane {
 
     @FXML
     public void onSave() {
-        // TODO
+        // TODO: data to presenter
 
         homeView.getMainGrid().add(homeView.getEventDetailsComponent(), 1, 0);
         homeView.getMainGrid().getChildren().remove(this);
@@ -113,10 +113,22 @@ public class EventEditComponent extends GridPane {
         nameField.setText(event.getName());
         priorityPicker.setValue(convertToString(event.getPriority()));
         datePicker.setValue(convertToLocalDate(event.getDate()));
-        // TODO: v
-//        timePicker.setValue();
-//        SimpleDateFormat format = new SimpleDateFormat("HH:mm");
-//        String time = format.format(date);
+
+        // TODO: fix disappearing values
+        timePicker.setValue(getTimeFormatted(event.getDate()));
+        System.out.println("timepicker value: " + getTimeFormatted(event.getDate()));
+
+        // convert the duration to the right format before setting the values
+        String durationString = formatDurationNumbersOnly(event);
+        String[] durationSegments = durationString.split(" ");
+
+        durationHPicker.setValue(durationSegments[0]);
+
+        // TODO: fix disappearing values
+        durationMinPicker.setValue(durationSegments[1]);
+
+        // TODO
+//        reminderPicker.setValue();
 
         locationField.setText(event.getLocation());
 
@@ -155,6 +167,34 @@ public class EventEditComponent extends GridPane {
         LocalDate localDate = LocalDate.parse(dateString, formatter);
 
         return localDate;
+    }
+
+    public String getTimeFormatted(Date date) {
+        SimpleDateFormat format = new SimpleDateFormat("HH:mm");
+        String time = format.format(date);
+        return time;
+    }
+
+    public String formatDurationNumbersOnly(Event event) {
+        long milliseconds = event.getDuration().getTime();
+        // millisec -> hours
+        long hours = (((milliseconds/1000)/60)/60);
+        // millisec -> minutes
+        long minutes = (((milliseconds/1000)/60)%60);
+
+        String durationString = "";
+        if (hours > 0) {
+            durationString = String.format("%d ", hours);
+        } else {
+            durationString = "0";
+        }
+        if (minutes > 0){
+            durationString = durationString + String.format("%d", minutes);
+        } else {
+            durationString = durationString + "0";
+        }
+
+        return durationString;
     }
 
     public VBox getParticipantsSection() { return participantsSection; }

@@ -4,6 +4,7 @@ import com.example.timescheduler.APIobjects.token;
 import com.example.timescheduler.Controller.EventController;
 import com.example.timescheduler.Controller.UserController;
 import com.example.timescheduler.Model.Event;
+import com.example.timescheduler.Model.Organizer;
 import com.example.timescheduler.Model.User;
 import com.example.timescheduler.view.HomeView;
 
@@ -22,24 +23,34 @@ public class HomePresenter implements HomeViewListener {
     }
 
     @Override
+    public User getLoggedUser(token token) {
+        return Organizer.getUserByToken(token);
+    }
+
+    @Override
     public List<Event> getEvents(token token) throws IOException, InterruptedException {
         // TODO
         return EventController.getEvents(token);
     }
 
     @Override
-    public List<User> getUsers(token token) throws IOException, InterruptedException {
-        // TODO
-        return UserController.getUsers(token);
-    }
-
-    @Override
-    public void editUser(token token, User user, String newUsername, String newName, String newEmail) {
+    public void deleteEvent(token token, Event event) {
         // TODO
     }
 
     @Override
-    public void deleteUser(User user) {
-        // TODO
+    public List<User> admin_getUsers(token token) {
+        System.out.println("via user: " + this.user.admin_getUsers(token));
+        return this.user.admin_getUsers(token);
+    }
+
+    @Override
+    public void admin_editUser(token token, User user, String newUsername, String newName, String newEmail) {
+        this.user.admin_edit(token, user.id, newEmail, newUsername, newName);
+    }
+
+    @Override
+    public void admin_deleteUser(token token, User user) {
+        this.user.admin_delete(token , user.id);
     }
 }

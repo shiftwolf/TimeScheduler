@@ -72,12 +72,13 @@ public class EventDetailsComponent extends GridPane {
         homeView.getMainGrid().add(homeView.getEventEditComponent(), 1, 0);
         homeView.getMainGrid().getChildren().remove(this);
 
+        // initialize the values of the input controls
         homeView.getEventEditComponent().setInitialValues(homeView.getSelectedEvent());
     }
 
     @FXML
     public void onDelete() {
-        // TODO
+        homeView.notifyListenerOnDelete(homeView.getSelectedEvent());
     }
 
     public void setDetails(Event event) {

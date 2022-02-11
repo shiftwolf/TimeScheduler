@@ -9,12 +9,18 @@ import java.util.List;
 
 public interface HomeViewListener {
 
+    User getLoggedUser(token token);
+
     List <Event> getEvents(token token) throws IOException, InterruptedException;
 
-    List<User> getUsers(token token) throws IOException, InterruptedException;
+    void deleteEvent(token token, Event event);
 
-    void editUser(token token, User user, String newUsername, String newName, String newEmail);
+    // admin only:
 
-    void deleteUser(User user);
+    List<User> admin_getUsers(token token);
+
+    void admin_editUser(token token, User user, String newUsername, String newName, String newEmail);
+
+    void admin_deleteUser(token token, User user);
 
 }
