@@ -1,6 +1,9 @@
 package com.example.scheduler.controller;
 
+import com.example.scheduler.DTOs.AttachmentsInfoDTO;
+import com.example.scheduler.DTOs.EventDTO;
 import com.example.scheduler.DTOs.NewEventDTO;
+import com.example.scheduler.DTOs.UserDTO;
 import com.example.scheduler.entities.*;
 import com.example.scheduler.exceptions.EventNotFoundException;
 import com.example.scheduler.exceptions.NoAuthorizationException;
@@ -29,6 +32,7 @@ public class EventController {
     private final ParticipantRepository participantRepository;
     private final UserRepository userRepository;
     private final ReminderRepository reminderRepository;
+    private final AttachmentsRepository attachmentsRepository;
     private final JavaMailUtil mailUtil;
 
     /**
@@ -39,6 +43,7 @@ public class EventController {
      * @param participantRepository Repository that holds all participants of events (injected)
      * @param userRepository Repository that holds all registered users (injected)
      * @param reminderRepository Repository that holds all reminders (injected)
+     * @param attachmentsRepository Repository that holds all event attachments (injected)
      * @param mailUtil Utility class used to send mails (injected)
      */
     EventController(EventRepository eventRepository,
@@ -46,12 +51,14 @@ public class EventController {
                     ParticipantRepository participantRepository,
                     UserRepository userRepository,
                     ReminderRepository reminderRepository,
+                    AttachmentsRepository attachmentsRepository,
                     JavaMailUtil mailUtil) {
         this.eventRepository = eventRepository;
         this.tokenRepository = tokenRepository;
         this.participantRepository = participantRepository;
         this.userRepository = userRepository;
         this.reminderRepository = reminderRepository;
+        this.attachmentsRepository = attachmentsRepository;
         this.mailUtil = mailUtil;
     }
     /**
@@ -63,32 +70,37 @@ public class EventController {
      * @throws NoAuthorizationException if user authentication fails
      */
     @GetMapping("/events")
-    List<EventsEntity> all(@RequestHeader("userId") Long userId,
-                           @RequestHeader("token") String token) {
+    List<EventDTO> all(@RequestHeader("userId") Long userId,
+                       @RequestHeader("token") String token) {
         if(!tokenRepository.isValid(token, userId)){
             throw new NoAuthorizationException(userId);
         }
 
-        List<ParticipantsEntity> participantsEntities = participantRepository
-                .findAllByUserId(userId);
+        List<EventDTO> dTOs = new ArrayList<>();
+        // For all events the user is participating in
+        for(ParticipantsEntity e :participantRepository.findAllByUserId(userId)) {
 
-        List<EventsEntity> eventsEntityList = new ArrayList<>();
-
-        for(ParticipantsEntity e : participantsEntities) {
-
-            // Assert that event is actually associated to the user
-            boolean eventBelongsToUser = participantRepository
-                    .findById(new ParticipantsEntityPK(e.getEventId(), userId))
-                    .isPresent();
-
-            Optional<EventsEntity> eventsEntity = eventRepository.findById(e.getEventId());
-
-            if (eventsEntity.isPresent() && eventBelongsToUser) {
-                eventsEntityList.add(eventsEntity.orElseThrow(() -> new EventNotFoundException(e.getEventId())));
+            EventsEntity event = eventRepository.findById(e.getEventId()).orElseThrow(() -> new EventNotFoundException(e.getEventId()));
+            //Find users participating in the Event
+            List<UserDTO> participants = new ArrayList<>();
+            for (UsersEntity usersEntity: userRepository.findAllById(participantRepository.findAllUserIdsByEventId(event.getId()))){
+                participants.add(new UserDTO(usersEntity.getId(),usersEntity.getUsername(), usersEntity.getName(),usersEntity.getEmail(), usersEntity.isAdmin()));
             }
+            //Find info on the files attached to the event
+            List<AttachmentsInfoDTO> infoDTOS = new ArrayList<>();
+            for (AttachmentsEntity attachment: attachmentsRepository.findAttachmentsByEventId(event.getId())) {
+                infoDTOS.add(new AttachmentsInfoDTO(attachment.getId(), attachment.getEventId(), attachment.getName()));
+            }
+            dTOs.add(new EventDTO(event.getId(),
+                    event.getName(),
+                    participants,
+                    event.getDate().getTime(),
+                    event.getDuration().getTime(),
+                    event.getLocation(),
+                    event.getPriority(),infoDTOS)
+            );
         }
-
-        return eventsEntityList;
+        return dTOs;
     }
 
     @PostMapping("/events")
@@ -234,19 +246,30 @@ public class EventController {
      * @return DTO of the event with all information
      */
     @GetMapping("/events/id={id}")
-    EventsEntity one(@PathVariable Long id,
+    EventDTO one(@PathVariable Long id,
                      @RequestHeader("userId") Long userId,
                     @RequestHeader("token") String token) {
         if(!validateParticipants(id,userId,token)){throw new NoAuthorizationException(userId);}
 
-        EventsEntity eventsEntity = eventRepository.findById(id)
-                .orElseThrow(() -> new EventNotFoundException(id));
-
-        // Assert that event is actually associated to the user
-        participantRepository.findById(new ParticipantsEntityPK(id, userId))
-                .orElseThrow(() -> new EventNotFoundException(id));
-
-        return eventsEntity;
+        EventsEntity event = eventRepository.findById(id).orElseThrow(() -> new EventNotFoundException(id));
+        //Find users participating in the Event
+        List<UserDTO> participants = new ArrayList<>();
+        for (UsersEntity usersEntity: userRepository.findAllById(participantRepository.findAllUserIdsByEventId(event.getId()))){
+            participants.add(new UserDTO(usersEntity.getId(),usersEntity.getUsername(), usersEntity.getName(),usersEntity.getEmail(), usersEntity.isAdmin()));
+        }
+        //Find info on the files attached to the event
+        List<AttachmentsInfoDTO> infoDTOS = new ArrayList<>();
+        for (AttachmentsEntity attachment: attachmentsRepository.findAttachmentsByEventId(event.getId())) {
+            infoDTOS.add(new AttachmentsInfoDTO(attachment.getId(), attachment.getEventId(), attachment.getName()));
+        }
+       return new EventDTO(event.getId(),
+                event.getName(),
+                participants,
+                event.getDate().getTime(),
+                event.getDuration().getTime(),
+                event.getLocation(),
+                event.getPriority(),infoDTOS
+       );
     }
 
     /**
