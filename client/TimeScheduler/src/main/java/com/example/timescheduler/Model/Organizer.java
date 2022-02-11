@@ -60,9 +60,12 @@ public class Organizer {
             System.out.println(e.getMessage());
             return null;
         }
-        login(username, password)
-        newUser = UserController.getUserByUsername(token, username);
+        try{
+            newUser = UserController.getUserByUsername(login(username, password), username);
+        } catch (IOException | InterruptedException e){
+            System.out.println(e.getMessage());
+            return null;
+        }
         return newUser;
     }
 }
-
