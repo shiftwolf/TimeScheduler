@@ -36,6 +36,7 @@ CREATE TABLE `reminders` (
     `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
     `date` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
     `event_id` int(10) unsigned NOT NULL,
+    `is_completed` bit(1) NOT NULL DEFAULT b'0',
 
     PRIMARY KEY (`id`),
     KEY `event_id` (`event_id`),
