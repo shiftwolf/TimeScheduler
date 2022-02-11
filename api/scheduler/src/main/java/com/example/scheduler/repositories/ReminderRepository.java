@@ -14,5 +14,6 @@ import java.util.List;
 public interface ReminderRepository extends CrudRepository<RemindersEntity, Long> {
 
     List<RemindersEntity> findByOrderByDateAsc();
+    RemindersEntity findByEventId(Long eventId);
 
 }

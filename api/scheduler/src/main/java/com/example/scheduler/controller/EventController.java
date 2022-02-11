@@ -16,8 +16,6 @@ import org.springframework.web.bind.annotation.*;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
-
 
 /**
  * @author Timo, Max
@@ -91,11 +89,13 @@ public class EventController {
             for (AttachmentsEntity attachment: attachmentsRepository.findAttachmentsByEventId(event.getId())) {
                 infoDTOS.add(new AttachmentsInfoDTO(attachment.getId(), attachment.getEventId(), attachment.getName()));
             }
+            RemindersEntity reminder = reminderRepository.findByEventId(event.getId());
             dTOs.add(new EventDTO(event.getId(),
                     event.getName(),
                     participants,
                     event.getDate().getTime(),
                     event.getDuration().getTime(),
+                    reminder.getDate().getTime(),
                     event.getLocation(),
                     event.getPriority(),infoDTOS)
             );
@@ -262,11 +262,13 @@ public class EventController {
         for (AttachmentsEntity attachment: attachmentsRepository.findAttachmentsByEventId(event.getId())) {
             infoDTOS.add(new AttachmentsInfoDTO(attachment.getId(), attachment.getEventId(), attachment.getName()));
         }
+        RemindersEntity reminder = reminderRepository.findByEventId(event.getId());
        return new EventDTO(event.getId(),
                 event.getName(),
                 participants,
                 event.getDate().getTime(),
                 event.getDuration().getTime(),
+               reminder.getDate().getTime(),
                 event.getLocation(),
                 event.getPriority(),infoDTOS
        );
