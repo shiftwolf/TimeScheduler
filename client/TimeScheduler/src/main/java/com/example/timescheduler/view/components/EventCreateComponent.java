@@ -2,6 +2,7 @@ package com.example.timescheduler.view.components;
 
 import com.example.timescheduler.Model.Event;
 import com.example.timescheduler.view.HomeView;
+import com.example.timescheduler.view.SchedulerApplication;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -22,6 +23,7 @@ import java.nio.file.Path;
 import java.time.Instant;
 import java.time.LocalDate;
 import java.time.ZoneId;
+import java.util.Calendar;
 import java.util.Date;
 
 public class EventCreateComponent extends GridPane {
@@ -91,6 +93,23 @@ public class EventCreateComponent extends GridPane {
             Date duration = createDurationDate(date,
                     durationHPicker.getValue().toString(),
                     durationMinPicker.getValue().toString());
+            // create reminder date
+            Date reminder = createReminderDate(date, reminderPicker.getValue().toString());
+
+            System.out.println(
+                    "date: " + date + "\nduration date: " + duration + "\nreminder date: " + reminder);
+            System.out.println(
+                    "date ms: " + date.getTime() + "\nduration date ms: " + duration.getTime() + "\nreminder date ms: " + reminder.getTime());
+
+            homeView.notifyOnCreateEvent(
+                    name,
+                    date,
+                    duration,
+                    location,
+                    priority,
+                    new String[0],
+                    reminder,
+                    SchedulerApplication.token);
 
             // TODO: attachments & participants
 
@@ -102,6 +121,35 @@ public class EventCreateComponent extends GridPane {
         } else {
             errorMessage.setVisible(true);
         }
+    }
+
+    public Date createReminderDate(Date eventDate, String reminderValue) {
+        // 1 week -> ms
+        long weekMs = 7 * 24 * 60 * 60 * 1000;
+        // 3 days -> ms
+        long daysMs = 3 * 24 * 60 * 60 * 1000;
+        // 1 hour -> ms
+        long hourMs = 60 * 60 * 1000;
+        // 10 min -> ms
+        long minMs = 10 * 60 * 1000;
+
+        long dateMs = eventDate.getTime();
+
+        // convert reminderValue to ms
+        long reminderMs = 0;
+        switch (reminderValue) {
+            case "1 week" -> { reminderMs = weekMs; }
+            case "3 days" -> { reminderMs = dateMs; }
+            case "1 hour" -> { reminderMs = hourMs; }
+            case "10 min" -> { reminderMs = minMs; }
+        }
+
+        // difference
+        long reminderDateMs = dateMs - reminderMs;
+
+        // convert to date
+        System.out.println("reminder date: " + new Date(reminderDateMs));
+        return new Date(reminderDateMs);
     }
 
     public boolean checkIfInputValid() {
@@ -137,11 +185,11 @@ public class EventCreateComponent extends GridPane {
 
     public Date createDurationDate(Date date, String durationH, String durationMin) {
         // convert to milliseconds
-        long dateMs = date.getTime();
+//        long dateMs = date.getTime();
         long hoursMs = (long) Integer.parseInt(durationH) * 60 * 60 * 1000;
         long minsMs = (long) Integer.parseInt(durationMin) * 60 * 1000;
 
-        long durationDateMs = dateMs + hoursMs + minsMs;
+        long durationDateMs = hoursMs + minsMs;
 
         // convert to date
         return new Date(durationDateMs);
@@ -167,6 +215,7 @@ public class EventCreateComponent extends GridPane {
 
         // convert back
         Date newDate = new Date(newDateMs);
+        System.out.println("date from input: " + newDate);
         return newDate;
     }
 

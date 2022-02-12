@@ -5,6 +5,7 @@ import com.example.timescheduler.Model.Event;
 import com.example.timescheduler.Model.User;
 
 import java.io.IOException;
+import java.util.Date;
 import java.util.List;
 
 public interface HomeViewListener {
@@ -14,6 +15,15 @@ public interface HomeViewListener {
     User getLoggedUser(token token);
 
     List <Event> getEvents(token token) throws IOException, InterruptedException;
+
+    void createEvent(String name,
+                     Date date,
+                     Date duration,
+                     String location,
+                     Event.priorities priority,
+                     String[] participantMails,
+                     Date reminder,
+                     token token);
 
     void deleteEvent(token token, Event event);
 

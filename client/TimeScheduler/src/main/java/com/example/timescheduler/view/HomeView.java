@@ -1,5 +1,6 @@
 package com.example.timescheduler.view;
 
+import com.example.timescheduler.APIobjects.token;
 import com.example.timescheduler.Model.Event;
 import com.example.timescheduler.Model.User;
 import com.example.timescheduler.Presenter.HomeViewListener;
@@ -180,7 +181,7 @@ public class HomeView {
     @FXML
     protected void onSwitchToAdminButton() {
         // notify listeners
-        notifyOnSwitchToAdminPanel();
+        notifyOnGetUsers();
 
         // configure GUI
         showAdminPanel();
@@ -270,6 +271,10 @@ public class HomeView {
          mainGrid.add(eventDetails, 1, 0);
     }
 
+    public void updateAfterEditUser() {
+
+    }
+
     public User notifyOnGetLoggedUser() {
         User user = new User();
         for (HomeViewListener listener : listeners) {
@@ -292,6 +297,13 @@ public class HomeView {
         }
     }
 
+    public void notifyOnCreateEvent(String name, Date date, Date duration, String location, Event.priorities priority,
+                                    String[] participantMails, Date reminder, token token) {
+        for (HomeViewListener listener : listeners) {
+            listener.createEvent(name, date, duration, location, priority, participantMails, reminder, token);
+        }
+    }
+
     public void notifyOnDeleteEvent() {
         for (HomeViewListener listener : listeners) {
             // TODO: don't need try catch anymore
@@ -308,7 +320,7 @@ public class HomeView {
      * In this case, the view notifies the presenter that the admin panel is requested, so it needs a list of all
      * users.
      */
-    public void notifyOnSwitchToAdminPanel() {
+    public void notifyOnGetUsers() {
         for (final HomeViewListener listener : listeners) {
             users = listener.admin_getUsers(SchedulerApplication.token);
         }

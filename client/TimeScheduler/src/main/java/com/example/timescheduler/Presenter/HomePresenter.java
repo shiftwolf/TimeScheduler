@@ -8,6 +8,7 @@ import com.example.timescheduler.Model.User;
 import com.example.timescheduler.view.HomeView;
 
 import java.io.IOException;
+import java.util.Date;
 import java.util.List;
 
 public class HomePresenter implements HomeViewListener {
@@ -35,6 +36,11 @@ public class HomePresenter implements HomeViewListener {
     public List<Event> getEvents(token token) throws IOException, InterruptedException {
         // TODO
         return EventController.getEvents(token);
+    }
+
+    @Override
+    public void createEvent(String name, Date date, Date duration, String location, Event.priorities priority, String[] participantMails, Date reminder, token token) {
+        user.addEvent(name, date, duration, location, priority, participantMails, reminder, token);
     }
 
     @Override
