@@ -191,7 +191,7 @@ public class UserController {
         HttpRequest request = HttpRequest.newBuilder()
                 .header("Content-Type", "application/json")
                 .PUT(HttpRequest.BodyPublishers.ofString(jsonUser))
-                .uri(URI.create(url + "/users/" + String.valueOf(user.getId())))
+                .uri(URI.create(url + "/users/id=" + String.valueOf(user.getId())))
                 .header("userID", String.valueOf(token.getUserID()))
                 .header("tokenString", token.getTokenString())
                 .build();
