@@ -8,16 +8,16 @@ import com.example.scheduler.entities.UsersEntity;
 import com.example.scheduler.exceptions.AttachmentNotFoundException;
 import com.example.scheduler.exceptions.NoAuthorizationException;
 import com.example.scheduler.exceptions.UploadFailedException;
+import com.example.scheduler.repositories.AttachmentsRepository;
 import com.example.scheduler.repositories.EventRepository;
 import com.example.scheduler.repositories.TokenRepository;
-import  com.example.scheduler.repositories.AttachmentsRepository;
 import com.example.scheduler.repositories.UserRepository;
-import org.springframework.core.io.ByteArrayResource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -86,17 +86,17 @@ public class AttachmentsController {
      */
     @PostMapping("/attachments/eventId={eventId}")
     ResponseEntity<String> upload(@PathVariable Long eventId,
-                                  @RequestParam("file")MultipartFile file,
+                                  InputStream file,
+                                  @RequestHeader("fileName") String name,
                                   @RequestHeader("userId") Long userId,
                                   @RequestHeader("token") String token)
             throws NoAuthorizationException,
-            UploadFailedException{
+            UploadFailedException, IOException {
         if(!validateParticipants(eventId, userId, token)){throw new NoAuthorizationException(userId);}
 
-        try{
-            attachmentsRepository.save(new AttachmentsEntity(eventId, file.getOriginalFilename(), file.getBytes()));
-        }
-        catch (Exception e){throw new UploadFailedException();}
+            attachmentsRepository.save(new AttachmentsEntity(eventId, name, file.readAllBytes()));
+        //}
+        //catch (Exception e){throw new UploadFailedException();}
         return ResponseEntity.ok().body("Event: " + eventId +": File uploaded successfully");
     }
 
@@ -110,7 +110,7 @@ public class AttachmentsController {
      * @throws AttachmentNotFoundException if an attachment with the given id is not found
      */
     @GetMapping("/attachments/id={id}")
-    ResponseEntity<ByteArrayResource> download(@PathVariable Long id,
+    ResponseEntity<byte[]> download(@PathVariable Long id,
                                                @RequestHeader("userId") Long userId,
                                                @RequestHeader("token") String token)
             throws NoAuthorizationException,
@@ -118,7 +118,7 @@ public class AttachmentsController {
         AttachmentsEntity e = attachmentsRepository.findById(id).orElseThrow(() -> new AttachmentNotFoundException(id));
         if(!validateParticipants(e.getEventId(), userId, token)){throw new NoAuthorizationException(userId);}
 
-        ByteArrayResource r = new ByteArrayResource(e.getAttachment());
+        byte[] r = e.getAttachment();
         return ResponseEntity.ok().header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + e.getName() + "\"").body(r);
     }
     /**

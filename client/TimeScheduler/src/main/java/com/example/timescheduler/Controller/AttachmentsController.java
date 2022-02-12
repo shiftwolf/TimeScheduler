@@ -2,14 +2,16 @@ package com.example.timescheduler.Controller;
 
 import com.example.timescheduler.APIobjects.token;
 import com.example.timescheduler.Model.AttachmentsInfo;
+import com.example.timescheduler.Model.User;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-import java.io.IOException;
+import java.io.*;
 import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
+import java.nio.file.Paths;
 import java.util.List;
 
 /**
@@ -62,8 +64,27 @@ public class AttachmentsController {
      * @throws IOException - Occurs if in the client.send or in the mapper.readValue command an error arises
      * @throws InterruptedException - Occurs if in the client.send a thread has been interrupted
      */
-    public static String downloadAtt(token token, Long id){
-        return "";
+    public static byte[] downloadAtt(token token, Long id) throws IOException, InterruptedException {
+        HttpClient client = HttpClient.newHttpClient();
+
+        HttpRequest request = HttpRequest.newBuilder()
+                .GET()
+                .header("token", token.getTokenString())
+                .header("userId", String.valueOf(token.getUserID()))
+                .uri(URI.create(url + "/attachments/id=" + id))
+                .build();
+
+        HttpResponse<InputStream> response = client.send(request, HttpResponse.BodyHandlers.ofInputStream());
+
+        InputStream dataStream = response.body();
+        System.out.println(response.body());
+
+        byte[] bytes = dataStream.readAllBytes();
+        return bytes;
+
+//        try (FileOutputStream stream = new FileOutputStream("/Users/wolf/Downloads/Bonusprogramm.pdf")) {
+//              stream.write(bytes);
+//        }
     }
 
     /**
@@ -73,8 +94,23 @@ public class AttachmentsController {
      * @throws IOException - Occurs if in the client.send or in the mapper.readValue command an error arises
      * @throws InterruptedException - Occurs if in the client.send a thread has been interrupted
      */
-    public static String uploadAtt(token token){
-        return "";
+    public static String uploadAtt(token token, Long eventId, String path, String fileName)
+            throws IOException, InterruptedException {
+
+        HttpClient client = HttpClient.newHttpClient();
+
+        HttpRequest request = HttpRequest.newBuilder()
+                .header("Content-Type", "application/json")
+                .header("token", token.getTokenString())
+                .header("userId", String.valueOf(token.getUserID()))
+                .header("fileName", fileName)
+                .uri(URI.create(url + "/attachments/eventId=" + eventId))
+                .POST(HttpRequest.BodyPublishers.ofFile(Paths.get(path)))
+                .build();
+
+        HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
+
+        return response.body();
     }
 
 }
