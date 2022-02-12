@@ -4,6 +4,7 @@ import com.example.timescheduler.APIobjects.token;
 import com.example.timescheduler.Model.User;
 import com.example.timescheduler.Presenter.HomePresenter;
 import com.example.timescheduler.Presenter.LoginPresenter;
+import com.example.timescheduler.Presenter.RegistrationPresenter;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -22,6 +23,7 @@ public class SchedulerApplication extends Application {
     public static token token = new token();
     static LoginView loginView = new LoginView();
     static HomeView homeView = new HomeView();
+    static RegistrationView registrationView = new RegistrationView();
 
     static Scene loginScene, registrationScene;
 
@@ -29,11 +31,10 @@ public class SchedulerApplication extends Application {
      * The constructor creates the presenters for each view
      */
     public SchedulerApplication() {
-        User loginUser = new User();
-        new LoginPresenter(loginView, loginUser);
-
         User user = new User();
+        new LoginPresenter(loginView, user);
         new HomePresenter(homeView, user);
+        new RegistrationPresenter(registrationView, user);
     }
 
     public static void main(String[] args) { launch(args); }

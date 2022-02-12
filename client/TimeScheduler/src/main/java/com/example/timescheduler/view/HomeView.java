@@ -64,15 +64,16 @@ public class HomeView {
     @FXML
     Button switchToAdminButton;
 
+    public HomeView() {
+        loggedUser = notifyOnGetLoggedUser();
+    }
+
     /**
      * This function configures the layout of the home window when it is created.
      * It requests and loads the events and initializes the admin panel.
      */
     @FXML
     public void initialize() {
-        loggedUser = notifyOnGetLoggedUser();
-        System.out.println("User is admin: " + loggedUser.isAdmin());
-
         // set mainGrid column ratio (1:1)
         gridCol0 = new ColumnConstraints();
         gridCol0.setPercentWidth(50);
@@ -123,12 +124,11 @@ public class HomeView {
             switchToAdminButton.setDisable(false);
             switchToAdminButton.setVisible(true);
         }
-
     }
 
     /**
      * This function is called when the add event button is pressed.
-     * It loads the create event compopnent in the right half of the events panel.
+     * It loads the create event component in the right half of the events panel.
      */
     @FXML
     protected void onAddEvent() {
@@ -289,7 +289,7 @@ public class HomeView {
         }
     }
 
-    public void notifyListenerOnDelete(Event event) {
+    public void notifyOnDelete(Event event) {
         for (HomeViewListener listener : listeners) {
             try {
                 listener.deleteEvent(SchedulerApplication.token, selectedEvent);
@@ -444,6 +444,36 @@ public class HomeView {
         durationString = durationString + String.format("%dmin", minutes);
 
         return durationString;
+    }
+
+    public String convertReminderToString(Event event) {
+        // 1 week -> ms
+        long weekMs = 7 * 24 * 60 * 60 * 1000;
+        // 3 days -> ms
+        long daysMs = 3 * 24 * 60 * 60 * 1000;
+        // 1 hour -> ms
+        long hourMs = 60 * 60 * 1000;
+        // 10 min -> ms
+        long minMs = 10 * 60 * 1000;
+
+        // convert event date to milliseconds
+        long eventDateMs = event.getDate().getTime();
+        // convert event reminder date to milliseconds
+        long reminderDateMs = event.getReminder().getTime();
+
+        long differenceMs = eventDateMs - reminderDateMs;
+
+        if (differenceMs == weekMs) {
+            return "1 week";
+        } else if (differenceMs == daysMs) {
+            return "3 days";
+        } else if (differenceMs == hourMs) {
+            return "1 hour";
+        } else if (differenceMs == minMs) {
+            return "10 minutes";
+        } else {
+            return "undefined";
+        }
     }
 
     // Getters & Setters

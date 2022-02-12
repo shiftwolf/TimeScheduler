@@ -2,7 +2,6 @@ package com.example.timescheduler.view.components;
 
 import com.example.timescheduler.Model.Event;
 import com.example.timescheduler.view.HomeView;
-import com.example.timescheduler.view.SchedulerApplication;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;

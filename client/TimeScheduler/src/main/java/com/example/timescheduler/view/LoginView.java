@@ -102,6 +102,9 @@ public class LoginView {
         // load the registration scene
         Stage stage = (Stage) ((Node)event.getSource()).getScene().getWindow();
         stage.setScene(SchedulerApplication.registrationScene);
+        stage.setWidth(550);
+        stage.setHeight(510);
+        stage.centerOnScreen();
     }
 
     /**

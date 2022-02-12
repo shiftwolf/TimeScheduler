@@ -25,39 +25,45 @@
            GridPane.columnIndex="0" GridPane.rowIndex="1">
         <GridPane.margin><Insets left="10"/></GridPane.margin>
     </Label>
-    <Label fx:id="name" text="..." GridPane.columnIndex="1" GridPane.rowIndex="1" />
+    <Label fx:id="name" id="details-value" text="..." GridPane.columnIndex="1" GridPane.rowIndex="1" />
 
     <Label text="Date"
            GridPane.columnIndex="0" GridPane.rowIndex="2">
         <GridPane.margin><Insets left="10"/></GridPane.margin>
     </Label>
-    <Label fx:id="date" text="..." GridPane.columnIndex="1" GridPane.rowIndex="2" />
+    <Label fx:id="date" id="details-value" text="..." GridPane.columnIndex="1" GridPane.rowIndex="2" />
 
     <Label text="Duration"
            GridPane.columnIndex="0" GridPane.rowIndex="3">
         <GridPane.margin><Insets left="10"/></GridPane.margin>
     </Label>
-    <Label fx:id="duration" text="..." GridPane.columnIndex="1" GridPane.rowIndex="3" />
+    <Label fx:id="duration" id="details-value" text="..." GridPane.columnIndex="1" GridPane.rowIndex="3" />
 
-    <Label text="Location"
+    <Label text="Reminder"
            GridPane.columnIndex="0" GridPane.rowIndex="4">
         <GridPane.margin><Insets left="10"/></GridPane.margin>
     </Label>
-    <Label fx:id="eventLocation" text="..." GridPane.columnIndex="1" GridPane.rowIndex="4" />
+    <Label fx:id="reminder" id="details-value" text="..." GridPane.columnIndex="1" GridPane.rowIndex="4" />
 
-    <Label text="Participants"
+    <Label text="Location"
            GridPane.columnIndex="0" GridPane.rowIndex="5">
         <GridPane.margin><Insets left="10"/></GridPane.margin>
     </Label>
-    <ScrollPane  GridPane.columnIndex="1" GridPane.rowIndex="5"  maxHeight="130">
-        <VBox fx:id="participantsSection"/>
-    </ScrollPane>
+    <Label fx:id="eventLocation" id="details-value" text="..." GridPane.columnIndex="1" GridPane.rowIndex="5" />
 
-    <Label text="Attachments"
+    <Label text="Participants"
            GridPane.columnIndex="0" GridPane.rowIndex="6">
         <GridPane.margin><Insets left="10"/></GridPane.margin>
     </Label>
     <ScrollPane  GridPane.columnIndex="1" GridPane.rowIndex="6"  maxHeight="130">
+        <VBox fx:id="participantsSection"/>
+    </ScrollPane>
+
+    <Label text="Attachments"
+           GridPane.columnIndex="0" GridPane.rowIndex="7">
+        <GridPane.margin><Insets left="10"/></GridPane.margin>
+    </Label>
+    <ScrollPane  GridPane.columnIndex="1" GridPane.rowIndex="7"  maxHeight="130">
         <VBox fx:id="attachmentsSection"/>
     </ScrollPane>
 

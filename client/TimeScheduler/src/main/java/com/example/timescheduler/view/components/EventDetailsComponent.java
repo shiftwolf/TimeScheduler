@@ -27,6 +27,8 @@ public class EventDetailsComponent extends GridPane {
     @FXML
     Label duration;
     @FXML
+    Label reminder;
+    @FXML
     Label eventLocation;
     @FXML
     VBox participantsSection;
@@ -78,13 +80,18 @@ public class EventDetailsComponent extends GridPane {
 
     @FXML
     public void onDelete() {
-        homeView.notifyListenerOnDelete(homeView.getSelectedEvent());
+        homeView.notifyOnDelete(homeView.getSelectedEvent());
     }
 
     public void setDetails(Event event) {
         name.setText(event.getName());
         date.setText(homeView.formatDate(event.getDate()));
         duration.setText(homeView.formatDuration(event));
+
+        // TODO
+        reminder.setText(String.format("%s before the event", homeView.convertReminderToString(event)));
+        System.out.println(homeView.convertReminderToString(event));
+
         eventLocation.setText(event.getLocation());
         // TODO: participants, attachments
     }

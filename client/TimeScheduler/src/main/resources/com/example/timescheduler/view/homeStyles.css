@@ -72,3 +72,12 @@
     -fx-font-size: 14;
     -fx-text-fill: #28282a;
 }
+
+#details-value {
+    -fx-font-size: 13;
+    -fx-text-fill: #28282a;
+}
+
+#error-message {
+    -fx-text-fill: #982626;
+}

@@ -118,9 +118,6 @@ public class User {
      * @return List of Users.
      */
     public List<User> admin_getUsers(token token){
-        if(!this.isAdmin()){
-            return null;
-        }
         try{
             return UserController.getUsers(token);
         }catch (InterruptedException | IOException e){

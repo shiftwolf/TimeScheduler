@@ -2,7 +2,6 @@ package com.example.timescheduler.Presenter;
 
 import com.example.timescheduler.APIobjects.token;
 import com.example.timescheduler.Controller.EventController;
-import com.example.timescheduler.Controller.UserController;
 import com.example.timescheduler.Model.Event;
 import com.example.timescheduler.Model.Organizer;
 import com.example.timescheduler.Model.User;
@@ -40,7 +39,6 @@ public class HomePresenter implements HomeViewListener {
 
     @Override
     public List<User> admin_getUsers(token token) {
-        System.out.println("via user: " + this.user.admin_getUsers(token));
         return this.user.admin_getUsers(token);
     }
 

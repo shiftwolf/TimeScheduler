@@ -116,4 +116,8 @@
     </ScrollPane>
     <Button text="+" onAction="#onAddAttachment" GridPane.columnIndex="4" GridPane.rowIndex="6"
             GridPane.halignment="CENTER"/>
+
+
+    <Label fx:id="errorMessage" id="error-message" text="Make sure you entered all information correctly. Only attachments and participants are optional."
+           GridPane.columnIndex="1" GridPane.rowIndex="7" GridPane.columnSpan="4" wrapText="true" visible="false"/>
 </fx:root>

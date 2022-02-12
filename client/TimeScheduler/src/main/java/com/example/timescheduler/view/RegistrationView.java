@@ -1,5 +1,7 @@
 package com.example.timescheduler.view;
 
+import com.example.timescheduler.Model.User;
+import com.example.timescheduler.Presenter.RegistrationViewListener;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -13,6 +15,7 @@ import javafx.scene.control.ToggleButton;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -21,6 +24,9 @@ import java.util.List;
  * It handles the user interactions with the registration window.
  */
 public class RegistrationView {
+
+    private static final ArrayList<RegistrationViewListener> listeners = new ArrayList<>();
+
     @FXML TextField username;
     @FXML TextField email;
     @FXML TextField name;
@@ -62,27 +68,43 @@ public class RegistrationView {
      * This function is called when the sign up button is clicked.
      * It checks if the user has entered their account data correctly.
      * @param event Event that represents the action that the corresponding button has been pressed.
-     * @throws IOException Exception that occurs if an error arises in FXMLLoader.load.
      */
     @FXML
-    protected void onSignUp(ActionEvent event) throws IOException {
+    protected void onSignUp(ActionEvent event){
         boolean isValid = validateSignUp();
+        System.out.println("isValid: " + isValid);
 
         if (isValid) {
-            // new window for main app where HomeView will be loaded
-            Parent fxml = FXMLLoader.load(getClass().getResource("home_view.fxml"));
-            Scene scene = new Scene(fxml);
-            Stage appStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+            // notify listeners
+            User newUser = notifyOnCreateUser();
 
-            // configure the size and position of the window
-            appStage.setScene(scene);
-            appStage.setWidth(1100);
-            appStage.setHeight(720);
-            appStage.setX(200);
-            appStage.setY(100);
-            appStage.show();
-            appStage.centerOnScreen();
+            // check if creation was successful
+            if (newUser != null) {
+                // navigate back to login
+                stage = (Stage) ((Node)event.getSource()).getScene().getWindow();
+                stage.setScene(SchedulerApplication.loginScene);
+                stage.setWidth(450);
+                stage.setHeight(380);
+                stage.centerOnScreen();
+                resetGUI();
+            } else {
+                System.out.println("Sign up failed.");
+            }
         }
+    }
+
+    public User notifyOnCreateUser() {
+        System.out.println("notify on create user");
+        User user = null;
+        for (RegistrationViewListener listener : listeners) {
+            user = listener.createUser(
+                    name.getText().trim(),
+                    email.getText().trim(),
+                    username.getText().trim(),
+                    password1.getText());
+        }
+        System.out.println("user: " + user);
+        return user;
     }
 
     /**
@@ -91,6 +113,8 @@ public class RegistrationView {
      * @return true if the sign up is valid and false if not.
      */
     private boolean validateSignUp() {
+        boolean isValid = true;
+
         // old error messages are cleared before the next validation starts
         resetErrorNotifications();
 
@@ -107,34 +131,40 @@ public class RegistrationView {
         // check for empty input fields
         for (TextField input : inputFields) {
             if (input.getText().trim().isEmpty()) {
+                isValid = false;
                 input.setStyle("-fx-border-color: #ad4c4c;");
             }
         }
         // check username
         if (!username.getText().trim().matches(usernameRegex)) {
+            isValid = false;
             username.setStyle("-fx-border-color: #ad4c4c;");
         }
         // check name
         if (!name.getText().trim().matches(nameRegex)) {
+            isValid = false;
             name.setStyle("-fx-border-color: #ad4c4c;");
         }
         // check password criteria
         // min 10 characters, no spaces, min 1 number, min 1 special character
         if (!password1.getText().trim().matches(passwordRegex)) {
+            isValid = false;
             passwordInfo.setVisible(true);
             password1.setStyle("-fx-border-color: #ad4c4c;");
         }
         // check if confirm password matches
         if (!password2.getText().trim().equals(password1.getText().trim())) {
+            isValid = false;
             confirmPasswordInfo.setVisible(true);
             password2.setStyle("-fx-border-color: #ad4c4c;");
         }
         // email validation
         if (!email.getText().trim().matches(emailRegex)) {
+            isValid = false;
             email.setStyle("-fx-border-color: #ad4c4c;");
         }
 
-        return false;
+        return true;
     }
 
     /**
@@ -146,6 +176,9 @@ public class RegistrationView {
     protected void onCancel(ActionEvent event) {
         stage = (Stage) ((Node)event.getSource()).getScene().getWindow();
         stage.setScene(SchedulerApplication.loginScene);
+        stage.setWidth(430);
+        stage.setHeight(380);
+        stage.centerOnScreen();
         resetGUI();
     }
 
@@ -203,4 +236,6 @@ public class RegistrationView {
         }
         infoToggle.setSelected(false);
     }
+
+    public void addListener(RegistrationViewListener listener) { listeners.add(listener); }
 }
