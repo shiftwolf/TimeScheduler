@@ -55,7 +55,7 @@ CREATE TABLE `attachments` (
     `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
     `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
     `event_id` int(10) unsigned NOT NULL,
-    `attachment` varbinary(60000) NOT NULL,
+    `attachment` longblob NOT NULL,
     `name` varchar(255) NOT NULL,
 
     PRIMARY KEY (`id`),
