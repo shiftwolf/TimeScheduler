@@ -23,6 +23,7 @@ public class EventDTO {
         this.name = name;
         this.participants = participants;
         this.date = date;
+        this.duration = duration;
         this.reminder = reminder;
         this.location = location;
         this.priority = priority;
