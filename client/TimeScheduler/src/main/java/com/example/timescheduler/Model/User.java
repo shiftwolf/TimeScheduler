@@ -268,7 +268,7 @@ public class User {
         return;
     }
 
-    public byte[] getWeeklySchedule(token){
+    public byte[] getWeeklySchedule(token token){
         try {
             return ScheduleController.getWeeklySchedule(token);
         } catch (IOException | InterruptedException e){
