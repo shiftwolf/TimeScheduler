@@ -1,6 +1,8 @@
 package com.example.timescheduler.Controller;
 
 import com.example.timescheduler.APIobjects.token;
+import com.example.timescheduler.DeSerializer.CustomEditEventSerializer;
+import com.example.timescheduler.DeSerializer.CustomEventSerializer;
 import com.example.timescheduler.DeSerializer.ParticipantDeserializer;
 import com.example.timescheduler.Model.Event;
 import com.example.timescheduler.Model.User;
@@ -111,6 +113,10 @@ public class EventController {
         //user -> json
         ObjectMapper mapper = new ObjectMapper();
         //mapper.setSerializationInclusion(JsonInclude.Include.NON_NULL);
+        SimpleModule module = new SimpleModule();
+        module.addSerializer(Event.class, new CustomEventSerializer());
+        mapper.registerModule(module);
+
         String jsonUser = mapper.writeValueAsString(event);
         System.out.println(jsonUser);
 
@@ -163,8 +169,14 @@ public class EventController {
      */
     public static String changeEvent(token token, Event event) throws IOException, InterruptedException {
         ObjectMapper mapper = new ObjectMapper();
-        //mapper.setSerializationInclusion(JsonInclude.Include.NON_NULL);
+
+        SimpleModule module = new SimpleModule();
+        module.addSerializer(Event.class, new CustomEditEventSerializer());
+        mapper.registerModule(module);
+
         String jsonUser = mapper.writeValueAsString(event);
+
+        System.out.println(jsonUser);
 
         HttpClient client = HttpClient.newHttpClient();
 

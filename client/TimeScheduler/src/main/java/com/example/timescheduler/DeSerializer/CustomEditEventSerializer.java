@@ -8,13 +8,13 @@ import com.fasterxml.jackson.databind.ser.std.StdSerializer;
 
 import java.io.IOException;
 
-public class CustomEventSerializer extends StdSerializer<Event> {
+public class CustomEditEventSerializer extends StdSerializer<Event> {
 
-    public CustomEventSerializer() {
+    public CustomEditEventSerializer() {
         this(null);
     }
 
-    public CustomEventSerializer(Class<Event> t) {
+    public CustomEditEventSerializer(Class<Event> t) {
         super(t);
     }
 
@@ -32,6 +32,7 @@ public class CustomEventSerializer extends StdSerializer<Event> {
         System.out.println(participants);
 
         jsonGenerator.writeStartObject();
+        jsonGenerator.writeNumberField("id", event.getId());
         jsonGenerator.writeStringField("name", event.getName());
         jsonGenerator.writeNumberField("duration", event.getDuration().getTime()/1000L);
         jsonGenerator.writeNumberField("date", event.getDuration().getTime()/1000L);
@@ -44,5 +45,4 @@ public class CustomEventSerializer extends StdSerializer<Event> {
         jsonGenerator.writeNumberField("reminder", event.getReminder().getTime()/1000L);
         jsonGenerator.writeEndObject();
     }
-
 }

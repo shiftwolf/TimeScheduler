@@ -6,23 +6,23 @@
 
 package com.example.timescheduler.Model;
 
-import com.example.timescheduler.DeSerializer.CustomEventSerializer;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
 import java.util.Arrays;
 import java.util.Date;
 
-@JsonSerialize(using = CustomEventSerializer.class)
+//@JsonSerialize(using = CustomEventSerializer.class)
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class Event {
 
-    public static enum priorities {
-        GREEN, YELLOW, RED
-    }
 
+    public static enum priorities {
+        GREEN, YELLOW, RED;
+
+    }
     // Attributes
     private long id;
+
     private Date createdAt;
     private String name;
     private Date date;
@@ -33,7 +33,6 @@ public class Event {
     public User[] participants;
     private Date reminder;
     public AttachmentsInfo[] attachmentsInfo;
-
     @Override
     public String toString() {
         return "Event{" +
@@ -50,25 +49,37 @@ public class Event {
                 ", attachmentsInfo=" + Arrays.toString(attachmentsInfo) +
                 '}';
     }
-
     public void setId(long id) {
         this.id = id;
     }
+
 // Constructors
 
     public Event() {
     }
-    public Event(long id) {
+    public Event(Long id, String name, Date date, Date duration, String location, priorities priority) {
         this.id = id;
-    }
-
-    public Event(String name, Date date, Date duration, String location, priorities priority, User[] participantsEntities) {
         this.name = name;
         this.date = date;
         this.duration = duration;
         this.location = location;
         this.priority = priority;
-        this.participants = participantsEntities;
+    }
+
+    public Event(long id) {
+        this.id = id;
+    }
+
+    public Event(Long id, String name, Date date, Date duration, String location, String description, priorities priority, User[] participants, Date reminder) {
+        this.id = id;
+        this.name = name;
+        this.date = date;
+        this.duration = duration;
+        this.location = location;
+        this.description = description;
+        this.priority = priority;
+        this.participants = participants;
+        this.reminder = reminder;
     }
 
     public Event(String name, Date date, Date duration, String location, String description, priorities priority, User[] participantsEntities, Date reminder) {
@@ -80,6 +91,20 @@ public class Event {
         this.priority = priority;
         this.participants = participantsEntities;
         this.reminder = reminder;
+    }
+
+    public Event(long id, Date createdAt, String name, Date date, Date duration, String location, String description, priorities priority, User[] participants, Date reminder, AttachmentsInfo[] attachmentsInfo) {
+        this.id = id;
+        this.createdAt = createdAt;
+        this.name = name;
+        this.date = date;
+        this.duration = duration;
+        this.location = location;
+        this.description = description;
+        this.priority = priority;
+        this.participants = participants;
+        this.reminder = reminder;
+        this.attachmentsInfo = attachmentsInfo;
     }
 
     // Getters

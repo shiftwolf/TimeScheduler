@@ -6,6 +6,7 @@
 package com.example.timescheduler.Model;
 
 import com.example.timescheduler.APIobjects.token;
+import com.example.timescheduler.Controller.EventController;
 import com.example.timescheduler.Controller.UserController;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
@@ -71,6 +72,8 @@ public class User {
         this.password = password;
         this.events = events;
     }
+
+
 
     // Getters
 
@@ -151,7 +154,7 @@ public class User {
         if(!this.isAdmin()) {
             return null;
         }
-        User newUser = new User(id, email, username,name);
+        User newUser = new User(id, name, email,username);
         try{
             String message = UserController.changeUser(token, newUser);
             System.out.println(message);
@@ -173,8 +176,7 @@ public class User {
             return null;
         }
         try {
-            String message = UserController.deleteUser(token, new User(id));
-            return message;
+            return UserController.deleteUser(token, new User(id));
         }catch (IOException | InterruptedException e){
             System.out.println(e.getMessage());
             return e.getMessage();
@@ -183,24 +185,59 @@ public class User {
 
     /**
      *
-     * @param event
+     * @param token
+     * @return
      */
-    public void addEvent(Event event){}
+    public List<Event> getEvents(token token){
+        try{
+            return EventController.getEvents(token);
+        } catch (IOException | InterruptedException e){
+            System.out.println(e.getMessage());
+            return null;
+        }
+    }
 
     /**
      *
-     * @param name
-     * @param date
-     * @param duration
-     * @param location
-     * @param description
-     * @param priority
-     * @param participants
+     * @param token
+     * @param id
      * @return
      */
-    public boolean createEvent(String name, Date date, Date duration, String location, String description, Event.priorities priority, List<User> participants){
-        return true;
+    public Event getEventById(token token, Long id){
+        try{
+            return EventController.getEventById(token, id);
+        }catch (IOException | InterruptedException e){
+            System.out.println(e.getMessage());
+            return null;
+        }
     }
+
+
+    public String addEvent(String name, Date date, Date duration, String location, String description, Event.priorities priority, String[] participantMails, Date reminder, token token){
+
+        // build user objects
+        User[] participants = new User[participantMails.length];
+        for(int i = 0; i < participantMails.length; i ++){
+            try {
+                participants[i] = UserController.getUserByEmail(token, participantMails[i]);
+            } catch (IOException | InterruptedException e){
+                System.out.println(e.getMessage());
+                return e.getMessage();
+            }
+        }
+
+        Event event = new Event(name, date, duration,location, description,priority,participants, reminder);
+
+        try{
+            return EventController.newEvent(token, event, this);
+        }catch (IOException | InterruptedException e){
+            System.out.println(e.getMessage());
+            return e.getMessage();
+        }
+    }
+
+
+
 
     /**
      * Deletes Event out of users events.
