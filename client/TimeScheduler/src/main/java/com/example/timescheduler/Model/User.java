@@ -17,7 +17,9 @@ import java.util.List;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class User {
+
     // Attributes
+
     public Long id;
     private String name;
     private String email;
@@ -26,20 +28,6 @@ public class User {
     private Date createdAt;
     private List<Event> events;
     private boolean admin;
-
-    @Override
-    public String toString() {
-        return "User{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", email='" + email + '\'' +
-                ", username='" + username + '\'' +
-                ", password='" + password + '\'' +
-                ", createdAt=" + createdAt +
-                ", events=" + events +
-                ", admin=" + admin +
-                '}';
-    }
 
     // Constructors
 
@@ -73,8 +61,6 @@ public class User {
         this.password = password;
         this.events = events;
     }
-
-
 
     // Getters
 
@@ -128,8 +114,22 @@ public class User {
 
     // Methods
 
+    @Override
+    public String toString() {
+        return "User{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", email='" + email + '\'' +
+                ", username='" + username + '\'' +
+                ", password='" + password + '\'' +
+                ", createdAt=" + createdAt +
+                ", events=" + events +
+                ", admin=" + admin +
+                '}';
+    }
+
     /**
-     * Here an admin, that is a User can get all the Users that are stored in the database.
+     * Here a user, that is an admin can get all the Users that are stored in the database.
      * @param token Token of admin for verification.
      * @return List of Users.
      */
@@ -143,7 +143,7 @@ public class User {
     }
 
     /**
-     * With this method we can edit a user object.
+     * With this method admins can edit a user object on the database.
      * @param token Token for verification.
      * @param id should be the id of the user that is about to get changed
      * @param email
@@ -185,9 +185,9 @@ public class User {
     }
 
     /**
-     *
-     * @param token
-     * @return
+     * With this method users can get all their events.
+     * @param token to validate user
+     * @return List of events
      */
     public List<Event> getEvents(token token){
         try{
@@ -199,10 +199,10 @@ public class User {
     }
 
     /**
-     *
-     * @param token
-     * @param id
-     * @return
+     * With this method users can get a particular event's data by specifying the id.
+     * @param token to validate the user
+     * @param id to specify the event
+     * @return the event with the given id
      */
     public Event getEventById(token token, Long id){
         try{
@@ -213,7 +213,19 @@ public class User {
         }
     }
 
-
+    /**
+     * With this method a user can add/create a new event
+     * @param name of event
+     * @param date of event
+     * @param duration of event
+     * @param location of event
+     * @param description of event
+     * @param priority of event
+     * @param participantMails of event
+     * @param reminder of event
+     * @param token to validate user
+     * @return return message
+     */
     public String addEvent(String name, Date date, Date duration, String location, String description, Event.priorities priority, String[] participantMails, Date reminder, token token){
 
         User[] participants = new User[participantMails.length];
@@ -226,7 +238,7 @@ public class User {
             }
         }
 
-        Event event = new Event(name, date, duration,location, description,priority,participants, reminder);
+        Event event = new Event(name, date, duration,location,priority,participants, reminder);
 
         try{
             return EventController.newEvent(token, event, this);
@@ -236,6 +248,21 @@ public class User {
         }
     }
 
+    /**
+     * With this a user can edit an existing event. It is required that the event already exists.
+     * If you want to change only some properties of the event, just overwrite the others with the old values.
+     * @param id of existing event that is changed
+     * @param name that the event will have after execution of this function
+     * @param date that the event will have after execution of this function
+     * @param duration that the event will have after execution of this function
+     * @param location that the event will have after execution of this function
+     * @param description that the event will have after execution of this function
+     * @param priority that the event will have after execution of this function
+     * @param participantMails that the event will have after execution of this function
+     * @param reminder that the event will have after execution of this function
+     * @param token to validate the user
+     * @return return message
+     */
     public String editEvent(Long id, String name, Date date, Date duration, String location, String description, Event.priorities priority, String[] participantMails, Date reminder, token token) {
 
         User[] participants = new User[participantMails.length];
@@ -248,7 +275,7 @@ public class User {
             }
         }
 
-        Event event = new Event(id, name, date, duration,location, description,priority,participants, reminder);
+        Event event = new Event(id, name, date, duration,location,priority,participants, reminder);
 
         try{
             return EventController.changeEvent(token, event);
@@ -261,6 +288,9 @@ public class User {
     /**
      * Deletes Event out of users events.
      * Validation of Events existence not required, because delete button is displayed for every Event in GUI.
+     * @pararm token to validate the user
+     * @param id to specify the event
+     * @return return message
      */
     public String deleteEvent(token token, Long id){
         try{
@@ -271,6 +301,11 @@ public class User {
         }
     }
 
+    /**
+     * Get the weekly schedule to later print out
+     * @param token to validate the user
+     * @return byte array of file
+     */
     public byte[] getWeeklySchedule(token token){
         try {
             return ScheduleController.getWeeklySchedule(token);
