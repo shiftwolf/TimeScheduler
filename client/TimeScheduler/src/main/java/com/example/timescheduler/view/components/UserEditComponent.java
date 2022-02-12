@@ -1,5 +1,6 @@
 package com.example.timescheduler.view.components;
 
+import com.example.timescheduler.Model.User;
 import com.example.timescheduler.view.HomeView;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -40,20 +41,47 @@ public class UserEditComponent extends GridPane {
                 nameField.getText().trim(),
                 emailField.getText().trim());
 
+        // update local list & GUI
+        homeView.updateUser();
+        homeView.updateUserComponent();
+
         // stop showing the edit options
         homeView.getMainGrid().getChildren().remove(this);
+
+        // keep track of selected user & component
+        homeView.setSelectedUser(null);
+        homeView.setSelectedUserComponent(null);
     }
 
     @FXML
     public void onDeleteUser() {
-        // TODO: update GUI
-
         // notify listener
-        homeView.notifyOnDeleteUser(homeView.getSelectedUser());
+         homeView.notifyOnDeleteUser(homeView.getSelectedUser());
+
+        // update local list of users & GUI
+        homeView.removeUser();
+        homeView.removeUserComponent();
+        homeView.getMainGrid().getChildren().remove(this);
+
+        // keep track of selected user & component
+        homeView.setSelectedUser(null);
+        homeView.setSelectedUserComponent(null);
     }
 
     @FXML
     public void onCancel() {
+        // keep track of selected user & component
+        homeView.setSelectedUser(null);
+        homeView.setSelectedUserComponent(null);
+
         homeView.getMainGrid().getChildren().remove(this);
+    }
+
+    public void initializeValues() {
+        User user = homeView.getSelectedUser();
+
+        usernameField.setText(user.getUsername());
+        nameField.setText(user.getName());
+        emailField.setText(user.getEmail());
     }
 }

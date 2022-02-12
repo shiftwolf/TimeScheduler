@@ -9,6 +9,8 @@ import java.util.List;
 
 public interface HomeViewListener {
 
+    void setUser(User loggedUser);
+
     User getLoggedUser(token token);
 
     List <Event> getEvents(token token) throws IOException, InterruptedException;

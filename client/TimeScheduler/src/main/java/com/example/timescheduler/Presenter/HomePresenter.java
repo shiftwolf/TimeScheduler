@@ -13,12 +13,17 @@ import java.util.List;
 public class HomePresenter implements HomeViewListener {
 
     private final HomeView homeView;
-    private final User user;
+    private User user;
 
     public HomePresenter(HomeView homeView, User user) {
         this.homeView = homeView;
         this.homeView.addListener(this);
         this.user = user;
+    }
+
+    public void setUser(User loggedUser) {
+        this.user = loggedUser;
+        System.out.println("loggedUser: " + this.user);
     }
 
     @Override

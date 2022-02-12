@@ -12,8 +12,8 @@ import java.io.IOException;
 
 public class UserComponent extends GridPane {
 
-    HomeView homeView;
-    User user;
+    private final HomeView homeView;
+    private final User user;
 
     @FXML
     Label username;
@@ -46,26 +46,38 @@ public class UserComponent extends GridPane {
 
     @FXML
     public void onEdit(ActionEvent event) {
-        // keep track of selected user
+        // keep track of selected user & component
         homeView.setSelectedUser(user);
+        homeView.setSelectedUserComponent(this);
 
-        // load UserEditComponent
+        // load UserEditComponent & set user data
         if (!homeView.isInGrid(homeView.getUserEdit())) {
             homeView.getMainGrid().add(homeView.getUserEdit(), 1, 0);
         }
 
-        // set user data in UserEditComponent
-        homeView.getUserEdit().usernameField.setText(user.getUsername());
-        homeView.getUserEdit().nameField.setText(user.getName());
-        homeView.getUserEdit().emailField.setText(user.getEmail());
+        homeView.getUserEdit().initializeValues();
+
+//        homeView.getUserEdit().usernameField.setText(user.getUsername());
+//        homeView.getUserEdit().nameField.setText(user.getName());
+//        homeView.getUserEdit().emailField.setText(user.getEmail());
     }
 
     @FXML
     public void onDelete() {
-        // TODO: GUI update
+        // keep track of selected user & component
+        homeView.setSelectedUser(user);
+        homeView.setSelectedUserComponent(this);
 
         // notify listener
-        homeView.notifyOnDeleteUser(user);
+         homeView.notifyOnDeleteUser(user);
+
+        // update local list & GUI
+        homeView.removeUser();
+        homeView.removeUserComponent();
+
+        // keep track of selected user & component
+        homeView.setSelectedUser(null);
+        homeView.setSelectedUserComponent(null);
     }
 
 }

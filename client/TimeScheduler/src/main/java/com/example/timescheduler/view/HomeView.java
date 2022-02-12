@@ -43,6 +43,7 @@ public class HomeView {
     private EventEditComponent eventEdit;
     private EventCreateComponent eventCreate;
     private UserEditComponent userEdit;
+    private UserComponent selectedUserComponent = null;
 
     private VBox usersSection;
     private VBox eventsSection = new VBox();
@@ -66,6 +67,10 @@ public class HomeView {
 
     public HomeView() {
         loggedUser = notifyOnGetLoggedUser();
+        for (HomeViewListener listener : listeners) {
+            listener.setUser(loggedUser);
+        }
+
     }
 
     /**
@@ -206,8 +211,6 @@ public class HomeView {
         // 1. replace events section with users section
         scrollPane.setContent(usersSection);
 
-        System.out.println("scrollpane 1: " + scrollPane);
-
         // 2. configure ratio of the ScrollPane (7:3)
         gridCol0.setPercentWidth(70);
         gridCol1.setPercentWidth(30);
@@ -284,17 +287,18 @@ public class HomeView {
             try {
                 events = listener.getEvents(SchedulerApplication.token);
             } catch (Exception e) {
-                System.out.println("Requesting events failed.");
+                System.out.println("Requesting events failed: " + e.getMessage());
             }
         }
     }
 
-    public void notifyOnDelete(Event event) {
+    public void notifyOnDeleteEvent() {
         for (HomeViewListener listener : listeners) {
+            // TODO: don't need try catch anymore
             try {
                 listener.deleteEvent(SchedulerApplication.token, selectedEvent);
             } catch (Exception e) {
-                System.out.println("Requesting events failed.");
+                System.out.println("Requesting events failed: " + e.getMessage());
             }
         }
     }
@@ -320,6 +324,7 @@ public class HomeView {
      */
     public void notifyOnEditUser(String newUsername, String newName, String newEmail) {
         for (HomeViewListener listener : listeners) {
+            // TODO: don't need try catch anymore
             try {
                 listener.admin_editUser(
                         SchedulerApplication.token,
@@ -328,7 +333,7 @@ public class HomeView {
                         newName,
                         newEmail);
             } catch (Exception e) {
-                System.out.println("Edit user failed.");
+                System.out.println("Edit user failed: " + e.getMessage());
             }
         }
     }
@@ -340,10 +345,11 @@ public class HomeView {
      */
     public void notifyOnDeleteUser(User user) {
         for (HomeViewListener listener : listeners) {
+            // TODO: don't need try catch anymore
             try {
                 listener.admin_deleteUser(SchedulerApplication.token, user);
             } catch (Exception e) {
-                System.out.println("Delete user failed.");
+                System.out.println("Delete user failed: " + e.getMessage());
             }
         }
     }
@@ -476,6 +482,23 @@ public class HomeView {
         }
     }
 
+    public void removeUser() {
+        System.out.println("selected user to be removed: " + selectedUser);
+        users.remove(selectedUser);
+    }
+
+    public void removeUserComponent() {
+        usersSection.getChildren().remove(selectedUserComponent);
+    }
+
+    public void updateUser() {
+
+    }
+
+    public void updateUserComponent() {
+
+    }
+
     // Getters & Setters
 
     public EventDetailsComponent getEventDetailsComponent() { return eventDetails; }
@@ -495,4 +518,8 @@ public class HomeView {
     public Event getSelectedEvent() { return selectedEvent; }
 
     public void setSelectedEvent(Event selectedEvent) { this.selectedEvent = selectedEvent; }
+
+    public void setSelectedUserComponent(UserComponent userComponent) {
+        this.selectedUserComponent = userComponent;
+    }
 }

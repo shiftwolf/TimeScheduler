@@ -80,7 +80,7 @@ public class EventDetailsComponent extends GridPane {
 
     @FXML
     public void onDelete() {
-        homeView.notifyOnDelete(homeView.getSelectedEvent());
+        homeView.notifyOnDeleteEvent();
     }
 
     public void setDetails(Event event) {

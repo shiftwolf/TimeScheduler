@@ -72,7 +72,6 @@ public class RegistrationView {
     @FXML
     protected void onSignUp(ActionEvent event){
         boolean isValid = validateSignUp();
-        System.out.println("isValid: " + isValid);
 
         if (isValid) {
             // notify listeners
@@ -94,7 +93,6 @@ public class RegistrationView {
     }
 
     public User notifyOnCreateUser() {
-        System.out.println("notify on create user");
         User user = null;
         for (RegistrationViewListener listener : listeners) {
             user = listener.createUser(
@@ -103,7 +101,6 @@ public class RegistrationView {
                     username.getText().trim(),
                     password1.getText());
         }
-        System.out.println("user: " + user);
         return user;
     }
 
