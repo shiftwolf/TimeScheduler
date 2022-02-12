@@ -7,6 +7,7 @@ package com.example.timescheduler.Model;
 
 import com.example.timescheduler.APIobjects.token;
 import com.example.timescheduler.Controller.EventController;
+import com.example.timescheduler.Controller.ScheduleController;
 import com.example.timescheduler.Controller.UserController;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
@@ -236,8 +237,27 @@ public class User {
         }
     }
 
+    public String editEvent(Long id, String name, Date date, Date duration, String location, String description, Event.priorities priority, String[] participantMails, Date reminder, token token) {
 
+        User[] participants = new User[participantMails.length];
+        for(int i = 0; i < participantMails.length; i ++){
+            try {
+                participants[i] = UserController.getUserByEmail(token, participantMails[i]);
+            } catch (IOException | InterruptedException e){
+                System.out.println(e.getMessage());
+                return e.getMessage();
+            }
+        }
 
+        Event event = new Event(id, name, date, duration,location, description,priority,participants, reminder);
+
+        try{
+            return EventController.changeEvent(token, event);
+        }catch (IOException | InterruptedException e){
+            System.out.println(e.getMessage());
+            return e.getMessage();
+        }
+    }
 
     /**
      * Deletes Event out of users events.
@@ -246,6 +266,15 @@ public class User {
      */
     public void deleteEvent(Event event){
         return;
+    }
+
+    public byte[] getWeeklySchedule(token){
+        try {
+            return ScheduleController.getWeeklySchedule(token);
+        } catch (IOException | InterruptedException e){
+            System.out.println(e.getMessage());
+            return null;
+        }
     }
 
 }
