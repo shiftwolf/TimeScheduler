@@ -15,6 +15,12 @@ import java.io.IOException;
 import java.util.Date;
 import java.util.List;
 
+
+/**
+ * This class describes the users. It provides functions to create, edit and delete event.
+ * Users can have the attribute to be an admin. Admins can edit and view other profiles, also their
+ * graphical user interface differs to the non-admin users.
+ */
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class User {
 
@@ -310,6 +316,23 @@ public class User {
         } catch (IOException | InterruptedException e){
             System.out.println(e.getMessage());
             return null;
+        }
+    }
+
+    public String addParticipant(token token, String email, Long eventId){
+        User user;
+        try {
+            user = UserController.getUserByEmail(token, email);
+        } catch (IOException | InterruptedException e){
+            System.out.println(e.getMessage());
+            return e.getMessage();
+        }
+        Event event = new Event(eventId);
+        try{
+            return EventController.addParticipantsViaEmail(token, user, event);
+        } catch (IOException | InterruptedException e){
+            System.out.println(e.getMessage());
+            return e.getMessage();
         }
     }
 }
