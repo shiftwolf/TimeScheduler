@@ -34,15 +34,15 @@ public class CustomEditEventSerializer extends StdSerializer<Event> {
         jsonGenerator.writeStartObject();
         jsonGenerator.writeNumberField("id", event.getId());
         jsonGenerator.writeStringField("name", event.getName());
-        jsonGenerator.writeNumberField("duration", event.getDuration().getTime()/1000L);
-        jsonGenerator.writeNumberField("date", event.getDuration().getTime()/1000L);
+        jsonGenerator.writeNumberField("duration", event.getDuration().getTime());
+        jsonGenerator.writeNumberField("date", event.getDuration().getTime());
         jsonGenerator.writeStringField("location", event.getLocation());
         jsonGenerator.writeNumberField("priority", event.getPriority().ordinal());
         jsonGenerator.writeFieldName("participants");
         jsonGenerator.writeStartArray();
         jsonGenerator.writeRaw(participants);
         jsonGenerator.writeEndArray();
-        jsonGenerator.writeNumberField("reminder", event.getReminder().getTime()/1000L);
+        jsonGenerator.writeNumberField("reminder", event.getReminder().getTime());
         jsonGenerator.writeEndObject();
     }
 }

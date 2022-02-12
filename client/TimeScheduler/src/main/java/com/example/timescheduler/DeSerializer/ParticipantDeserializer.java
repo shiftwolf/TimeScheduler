@@ -33,7 +33,7 @@ public class ParticipantDeserializer extends StdDeserializer<User> {
     }
 
     /**
-     * Here we specify the conversion of the names in the JSON object to the Java object, we also
+     * Here we specify the conversion of the names in the JSON object to the Java object.
      * @param jsonParser provides read only access to JSON data
      * @param deserializationContext state information of deserialization
      * @return Model.User object
