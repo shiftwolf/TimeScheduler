@@ -158,7 +158,7 @@ public class EventController {
 
         System.out.println(response);
 
-        return response;
+        return response.body();
     }
 
     /**
