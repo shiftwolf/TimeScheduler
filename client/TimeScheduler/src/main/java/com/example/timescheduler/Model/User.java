@@ -219,14 +219,13 @@ public class User {
      * @param date of event
      * @param duration of event
      * @param location of event
-     * @param description of event
      * @param priority of event
      * @param participantMails of event
      * @param reminder of event
      * @param token to validate user
      * @return return message
      */
-    public String addEvent(String name, Date date, Date duration, String location, String description, Event.priorities priority, String[] participantMails, Date reminder, token token){
+    public String addEvent(String name, Date date, Date duration, String location, Event.priorities priority, String[] participantMails, Date reminder, token token){
 
         User[] participants = new User[participantMails.length];
         for(int i = 0; i < participantMails.length; i ++){
@@ -256,14 +255,13 @@ public class User {
      * @param date that the event will have after execution of this function
      * @param duration that the event will have after execution of this function
      * @param location that the event will have after execution of this function
-     * @param description that the event will have after execution of this function
      * @param priority that the event will have after execution of this function
      * @param participantMails that the event will have after execution of this function
      * @param reminder that the event will have after execution of this function
      * @param token to validate the user
      * @return return message
      */
-    public String editEvent(Long id, String name, Date date, Date duration, String location, String description, Event.priorities priority, String[] participantMails, Date reminder, token token) {
+    public String editEvent(Long id, String name, Date date, Date duration, String location, Event.priorities priority, String[] participantMails, Date reminder, token token) {
 
         User[] participants = new User[participantMails.length];
         for(int i = 0; i < participantMails.length; i ++){
