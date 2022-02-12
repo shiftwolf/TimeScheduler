@@ -34,9 +34,22 @@ public class ParticipantDeserializer extends StdDeserializer<User> {
         ObjectCodec codec = jsonParser.getCodec();
         JsonNode node = codec.readTree(jsonParser);
 
-        JsonNode userId = node.get("userId");
+        JsonNode userId = node.get("id");
         Long id = userId.asLong();
         user.setId(id);
+        JsonNode username = node.get("username");
+        String name = username.asText();
+        user.setUsername(name);
+        JsonNode namename = node.get("name");
+        String name2 = namename.asText();
+        user.setName(name2);
+        JsonNode email = node.get("email");
+        String mail = email.asText();
+        user.setEmail(mail);
+        JsonNode is_admin = node.get("admin");
+        boolean admin = is_admin.asBoolean();
+        user.setAdmin(admin);
+
         return user;
     }
 

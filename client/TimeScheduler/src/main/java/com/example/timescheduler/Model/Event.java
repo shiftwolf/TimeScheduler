@@ -10,6 +10,7 @@ import com.example.timescheduler.DeSerializer.CustomEventSerializer;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
+import java.util.Arrays;
 import java.util.Date;
 
 @JsonSerialize(using = CustomEventSerializer.class)
@@ -29,9 +30,9 @@ public class Event {
     private String location;
     private String description;
     private priorities priority;
-    private User[] participantsEntities;
+    public User[] participants;
     private Date reminder;
-
+    public AttachmentsInfo[] attachmentsInfo;
 
     @Override
     public String toString() {
@@ -44,7 +45,9 @@ public class Event {
                 ", location='" + location + '\'' +
                 ", description='" + description + '\'' +
                 ", priority=" + priority +
-                ", participantsEntities=" + participantsEntities +
+                ", participants=" + Arrays.toString(participants) +
+                ", reminder=" + reminder +
+                ", attachmentsInfo=" + Arrays.toString(attachmentsInfo) +
                 '}';
     }
 
@@ -65,7 +68,7 @@ public class Event {
         this.duration = duration;
         this.location = location;
         this.priority = priority;
-        this.participantsEntities = participantsEntities;
+        this.participants = participantsEntities;
     }
 
     public Event(String name, Date date, Date duration, String location, String description, priorities priority, User[] participantsEntities, Date reminder) {
@@ -75,12 +78,16 @@ public class Event {
         this.location = location;
         this.description = description;
         this.priority = priority;
-        this.participantsEntities = participantsEntities;
+        this.participants = participantsEntities;
         this.reminder = reminder;
     }
 
     // Getters
 
+
+    public AttachmentsInfo[] getAttachments() {
+        return attachmentsInfo;
+    }
 
     public long getId() {
         return id;
@@ -115,7 +122,7 @@ public class Event {
     }
 
     public User[] getParticipantsEntities() {
-        return participantsEntities;
+        return participants;
     }
 
     public Date getReminder() {
@@ -124,6 +131,10 @@ public class Event {
 
     // Setters
 
+
+    public void setAttachments(AttachmentsInfo[] attachments) {
+        this.attachmentsInfo = attachments;
+    }
 
     public void setReminder(Date reminder) {
         this.reminder = reminder;
@@ -148,10 +159,4 @@ public class Event {
     public void setPriority(priorities priority) {
         this.priority = priority;
     }
-
-    // Methods
-    //public void addParticipants(User newParticipant) {
-      //  participantsEntities.add(newParticipant);
-    //}
-
 }

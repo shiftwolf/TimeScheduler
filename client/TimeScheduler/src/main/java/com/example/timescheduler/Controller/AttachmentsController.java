@@ -1,8 +1,16 @@
 package com.example.timescheduler.Controller;
 
 import com.example.timescheduler.APIobjects.token;
+import com.example.timescheduler.Model.AttachmentsInfo;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.io.IOException;
+import java.net.URI;
+import java.net.http.HttpClient;
+import java.net.http.HttpRequest;
+import java.net.http.HttpResponse;
+import java.util.List;
 
 /**
  * @author Hendrik Weichel
@@ -24,8 +32,25 @@ public class AttachmentsController {
      * @throws IOException - Occurs if in the client.send or in the mapper.readValue command an error arises
      * @throws InterruptedException - Occurs if in the client.send a thread has been interrupted
      */
-    public static String getInfoByEvent(token token, Long id){
-        return " ";
+    public static List<AttachmentsInfo> getInfoByEvent(token token, Long id) throws IOException, InterruptedException {
+        HttpClient client = HttpClient.newHttpClient();
+
+        HttpRequest request = HttpRequest.newBuilder()
+                .GET()
+                .header("token", token.getTokenString())
+                .header("userID", String.valueOf(token.getUserID()))
+                .uri(URI.create(url + "/attachments/eventId=" + String.valueOf(id)))
+                .build();
+
+        HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
+
+        System.out.println(response.body());
+
+        ObjectMapper mapper = new ObjectMapper();
+
+        List<AttachmentsInfo> at = mapper.readValue(response.body(), new TypeReference<List<AttachmentsInfo>>(){});
+
+        return at;
 
     }
 
