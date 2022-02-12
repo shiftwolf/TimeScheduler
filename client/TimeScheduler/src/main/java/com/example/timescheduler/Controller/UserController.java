@@ -183,8 +183,7 @@ public class UserController {
         ObjectMapper mapper = new ObjectMapper();
         //mapper.setSerializationInclusion(JsonInclude.Include.NON_NULL);
         String jsonUser = mapper.writeValueAsString(user);
-
-        jsonUser = jsonUser.substring(0, jsonUser.length() - 1) + ",\"password\":\"" + user.getPassword() + "\"}";
+        System.out.println(jsonUser);
 
         HttpClient client = HttpClient.newHttpClient();
 
@@ -193,7 +192,7 @@ public class UserController {
                 .PUT(HttpRequest.BodyPublishers.ofString(jsonUser))
                 .uri(URI.create(url + "/users/id=" + String.valueOf(user.getId())))
                 .header("userID", String.valueOf(token.getUserID()))
-                .header("tokenString", token.getTokenString())
+                .header("token", token.getTokenString())
                 .build();
 
         HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
