@@ -6,6 +6,7 @@
 package com.example.timescheduler.Model;
 
 import com.example.timescheduler.APIobjects.token;
+import com.example.timescheduler.Controller.AttachmentsController;
 import com.example.timescheduler.Controller.EventController;
 import com.example.timescheduler.Controller.ScheduleController;
 import com.example.timescheduler.Controller.UserController;
@@ -330,6 +331,16 @@ public class User {
         Event event = new Event(eventId);
         try{
             return EventController.addParticipantsViaEmail(token, user, event);
+        } catch (IOException | InterruptedException e){
+            System.out.println(e.getMessage());
+            return e.getMessage();
+        }
+    }
+
+    // Todo: filename automatisch aus path erzeugen.
+    public String uploadAtt(token token, Long id, String path, String filename){
+        try {
+            return AttachmentsController.uploadAtt(token, id, path, filename);
         } catch (IOException | InterruptedException e){
             System.out.println(e.getMessage());
             return e.getMessage();
