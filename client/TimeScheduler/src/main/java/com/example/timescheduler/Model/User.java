@@ -144,7 +144,7 @@ public class User {
 
     /**
      * With this method we can edit a user object.
-     * @param token Token for verfication.
+     * @param token Token for verification.
      * @param id should be the id of the user that is about to get changed
      * @param email
      * @param username
@@ -216,7 +216,6 @@ public class User {
 
     public String addEvent(String name, Date date, Date duration, String location, String description, Event.priorities priority, String[] participantMails, Date reminder, token token){
 
-        // build user objects
         User[] participants = new User[participantMails.length];
         for(int i = 0; i < participantMails.length; i ++){
             try {
@@ -261,11 +260,15 @@ public class User {
 
     /**
      * Deletes Event out of users events.
-     * Validation of Events existance not required, because delete button is displayed for every Event in GUI.
-     * @param event
+     * Validation of Events existence not required, because delete button is displayed for every Event in GUI.
      */
-    public void deleteEvent(Event event){
-        return;
+    public String deleteEvent(token token, Long id){
+        try{
+            return EventController.deleteEvent(token, id);
+        } catch (IOException | InterruptedException e){
+            System.out.println(e.getMessage());
+            return e.getMessage();
+        }
     }
 
     public byte[] getWeeklySchedule(token token){
@@ -276,5 +279,4 @@ public class User {
             return null;
         }
     }
-
 }

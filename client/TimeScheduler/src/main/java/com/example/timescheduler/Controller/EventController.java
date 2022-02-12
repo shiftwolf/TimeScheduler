@@ -144,7 +144,7 @@ public class EventController {
      * @throws IOException - Occurs if in the client.send or in the mapper.readValue command an error arises
      * @throws InterruptedException - Occurs if in the client.send a thread has been interrupted
      */
-    public static void deleteEvent(token token, Long id) throws IOException, InterruptedException {
+    public static String deleteEvent(token token, Long id) throws IOException, InterruptedException {
         HttpClient client = HttpClient.newHttpClient();
 
         HttpRequest request = HttpRequest.newBuilder()
@@ -156,7 +156,9 @@ public class EventController {
 
         HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
 
-        System.out.println(response.body());
+        System.out.println(response);
+
+        return response;
     }
 
     /**
@@ -184,7 +186,7 @@ public class EventController {
                 .header("Content-Type", "application/json")
                 .PUT(HttpRequest.BodyPublishers.ofString(jsonUser))
                 .uri(URI.create(url + "/events/id=" + String.valueOf(event.getId())))
-                .header("userId", String.valueOf(token.getUserID()))
+                .header("userID", String.valueOf(token.getUserID()))
                 .header("token", token.getTokenString())
                 .build();
 
