@@ -122,7 +122,7 @@ public class EventEditComponent extends GridPane {
     @FXML
     public void onCancel() {
         // TODO: keep track of selected event
-        
+
 
         homeView.getMainGrid().add(homeView.getEventDetailsComponent(), 1, 0);
         homeView.getMainGrid().getChildren().remove(this);

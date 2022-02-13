@@ -236,7 +236,7 @@ public class EventController {
 
         HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
 
-        System.out.println(response.body());
+        System.out.println("bod " + response.body());
 
         return response.body();
 

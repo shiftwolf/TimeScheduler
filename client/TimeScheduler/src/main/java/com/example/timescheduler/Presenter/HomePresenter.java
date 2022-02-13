@@ -1,14 +1,12 @@
 package com.example.timescheduler.Presenter;
 
 import com.example.timescheduler.APIobjects.token;
-import com.example.timescheduler.Controller.EventController;
 import com.example.timescheduler.Model.Event;
 import com.example.timescheduler.Model.Organizer;
 import com.example.timescheduler.Model.User;
 import com.example.timescheduler.view.HomeView;
 import com.example.timescheduler.view.SchedulerApplication;
 
-import java.io.IOException;
 import java.util.Date;
 import java.util.List;
 
@@ -65,6 +63,11 @@ public class HomePresenter implements HomeViewListener {
     @Override
     public int addParticipant(token token, String email, Long eventId) {
         return user.addParticipant(token, email, eventId);
+    }
+
+    @Override
+    public int removeParticipant(token token, long eventId, long userId) {
+        return user.removeParticipant(token, eventId, userId);
     }
 
     @Override

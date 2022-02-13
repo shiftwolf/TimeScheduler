@@ -156,9 +156,11 @@ public class EventDetailsComponent extends GridPane {
         // clear participants section first
         participantsSection.getChildren().clear();
 
+        Event event = homeView.notifyOnGetEventById(homeView.getSelectedEvent().getId());
+
         // load participant components
-        for (String email : participantsEmails) {
-            ParticipantComponent participantComponent = new ParticipantComponent(this, email);
+        for (User user : event.getParticipantsEntities()) {
+            ParticipantComponent participantComponent = new ParticipantComponent(this, user);
             participantsSection.getChildren().add(participantComponent);
             VBox.setMargin(participantComponent, new Insets(6, 15, 0, 15));
         }

@@ -42,6 +42,8 @@ public interface HomeViewListener {
 
     int addParticipant(token token, String email, Long eventId);
 
+    int removeParticipant(token token, long eventId, long userId);
+
     int addAttachment(token token, long eventId, String path);
 
     void logout(token token);

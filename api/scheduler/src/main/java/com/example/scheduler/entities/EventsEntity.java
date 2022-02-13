@@ -45,7 +45,6 @@ public class EventsEntity {
 
     @OneToMany(
             mappedBy = "events",
-            cascade = CascadeType.ALL,
             orphanRemoval = true
     )
     @JsonManagedReference

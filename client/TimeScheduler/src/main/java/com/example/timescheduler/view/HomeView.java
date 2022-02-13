@@ -303,8 +303,6 @@ public class HomeView {
     public void updateAfterEditUser() {
         notifyOnGetUsers();
 
-        // update whole section (fastest to implement right now):
-
         // clear usersSection
         usersSection.getChildren().clear();
 
@@ -388,7 +386,15 @@ public class HomeView {
         for (HomeViewListener listener : listeners) {
             response = listener.addParticipant(SchedulerApplication.token, email, selectedEvent.getId());
         }
-        System.out.println("response: " + response);
+        return response;
+    }
+
+    public int notifyOnRemoveParticipant(User user) {
+        int response = 3;
+        for (HomeViewListener listener : listeners) {
+            response = listener.removeParticipant(SchedulerApplication.token, selectedEvent.getId(), user.getId());
+        }
+
         return response;
     }
 

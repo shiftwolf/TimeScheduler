@@ -13,6 +13,7 @@ import com.example.scheduler.util.JavaMailUtil;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.transaction.Transactional;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -320,7 +321,9 @@ public class EventController {
                 return ResponseEntity.internalServerError().body("Messaging Error occurred: " + e.getMessage());
 
         }
-        participantRepository.delete(participant);
+
+        participantRepository.deleteById(new ParticipantsEntityPK(id, participantId));
+
         return ResponseEntity.ok().body("Participant: " + id + " removed successfully");
     }
 
