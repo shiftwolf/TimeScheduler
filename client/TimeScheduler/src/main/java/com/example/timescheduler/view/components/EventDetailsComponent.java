@@ -64,17 +64,6 @@ public class EventDetailsComponent extends GridPane {
     }
 
     @FXML
-    public void initialize() {
-
-        // add attachments to attachmentsSection
-//        for (String item : attachments) {
-//            AttachmentComponent attachment = new AttachmentComponent(this, item);
-//            attachmentsSection.getChildren().add(attachment);
-//            VBox.setMargin(attachment, new Insets(6, 15, 0, 15));
-//        }
-    }
-
-    @FXML
     public void onEdit() {
         if (homeView.getSelectedEvent() != null) {
             homeView.getMainGrid().add(homeView.getEventEditComponent(), 1, 0);
@@ -124,16 +113,13 @@ public class EventDetailsComponent extends GridPane {
             // notify listener
             response = homeView.notifyOnAddAttachment(filePath);
 
-            // TODO: update lists and UI
+            // update local attachment names list and GUI
             if (response == 0) {
-                // file added successfully
-                // update attachments list
+                // file added successfully => update attachments list
                 attachmentsNames.add(file.getName());
                 // update GUI
                 loadAttachmentComponents();
             }
-
-
         }
     }
 
@@ -156,7 +142,7 @@ public class EventDetailsComponent extends GridPane {
                 loadParticipantComponents();
             }
 
-            // TODO: attachments
+            // load attachments
             loadAttachmentComponents();
 
         } else {
@@ -182,7 +168,7 @@ public class EventDetailsComponent extends GridPane {
         // clear attachments section first
         attachmentsSection.getChildren().clear();
 
-        // make sure data of current event is up to date: notify listener
+        // make sure data of current event is up-to-date: notify listener
         Event event = homeView.notifyOnGetEventById(homeView.getSelectedEvent().getId());
         attachments = List.of(event.getAttachments());
 

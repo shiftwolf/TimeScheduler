@@ -61,4 +61,9 @@ public class AttachmentComponent extends HBox {
         }
     }
 
+    @FXML
+    public void onRemove() {
+        // TODO
+
+    }
 }

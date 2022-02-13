@@ -10,5 +10,6 @@
     <Label fx:id="fileName" />
     <Pane HBox.hgrow="ALWAYS"/>
     <Button text="download" onAction="#onDownload" />
+    <Button text="X" onAction="#onRemove" />
 
 </fx:root>

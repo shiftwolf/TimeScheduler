@@ -5,6 +5,8 @@ import com.example.timescheduler.view.HomeView;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Label;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 
 import java.io.IOException;
@@ -18,6 +20,8 @@ public class EventComponent extends HBox {
     Label nameField;
     @FXML
     Label detailsField;
+    @FXML
+    ImageView priorityImage;
     
     public EventComponent(HomeView homeView, Event event) {
         this.homeView = homeView;
@@ -40,6 +44,9 @@ public class EventComponent extends HBox {
         nameField.setText(event.getName());
         // format & display the date
         detailsField.setText(homeView.formatDate(event.getDate()));
+        // set the priority color
+        String imagePath = String.format("/com/example/timescheduler/view/icons/priority%d.png", event.getPriority().ordinal());
+        priorityImage.setImage(new Image(getClass().getResourceAsStream(imagePath)));
     }
 
     @FXML
