@@ -5,6 +5,8 @@ import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.jpa.repository.*;
 import org.springframework.data.repository.query.Param;
 
+import java.util.Optional;
+
 /**
  * Special Interface for a CrudRepository that works on token entities
  * Note: Implementations for this interface are automatically
@@ -19,5 +21,6 @@ public interface TokenRepository extends CrudRepository<TokensEntity, String> {
      */
     @Query("SELECT CASE WHEN count(e) > 0 THEN true ELSE false END FROM TokensEntity e WHERE e.token = :token and e.userId = :userId" )
     Boolean isValid(@Param("token") String token, @Param("userId") Long userId);
+    Optional<TokensEntity> findByToken(String token);
 
 }

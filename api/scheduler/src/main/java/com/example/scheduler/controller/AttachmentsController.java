@@ -121,6 +121,30 @@ public class AttachmentsController {
         byte[] r = e.getAttachment();
         return ResponseEntity.ok().header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + e.getName() + "\"").body(r);
     }
+
+    /**
+     * Delete an attachment
+     * @param id of the attachment you want to delete
+     * @param userId header that holds the requesting users id
+     * @param token header that holds the requesting users auth token
+     * @return if deletion was successful
+     * @throws NoAuthorizationException if user authentication fails
+     * @throws AttachmentNotFoundException if an attachment with the given id is not found
+     */
+    @DeleteMapping("/attachments/id={id}")
+    ResponseEntity<String> delete(@PathVariable Long id,
+                                    @RequestHeader("userId") Long userId,
+                                    @RequestHeader("token") String token)
+            throws NoAuthorizationException,
+            AttachmentNotFoundException{
+        AttachmentsEntity e = attachmentsRepository.findById(id).orElseThrow(() -> new AttachmentNotFoundException(id));
+        if(!validateParticipants(e.getEventId(), userId, token)){throw new NoAuthorizationException(userId);}
+
+        attachmentsRepository.delete(e);
+        return ResponseEntity.ok().body("Attachment: " + id + " deleted successfully");
+    }
+
+
     /**
      * Validates User to grant them access to Attachments, based on his admin role or his participation in the attachment is associated to
      * @param eventId of the event that the client wants to access

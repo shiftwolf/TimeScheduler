@@ -103,7 +103,7 @@ public class UserController {
      * @param userId header that holds the requesting users id
      * @param token header that holds the requesting users auth token
      * @return Http response if the edit was successful
-     * @throws UserNotFoundException if user can't be found in the database
+     * @throws UserNotFoundException if user could be retrieved by the given id
      * @throws NoAuthorizationException if user authentication fails
      */
     @PutMapping("/users/id={id}")
@@ -127,7 +127,7 @@ public class UserController {
      * @param userId header that holds the requesting users id
      * @param token header that holds the requesting users auth token
      * @return DTO of the user with all information
-     * @throws UserNotFoundException if user can't be found in the database
+     * @throws UserNotFoundException if user could be retrieved by the given id
      * @throws NoAuthorizationException if user authentication fails
      */
     @GetMapping("/users/id={id}")
@@ -147,7 +147,7 @@ public class UserController {
      * @param userId header that holds the requesting users id
      * @param token header that holds the requesting users auth token
      * @return DTO of the user with all information
-     * @throws UserNotFoundException if user can't be found in the database
+     * @throws UserNotFoundException if user could be retrieved by the given id
      * @throws NoAuthorizationException if user authentication fails
      */
     @GetMapping("/users/name={username}")
@@ -166,7 +166,7 @@ public class UserController {
      * @param userId header that holds the requesting users id
      * @param token header that holds the requesting users auth token
      * @return DTO of the user with all information
-     * @throws UserNotFoundException if user can't be found in the database
+     * @throws UserNotFoundException if user could be retrieved by the given id
      * @throws NoAuthorizationException if user authentication fails
      */
     @GetMapping("/users/email={email}")
@@ -187,14 +187,17 @@ public class UserController {
      * @param token header that holds the requesting users auth token
      * @return Http response if the deletion was successful
      * @throws NoAuthorizationException if user authentication fails
+     * @throws UserNotFoundException if user could be retrieved by the given id
      */
     @DeleteMapping("/users/id={id}")
     ResponseEntity<String> deleteUser(@PathVariable Long id,
                                       @RequestHeader("userId") Long userId,
                                       @RequestHeader("token") String token)
-            throws NoAuthorizationException{
+            throws NoAuthorizationException,
+            UserNotFoundException{
         if(!validateUser(id, userId, token)){throw new NoAuthorizationException(userId);}
-        userRepository.deleteById(id);
+        UsersEntity e = userRepository.findById(id).orElseThrow(() -> new UserNotFoundException(id));
+        userRepository.delete(e);
         return ResponseEntity.ok().body("User: " + id + "deleted successfully");
     }
 

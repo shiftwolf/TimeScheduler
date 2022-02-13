@@ -292,15 +292,42 @@ public class EventController {
     }
 
     /**
-     * Delete a specific event
-     * @param id event id of the event you want to delete
+     * Remove Participant from Event
+     * @param id event id of the user is participating in
+     * @param participantId userId of the participant to remove
      * @param userId of the requesting user
      * @param token of the requesting user, used to validate his login status
      */
-    @DeleteMapping("/events/id={id}")
-    ResponseEntity<String> deleteEvent(@PathVariable Long id,
+    @DeleteMapping("/events/id={id}/participants/id={participantId}")
+    ResponseEntity<String> removeParticipant(@PathVariable Long id,
+                     @PathVariable Long participantId,
                      @RequestHeader("userId") Long userId,
                      @RequestHeader("token") String token) {
+        if(!validateParticipants(id,userId,token)){throw new NoAuthorizationException(userId);}
+        EventsEntity event = eventRepository.findById(id).orElseThrow(()-> new EventNotFoundException(id));
+        UsersEntity creator = userRepository.findById(userId).orElseThrow(()-> new UserNotFoundException(userId));
+
+        ParticipantsEntity participant = participantRepository.findById(new ParticipantsEntityPK(event.getId(), participantId)).orElseThrow(()-> new UserNotFoundException(participantId));
+
+            UsersEntity usersEntity = userRepository.findById(participant.getUserId()).orElseThrow(() -> new UserNotFoundException(participant.getUserId()));
+            try {
+                mailUtil.sendMail(usersEntity.getEmail(),
+                        "You have been removed from Event: " + event.getName() + "!",
+                        "Hello " + usersEntity.getName() + ", \n"
+                                + "You have been removed from the Event you are participating in by "
+                                + creator.getName() +"! ");
+            }catch (Exception e){
+                return ResponseEntity.internalServerError().body("Messaging Error occurred: " + e.getMessage());
+
+        }
+        participantRepository.delete(participant);
+        return ResponseEntity.ok().body("Participant: " + id + " removed successfully");
+    }
+
+    @DeleteMapping("/events/id={id}")
+    ResponseEntity<String> deleteEvent(@PathVariable Long id,
+                                       @RequestHeader("userId") Long userId,
+                                       @RequestHeader("token") String token) {
         if(!validateParticipants(id,userId,token)){throw new NoAuthorizationException(userId);}
         EventsEntity event = eventRepository.findById(id).orElseThrow(()-> new EventNotFoundException(id));
         UsersEntity creator = userRepository.findById(userId).orElseThrow(()-> new UserNotFoundException(userId));
@@ -317,7 +344,7 @@ public class EventController {
             }
         }
         eventRepository.delete(event);
-        return ResponseEntity.ok().body("Event: " + id + "deleted successfully");
+        return ResponseEntity.ok().body("Event: " + id + " deleted successfully");
     }
 
     /**

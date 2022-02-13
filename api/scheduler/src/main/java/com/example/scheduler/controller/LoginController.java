@@ -65,8 +65,9 @@ public class LoginController {
     @DeleteMapping("/login")
     ResponseEntity<String> logout(@RequestHeader("userId") Long userId,
                                   @RequestHeader("token") String token){
-        if(tokenRepository.isValid(token, userId)){
-            tokenRepository.deleteById(token);
+        if(tokenRepository.isValid(token, userId) && tokenRepository.findByToken(token).isPresent()){
+            TokensEntity e = tokenRepository.findByToken(token).get();
+            tokenRepository.delete(e);
             return ResponseEntity.ok().body("You were successfully logged out");
         }
         else return ResponseEntity.badRequest().body("Could not match token to correct login data");
