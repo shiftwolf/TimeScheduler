@@ -37,7 +37,7 @@
 
             <HBox fx:id="eventActions" GridPane.columnIndex="0" GridPane.rowIndex="1">
                 <GridPane.margin><Insets right="30"/></GridPane.margin>
-                <Button text="Export Schedule" minHeight="35"/>
+                <Button text="Export Schedule" onAction="#onExportSchedule" minHeight="35"/>
                 <Pane HBox.hgrow="ALWAYS" />
                 <Button text="Add Event" minHeight="35" onAction="#onAddEvent">
                     <GridPane.margin><Insets right="30"/></GridPane.margin>
