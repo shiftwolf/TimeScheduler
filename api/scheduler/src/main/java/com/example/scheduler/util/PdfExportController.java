@@ -65,7 +65,7 @@ public class PdfExportController {
     public void generatePdf(HttpServletResponse response, @RequestHeader("userId") Long userId,
                             @RequestHeader("token") String token) throws IOException {
         //check if user is logged in (token)
-        TokensEntity tokensEntity = tokenRepository.findById(token).orElseThrow(LoginFailedException::new);
+        TokensEntity tokensEntity = tokenRepository.findByToken(token).orElseThrow(LoginFailedException::new);
         if(!(tokensEntity.getUserId().longValue() == userId.longValue())) {
             throw new NoAuthorizationException(userId);
         }
@@ -92,7 +92,7 @@ public class PdfExportController {
             }
         });
         if (eventsEntities.size() == 0)
-            System.out.println("No events listed"); //todo: make new exception
+            System.out.println("No events listed");
         else
             this.pdfGenerator.PdfExport(response, eventsEntities, userId, userRepository);
     }
