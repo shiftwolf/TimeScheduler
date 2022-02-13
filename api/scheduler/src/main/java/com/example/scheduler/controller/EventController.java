@@ -112,11 +112,21 @@ public class EventController {
         dTOs.sort(Comparator.comparing(EventDTO::getDate));
         return dTOs;
     }
-
+    /**
+     * Add a new event to the repo with the received data from the DTO
+     * @param newEvent DTO that holds all relevant data to create the event
+     * @param userId header that holds the requesting users id
+     * @param token header that holds the requesting users auth token
+     * @return Http response if the event was successfully added
+     * @throws UserNotFoundException if user can't be found in the database
+     * @throws NoAuthorizationException if user authentication fails
+     */
     @PostMapping("/events")
     ResponseEntity<String> newEvent(@RequestBody NewEventDTO newEvent,
-                  @RequestHeader("userId") Long userId,
-                  @RequestHeader("token") String token) {
+                                    @RequestHeader("userId") Long userId,
+                                    @RequestHeader("token") String token)
+                                throws NoAuthorizationException,
+                                UserNotFoundException{
 
         if(!tokenRepository.isValid(token, userId)){
             throw new NoAuthorizationException(userId);
@@ -167,13 +177,17 @@ public class EventController {
      * @param token header that holds the requesting users auth token
      * @return Http response if the edit was successful
      * @throws UserNotFoundException if user can't be found in the database
+     * @throws EventNotFoundException if Event could not be retrieved by the given id
      * @throws NoAuthorizationException if user authentication fails
      */
     @PutMapping("/events/id={id}")
     ResponseEntity<String> editEvent(@PathVariable Long id,
                                      @RequestBody NewEventDTO event,
                                      @RequestHeader("userId") Long userId,
-                                     @RequestHeader("token") String token){
+                                     @RequestHeader("token") String token)
+                                throws UserNotFoundException,
+                                EventNotFoundException,
+                                NoAuthorizationException{
         if(!validateParticipants(id,userId,token)){throw new NoAuthorizationException(userId);}
 
         //Update the values saved in the eventEntity
@@ -220,6 +234,7 @@ public class EventController {
      * @param token header that holds the requesting users auth token
      * @return Http response if the edit was successful
      * @throws UserNotFoundException if user can't be found in the database
+     * @throws EventNotFoundException if Event could not be retrieved by the given id
      * @throws NoAuthorizationException if user authentication fails
      */
     @PutMapping("/events/id={id}/participants/email={email}")
@@ -228,6 +243,7 @@ public class EventController {
                                      @RequestHeader("userId") Long userId,
                                      @RequestHeader("token") String token)
                                     throws NoAuthorizationException,
+                                    EventNotFoundException,
                                     UserNotFoundException{
         if(!validateParticipants(id,userId,token)){throw new NoAuthorizationException(userId);}
 
@@ -262,11 +278,15 @@ public class EventController {
      * @param userId of the requesting user
      * @param token of the requesting user, used to validate his login status
      * @return DTO of the event with all information
+     * @throws EventNotFoundException if Event could not be retrieved by the given id
+     * @throws NoAuthorizationException if user authentication fails
      */
     @GetMapping("/events/id={id}")
     EventDTO one(@PathVariable Long id,
-                     @RequestHeader("userId") Long userId,
-                    @RequestHeader("token") String token) {
+                 @RequestHeader("userId") Long userId,
+                 @RequestHeader("token") String token)
+            throws NoAuthorizationException,
+            EventNotFoundException{
         if(!validateParticipants(id,userId,token)){throw new NoAuthorizationException(userId);}
 
         EventsEntity event = eventRepository.findById(id).orElseThrow(() -> new EventNotFoundException(id));
@@ -294,16 +314,22 @@ public class EventController {
 
     /**
      * Remove Participant from Event
-     * @param id event id of the user is participating in
+     * @param id event id of the event the user is participating in
      * @param participantId userId of the participant to remove
      * @param userId of the requesting user
      * @param token of the requesting user, used to validate his login status
+     * @throws NoAuthorizationException if user authentication fails
+     * @throws UserNotFoundException if user can't be found in the database
+     * @throws EventNotFoundException if Event could not be retrieved by the given id
      */
     @DeleteMapping("/events/id={id}/participants/id={participantId}")
     ResponseEntity<String> removeParticipant(@PathVariable Long id,
-                     @PathVariable Long participantId,
-                     @RequestHeader("userId") Long userId,
-                     @RequestHeader("token") String token) {
+                                             @PathVariable Long participantId,
+                                             @RequestHeader("userId") Long userId,
+                                             @RequestHeader("token") String token)
+                                            throws NoAuthorizationException,
+                                            EventNotFoundException,
+                                            UserNotFoundException{
         if(!validateParticipants(id,userId,token)){throw new NoAuthorizationException(userId);}
         EventsEntity event = eventRepository.findById(id).orElseThrow(()-> new EventNotFoundException(id));
         UsersEntity creator = userRepository.findById(userId).orElseThrow(()-> new UserNotFoundException(userId));
@@ -326,11 +352,22 @@ public class EventController {
 
         return ResponseEntity.ok().body("Participant: " + id + " removed successfully");
     }
-
+    /**
+     * Delete Event from repository by given id
+     * @param id of the event to delete
+     * @param userId of the requesting user
+     * @param token of the requesting user, used to validate his login status
+     * @throws NoAuthorizationException if user authentication fails
+     * @throws UserNotFoundException if user can't be found in the database
+     * @throws EventNotFoundException if Event could not be retrieved by the given id
+     */
     @DeleteMapping("/events/id={id}")
     ResponseEntity<String> deleteEvent(@PathVariable Long id,
                                        @RequestHeader("userId") Long userId,
-                                       @RequestHeader("token") String token) {
+                                       @RequestHeader("token") String token)
+                                    throws NoAuthorizationException,
+                                    EventNotFoundException,
+                                    UserNotFoundException{
         if(!validateParticipants(id,userId,token)){throw new NoAuthorizationException(userId);}
         EventsEntity event = eventRepository.findById(id).orElseThrow(()-> new EventNotFoundException(id));
         UsersEntity creator = userRepository.findById(userId).orElseThrow(()-> new UserNotFoundException(userId));
@@ -357,7 +394,7 @@ public class EventController {
      * @param token of the requesting user, used to validate his login status
      * @return <code>true</code> if the given userId and token match a tokenEntity in the database
      * and the accessing user is accessing an event he is participating or is an admin,
-     * <code>false</code>  otherwise;
+     * <code>false</code>  otherwise
      */
     boolean validateParticipants(Long eventId, Long userId, String token){
         if(!tokenRepository.isValid(token, userId)){ return false;}

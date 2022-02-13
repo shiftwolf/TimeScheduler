@@ -7,6 +7,12 @@ import java.sql.Timestamp;
 import java.util.Arrays;
 import java.util.Objects;
 
+/**
+ * @author Timo, Max
+ * @version 1.0
+ * JPA Repository Entity, this is the java representation of a sql table
+ * Stores Event Attachments with their Info and raw data
+ */
 @Entity
 @Table(name = "attachments", schema = "scheduler")
 public class AttachmentsEntity {
@@ -34,6 +40,12 @@ public class AttachmentsEntity {
 
     public AttachmentsEntity(){}
 
+    /**
+     * normal constructor used to initialize the values
+     * @param eventId database identifier of event this attachment is linked to
+     * @param name filename of the attachment
+     * @param attachment raw byte data of the attachment
+     */
     public AttachmentsEntity(Long eventId, String name, byte[] attachment) {
         this.eventId =eventId;
         this.name = name;

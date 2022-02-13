@@ -9,6 +9,12 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
+/**
+ * @author Timo, Max
+ * @version 1.0
+ * JPA Repository Entity, this is the java representation of a sql table
+ * Stores Event data
+ */
 @Entity
 @Table(name = "events", schema = "scheduler")
 public class EventsEntity {
@@ -52,6 +58,14 @@ public class EventsEntity {
 
     public EventsEntity() {}
 
+    /**
+     * normal constructor used to initialize the values
+     * @param name of the event
+     * @param date when the event takes place
+     * @param duration how long the event will go
+     * @param location where the event takes place
+     * @param priority how urgent the Event is
+     */
     public EventsEntity(String name, Timestamp date, Timestamp duration,
                  String location, Integer priority) {
         this.name = name;
