@@ -162,7 +162,7 @@ public class RegistrationView {
             email.setStyle("-fx-border-color: #ad4c4c;");
         }
 
-        return true;
+        return isValid;
     }
 
     /**
