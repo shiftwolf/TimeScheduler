@@ -10,7 +10,11 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import java.util.Arrays;
 import java.util.Date;
+import java.util.List;
 
+/**
+ * This class describes the events.
+ */
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class Event {
 
@@ -25,7 +29,7 @@ public class Event {
     private Date duration;
     private String location;
     private priorities priority;
-    public User[] participants;
+    public List<User> participants;
     private Date reminder;
     public AttachmentsInfo[] attachmentsInfo;
     public void setId(long id) {
@@ -50,7 +54,7 @@ public class Event {
         this.priority = priority;
     }
 
-    public Event(Long id, String name, Date date, Date duration, String location, priorities priority, User[] participants, Date reminder) {
+    public Event(Long id, String name, Date date, Date duration, String location, priorities priority, List<User> participants, Date reminder) {
         this.id = id;
         this.name = name;
         this.date = date;
@@ -61,7 +65,7 @@ public class Event {
         this.reminder = reminder;
     }
 
-    public Event(String name, Date date, Date duration, String location, priorities priority, User[] participantsEntities, Date reminder) {
+    public Event(String name, Date date, Date duration, String location, priorities priority, List<User> participantsEntities, Date reminder) {
         this.name = name;
         this.date = date;
         this.duration = duration;
@@ -71,7 +75,7 @@ public class Event {
         this.reminder = reminder;
     }
 
-    public Event(long id, Date createdAt, String name, Date date, Date duration, String location, priorities priority, User[] participants, Date reminder, AttachmentsInfo[] attachmentsInfo) {
+    public Event(long id, Date createdAt, String name, Date date, Date duration, String location, priorities priority, List<User> participants, Date reminder, AttachmentsInfo[] attachmentsInfo) {
         this.id = id;
         this.createdAt = createdAt;
         this.name = name;
@@ -118,7 +122,7 @@ public class Event {
         return priority;
     }
 
-    public User[] getParticipantsEntities() {
+    public List<User> getParticipantsEntities() {
         return participants;
     }
 
@@ -162,7 +166,7 @@ public class Event {
                 ", duration=" + duration +
                 ", location='" + location + '\'' +
                 ", priority=" + priority +
-                ", participants=" + Arrays.toString(participants) +
+                ", participants=" + participants +
                 ", reminder=" + reminder +
                 ", attachmentsInfo=" + Arrays.toString(attachmentsInfo) +
                 '}';

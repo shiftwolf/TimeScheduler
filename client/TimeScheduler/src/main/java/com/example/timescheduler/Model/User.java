@@ -13,6 +13,7 @@ import com.example.timescheduler.Controller.UserController;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -234,17 +235,17 @@ public class User {
      */
     public String addEvent(String name, Date date, Date duration, String location, Event.priorities priority, String[] participantMails, Date reminder, token token){
 
-        User[] participants = new User[participantMails.length];
+        List<User> participants = new ArrayList<User>();
         for(int i = 0; i < participantMails.length; i ++){
             try {
-                participants[i] = UserController.getUserByEmail(token, participantMails[i]);
+                participants.add(UserController.getUserByEmail(token, participantMails[i]));
             } catch (IOException | InterruptedException e){
                 System.out.println(e.getMessage());
                 return e.getMessage();
             }
         }
 
-        Event event = new Event(name, date, duration,location,priority,participants, reminder);
+        Event event = new Event(name, date, duration, location, priority, participants, reminder);
 
         try{
             return EventController.newEvent(token, event, this);
@@ -270,10 +271,10 @@ public class User {
      */
     public String editEvent(Long id, String name, Date date, Date duration, String location, Event.priorities priority, String[] participantMails, Date reminder, token token) {
 
-        User[] participants = new User[participantMails.length];
+        List<User> participants = new ArrayList<User>();
         for(int i = 0; i < participantMails.length; i ++){
             try {
-                participants[i] = UserController.getUserByEmail(token, participantMails[i]);
+                participants.add(UserController.getUserByEmail(token, participantMails[i]));
             } catch (IOException | InterruptedException e){
                 System.out.println(e.getMessage());
                 return e.getMessage();
