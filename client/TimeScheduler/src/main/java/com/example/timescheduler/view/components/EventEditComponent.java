@@ -40,17 +40,18 @@ public class EventEditComponent extends GridPane {
     ComboBox reminderPicker;
     @FXML
     TextField locationField;
-    @FXML
-    VBox participantsSection;
-    @FXML
-    VBox attachmentsSection;
+
+//    @FXML
+//    VBox participantsSection;
+//    @FXML
+//    VBox attachmentsSection;
 
     public EventEditComponent(HomeView homeView) {
         this.homeView = homeView;
 
         // for debugging
-        participants = Arrays.asList("Sarah Boeckel", "Timo Wolf", "Bob Tester", "Ember");
-        attachments = Arrays.asList("01.txt", "02.txt", "03.txt");
+//        participants = Arrays.asList("Sarah Boeckel", "Timo Wolf", "Bob Tester", "Ember");
+//        attachments = Arrays.asList("01.txt", "02.txt", "03.txt");
 
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("event_edit_component.fxml"));
         fxmlLoader.setRoot(this);
@@ -70,7 +71,7 @@ public class EventEditComponent extends GridPane {
 
     @FXML
     public void onSave() {
-        // TODO: data to presenter
+        // TODO: data to presenter & keep track of selected event
 
         homeView.getMainGrid().add(homeView.getEventDetailsComponent(), 1, 0);
         homeView.getMainGrid().getChildren().remove(this);
@@ -127,11 +128,11 @@ public class EventEditComponent extends GridPane {
 //        }
 
         // add attachments to attachmentsSection
-        for (String item : attachments) {
-            AttachmentEditComponent attachment = new AttachmentEditComponent(this, item);
-            attachmentsSection.getChildren().add(attachment);
-            VBox.setMargin(attachment, new Insets(6, 15, 0, 15));
-        }
+//        for (String item : attachments) {
+//            AttachmentEditComponent attachment = new AttachmentEditComponent(this, item);
+//            attachmentsSection.getChildren().add(attachment);
+//            VBox.setMargin(attachment, new Insets(6, 15, 0, 15));
+//        }
     }
 
     public String convertToString(Event.priorities priority) {
@@ -183,7 +184,7 @@ public class EventEditComponent extends GridPane {
         return durationString;
     }
 
-    public VBox getParticipantsSection() { return participantsSection; }
-
-    public VBox getAttachmentsSection() { return attachmentsSection; }
+//    public VBox getParticipantsSection() { return participantsSection; }
+//
+//    public VBox getAttachmentsSection() { return attachmentsSection; }
 }

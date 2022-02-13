@@ -75,6 +75,9 @@ public class LoginView {
             // notify the user that the login has failed
             loginError.setVisible(true);
         } else {
+            // clear login
+            resetGUI();
+
             // new window for main app where HomeView will be loaded
             Parent fxml = FXMLLoader.load(getClass().getResource("home_view.fxml"));
             Scene scene = new Scene(fxml);

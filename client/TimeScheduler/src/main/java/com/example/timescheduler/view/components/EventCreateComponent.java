@@ -106,7 +106,7 @@ public class EventCreateComponent extends GridPane {
                     reminder,
                     SchedulerApplication.token);
 
-            // TODO: attachments & participants
+            // TODO: participants ?
 
             // TODO: update events list
 

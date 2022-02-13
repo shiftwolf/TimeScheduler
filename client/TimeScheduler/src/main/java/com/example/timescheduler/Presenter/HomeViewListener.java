@@ -29,7 +29,7 @@ public interface HomeViewListener {
 
     void deleteEvent(token token, Event event);
 
-    String addParticipant(token token, String email, Long eventId);
+    int addParticipant(token token, String email, Long eventId);
 
     // admin only:
 

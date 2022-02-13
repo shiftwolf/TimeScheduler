@@ -38,6 +38,6 @@ public class AttachmentEditComponent extends HBox {
     @FXML
     public void onRemove() {
         // TODO: save change in edit view
-        eventEditComponent.getAttachmentsSection().getChildren().remove(this);
+//        eventEditComponent.getAttachmentsSection().getChildren().remove(this);
     }
 }

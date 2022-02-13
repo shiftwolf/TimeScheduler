@@ -361,8 +361,8 @@ public class HomeView {
         }
     }
 
-    public String notifyOnAddParticipant(String email) {
-        String response = null;
+    public int notifyOnAddParticipant(String email) {
+        int response = 3;
         for (HomeViewListener listener : listeners) {
             response = listener.addParticipant(SchedulerApplication.token, email, selectedEvent.getId());
         }

@@ -11,14 +11,14 @@ import java.io.IOException;
 public class ParticipantComponent extends HBox {
 
     EventDetailsComponent eventDetailsComponent = null;
-    User user;
+    String email;
 
     @FXML
     Label participant;
 
-    public ParticipantComponent(EventDetailsComponent eventDetailsComponent, User user) {
+    public ParticipantComponent(EventDetailsComponent eventDetailsComponent, String email) {
         this.eventDetailsComponent = eventDetailsComponent;
-        this.user = user;
+        this.email = email;
 
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("participant_component.fxml"));
         fxmlLoader.setRoot(this);
@@ -33,13 +33,13 @@ public class ParticipantComponent extends HBox {
 
     @FXML
     public void initialize() {
-        participant.setText(user.getEmail());
+        participant.setText(email);
     }
 
     @FXML
     public void onRemove() {
         // update in local list & UI
         eventDetailsComponent.participantsSection.getChildren().remove(this);
-//        eventDetailsComponent.participants.remove(user);
+        eventDetailsComponent.participantsEmails.remove(email);
     }
 }
