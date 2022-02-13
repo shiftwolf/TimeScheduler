@@ -29,6 +29,15 @@ public interface HomeViewListener {
                      Date reminder,
                      token token);
 
+    String editEvent(Long eventId,
+                     String name,
+                     Date date,
+                     Date duration,
+                     String location,
+                     Event.priorities priority,
+                     Date reminder,
+                     token token);
+
     void deleteEvent(token token, Event event);
 
     int addParticipant(token token, String email, Long eventId);

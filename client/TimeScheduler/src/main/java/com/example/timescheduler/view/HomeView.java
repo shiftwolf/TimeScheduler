@@ -376,6 +376,13 @@ public class HomeView {
         }
     }
 
+    public void notifyOnEditEvent(Long eventId, String name, Date date, Date duration, String location,
+                                  Event.priorities priority, Date reminder) {
+        for (HomeViewListener listener : listeners) {
+            listener.editEvent(eventId, name, date, duration, location, priority, reminder, SchedulerApplication.token);
+        }
+    }
+
     public int notifyOnAddParticipant(String email) {
         int response = 3;
         for (HomeViewListener listener : listeners) {

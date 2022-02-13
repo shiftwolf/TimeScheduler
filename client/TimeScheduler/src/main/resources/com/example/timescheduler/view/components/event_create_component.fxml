@@ -119,5 +119,6 @@
 
 
     <Label fx:id="errorMessage" id="error-message" text="Make sure you entered all information correctly."
-           GridPane.columnIndex="1" GridPane.rowIndex="6" GridPane.columnSpan="4" wrapText="true" visible="false"/>
+           GridPane.columnIndex="1" GridPane.rowIndex="6" GridPane.columnSpan="4"
+           wrapText="true" visible="false"/>
 </fx:root>

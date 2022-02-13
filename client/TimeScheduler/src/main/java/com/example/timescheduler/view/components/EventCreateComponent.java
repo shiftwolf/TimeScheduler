@@ -78,7 +78,7 @@ public class EventCreateComponent extends GridPane {
             // create date
             Date date = createDateFromInput(datePicker.getValue(), timePicker.getValue().toString());
             // create duration date
-            Date duration = createDurationDate(date,
+            Date duration = createDurationDate(
                     durationHPicker.getValue().toString(),
                     durationMinPicker.getValue().toString());
             // create reminder date
@@ -99,7 +99,7 @@ public class EventCreateComponent extends GridPane {
                     reminder,
                     SchedulerApplication.token);
 
-            // TODO: update events list
+            // update displayed events
             homeView.updateEvents();
 
             // update GUI
@@ -171,9 +171,8 @@ public class EventCreateComponent extends GridPane {
         errorMessage.setVisible(false);
     }
 
-    public Date createDurationDate(Date date, String durationH, String durationMin) {
+    public Date createDurationDate(String durationH, String durationMin) {
         // convert to milliseconds
-//        long dateMs = date.getTime();
         long hoursMs = (long) Integer.parseInt(durationH) * 60 * 60 * 1000;
         long minsMs = (long) Integer.parseInt(durationMin) * 60 * 1000;
 
