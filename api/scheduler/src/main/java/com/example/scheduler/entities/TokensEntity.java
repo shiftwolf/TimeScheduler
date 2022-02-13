@@ -7,6 +7,11 @@ import java.util.UUID;
 @Table(name = "tokens", schema = "scheduler")
 public class TokensEntity {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
+    private Long id;
+
+    @Basic
     @Column(name = "token")
     private String token;
 
