@@ -94,10 +94,11 @@ CREATE TABLE `participants` (
 ) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4;
 
 CREATE TABLE `tokens` (
+    `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
     `token` varchar(60) NOT NULL,
     `user_id` int(10) unsigned NOT NULL,
     
-    PRIMARY KEY (`token`),
+    PRIMARY KEY (`id`),
     KEY `tokens_relation_1` (`user_id`),
 
     CONSTRAINT `tokens_relation_1` 
