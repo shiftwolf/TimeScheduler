@@ -12,6 +12,8 @@ public interface HomeViewListener {
 
     void setUser(User loggedUser);
 
+    byte[] getSchedule(token token);
+
     User getLoggedUser(token token);
 
     List <Event> getEvents(token token) throws IOException, InterruptedException;

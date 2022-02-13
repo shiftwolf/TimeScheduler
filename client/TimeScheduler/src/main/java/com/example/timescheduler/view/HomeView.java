@@ -197,6 +197,8 @@ public class HomeView {
         FileChooser fileChooser = new FileChooser();
         fileChooser.setTitle("Weekly_Schedule");
 
+        byte[] bytes = notifyOnGetSchedule();
+
         File file = fileChooser.showSaveDialog((Stage) ((Node)actionEvent.getSource()).getScene().getWindow());
         if (file != null) {
             System.out.println(file.getAbsolutePath());
@@ -207,8 +209,6 @@ public class HomeView {
             } catch (IOException e) {
                 e.printStackTrace();
             }
-
-
         }
     }
 
@@ -298,6 +298,14 @@ public class HomeView {
 
     public void updateAfterEditUser() {
 
+    }
+
+    public byte[] notifyOnGetSchedule() {
+        byte[] bytes = null;
+        for (HomeViewListener listener : listeners) {
+            bytes = listener.getSchedule(SchedulerApplication.token);
+        }
+        return bytes;
     }
 
     public User notifyOnGetLoggedUser() {

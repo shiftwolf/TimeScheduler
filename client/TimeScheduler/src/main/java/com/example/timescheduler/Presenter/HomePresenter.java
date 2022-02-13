@@ -28,6 +28,11 @@ public class HomePresenter implements HomeViewListener {
     }
 
     @Override
+    public byte[] getSchedule(token token) {
+        return user.getWeeklySchedule(token);
+    }
+
+    @Override
     public User getLoggedUser(token token) {
         return Organizer.getUserByToken(token);
     }
