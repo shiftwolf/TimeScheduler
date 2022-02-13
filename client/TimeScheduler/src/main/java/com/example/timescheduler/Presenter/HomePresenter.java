@@ -50,7 +50,7 @@ public class HomePresenter implements HomeViewListener {
 
     @Override
     public void deleteEvent(token token, Event event) {
-        // TODO
+        user.deleteEvent(token, event.getId());
     }
 
     @Override

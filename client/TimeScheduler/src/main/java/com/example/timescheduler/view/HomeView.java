@@ -324,6 +324,21 @@ public class HomeView {
         }
     }
 
+    public void deleteSelectedEvent() {
+        // notify listener
+        notifyOnDeleteEvent();
+
+        // update events to update GUI
+        eventsSection.getChildren().clear();
+        notifyOnGetEvents();
+        // add events to eventsSection
+        for (Event event : events) {
+            EventComponent eventComponent = new EventComponent(this, event);
+            eventsSection.getChildren().add(eventComponent);
+            VBox.setMargin(eventComponent, new Insets(10, 15, 0, 15));
+        }
+    }
+
     public byte[] notifyOnGetSchedule() {
         byte[] bytes = null;
         for (HomeViewListener listener : listeners) {
@@ -372,12 +387,7 @@ public class HomeView {
 
     public void notifyOnDeleteEvent() {
         for (HomeViewListener listener : listeners) {
-            // TODO: don't need try catch anymore
-            try {
-                listener.deleteEvent(SchedulerApplication.token, selectedEvent);
-            } catch (Exception e) {
-                System.out.println("Requesting events failed: " + e.getMessage());
-            }
+            listener.deleteEvent(SchedulerApplication.token, selectedEvent);
         }
     }
 

@@ -90,7 +90,7 @@ public class EventDetailsComponent extends GridPane {
 
     @FXML
     public void onDelete() {
-        homeView.notifyOnDeleteEvent();
+        homeView.deleteSelectedEvent();
     }
 
     @FXML
@@ -140,7 +140,13 @@ public class EventDetailsComponent extends GridPane {
             reminder.setText(String.format("%s before the event", homeView.convertReminderToString(event)));
             eventLocation.setText(event.getLocation());
 
-            // TODO: participants
+            // clear old participants
+            participantsEmails.clear();
+
+            // load participants
+            for (User user : event.getParticipantsEntities()) {
+                participantsEmails.add(user.getEmail());
+            }
             if (!participantsEmails.isEmpty() ) {
                 loadParticipantComponents();
             }
@@ -157,9 +163,7 @@ public class EventDetailsComponent extends GridPane {
 
     public void loadParticipantComponents() {
         // clear participants section first
-        System.out.println("before clear: " + participantsSection.getChildren());
         participantsSection.getChildren().clear();
-        System.out.println("after clear: " + participantsSection.getChildren());
 
         // load participant components
         for (String email : participantsEmails) {

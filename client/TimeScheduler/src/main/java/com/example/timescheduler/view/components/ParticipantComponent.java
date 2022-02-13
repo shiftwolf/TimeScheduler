@@ -38,6 +38,8 @@ public class ParticipantComponent extends HBox {
 
     @FXML
     public void onRemove() {
+        // TODO: notify listener
+
         // update in local list & UI
         eventDetailsComponent.participantsSection.getChildren().remove(this);
         eventDetailsComponent.participantsEmails.remove(email);
