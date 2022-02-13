@@ -95,17 +95,17 @@
     <TextField fx:id="locationField" GridPane.columnIndex="1" GridPane.rowIndex="4" GridPane.columnSpan="4" />
 
 
-    <Label text="Participants:" GridPane.columnIndex="0" GridPane.rowIndex="5">
-        <GridPane.margin><Insets left="10"/></GridPane.margin>
-    </Label>
-    <ScrollPane  GridPane.columnIndex="1" GridPane.rowIndex="5" GridPane.columnSpan="4" maxHeight="110">
-        <VBox fx:id="participantsSection"/>
-    </ScrollPane>
-    <HBox id="participants-hbox" GridPane.columnIndex="1" GridPane.rowIndex="6" GridPane.columnSpan="4" alignment="CENTER" spacing="6">
-        <TextField fx:id="newParticipantField" promptText="Enter email address" />
-        <Pane HBox.hgrow="ALWAYS"/>
-        <Button text="Add Participant" onAction="#onAddParticipant" />
-    </HBox>
+<!--    <Label text="Participants:" GridPane.columnIndex="0" GridPane.rowIndex="5">-->
+<!--        <GridPane.margin><Insets left="10"/></GridPane.margin>-->
+<!--    </Label>-->
+<!--    <ScrollPane  GridPane.columnIndex="1" GridPane.rowIndex="5" GridPane.columnSpan="4" maxHeight="110">-->
+<!--        <VBox fx:id="participantsSection"/>-->
+<!--    </ScrollPane>-->
+<!--    <HBox id="participants-hbox" GridPane.columnIndex="1" GridPane.rowIndex="6" GridPane.columnSpan="4" alignment="CENTER" spacing="6">-->
+<!--        <TextField fx:id="newParticipantField" promptText="Enter email address" />-->
+<!--        <Pane HBox.hgrow="ALWAYS"/>-->
+<!--        <Button text="Add Participant" onAction="#onAddParticipant" />-->
+<!--    </HBox>-->
 
 
 <!--    <Label text="Attachments:" GridPane.columnIndex="0" GridPane.rowIndex="6">-->

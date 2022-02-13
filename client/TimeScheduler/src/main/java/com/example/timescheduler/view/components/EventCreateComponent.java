@@ -1,39 +1,28 @@
 package com.example.timescheduler.view.components;
 
 import com.example.timescheduler.Model.Event;
-import com.example.timescheduler.Model.User;
 import com.example.timescheduler.view.HomeView;
 import com.example.timescheduler.view.SchedulerApplication;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Node;
+import javafx.geometry.Insets;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
-import javafx.stage.FileChooser;
-import javafx.stage.Stage;
 
-import java.io.File;
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
 import java.time.Instant;
 import java.time.LocalDate;
 import java.time.ZoneId;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
 public class EventCreateComponent extends GridPane {
 
     HomeView homeView;
-    // emails
-    List<String> participants;
-    List<String> attachments;
 
     @FXML
     TextField nameField;
@@ -52,13 +41,14 @@ public class EventCreateComponent extends GridPane {
     @FXML
     TextField locationField;
     @FXML
-    VBox participantsSection;
-    @FXML
-    TextField newParticipantField;
-    @FXML
-    VBox attachmentsSection;
-    @FXML
     Label errorMessage;
+
+//    @FXML
+//    VBox participantsSection;
+//    @FXML
+//    TextField newParticipantField;
+//    @FXML
+//    VBox attachmentsSection;
 
     public EventCreateComponent(HomeView homeView) {
         this.homeView = homeView;
@@ -245,17 +235,19 @@ public class EventCreateComponent extends GridPane {
         resetInputFields();
     }
 
-    @FXML
-    public void onAddParticipant() {
-        // TODO
-
-        String email = newParticipantField.getText().trim();
-
-        // notify listeners
-        homeView.notifyOnAddParticipant(email);
-
-        // TODO: if request successful?? other return
-        // add to list & update UI
-        participants.add(email);
-    }
+//    @FXML
+//    public void onAddParticipant() {
+//        // TODO
+//
+//        String email = newParticipantField.getText().trim();
+//
+//        // notify listeners
+//        homeView.notifyOnAddParticipant(email);
+//
+//        // TODO: if request successful?? other return
+//        // add to list & update UI
+//        participants.add(email);
+//
+//        loadParticipantComponents(email);
+//    }
 }

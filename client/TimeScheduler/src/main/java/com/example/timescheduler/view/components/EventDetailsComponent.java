@@ -45,9 +45,6 @@ public class EventDetailsComponent extends GridPane {
     public EventDetailsComponent(HomeView homeView) {
         this.homeView = homeView;
 
-        participants = List.of();
-        attachments = Arrays.asList("text1.pdf", "bhkjekvc.txt", "A.txt", "ein_laengerer_titel.txt");
-
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("event_details_component.fxml"));
         fxmlLoader.setRoot(this);
         fxmlLoader.setController(this);
@@ -62,18 +59,18 @@ public class EventDetailsComponent extends GridPane {
     @FXML
     public void initialize() {
         // add participants to participantsSection
-        for (User user : participants) {
-            Label participant = new Label(user.getName());
-            participantsSection.getChildren().add(participant);
-            VBox.setMargin(participant, new Insets(6, 15, 0, 15));
-        }
+//        for (User user : participants) {
+//            Label participant = new Label(user.getName());
+//            participantsSection.getChildren().add(participant);
+//            VBox.setMargin(participant, new Insets(6, 15, 0, 15));
+//        }
 
         // add attachments to attachmentsSection
-        for (String item : attachments) {
-            AttachmentComponent attachment = new AttachmentComponent(this, item);
-            attachmentsSection.getChildren().add(attachment);
-            VBox.setMargin(attachment, new Insets(6, 15, 0, 15));
-        }
+//        for (String item : attachments) {
+//            AttachmentComponent attachment = new AttachmentComponent(this, item);
+//            attachmentsSection.getChildren().add(attachment);
+//            VBox.setMargin(attachment, new Insets(6, 15, 0, 15));
+//        }
     }
 
     @FXML
@@ -116,10 +113,23 @@ public class EventDetailsComponent extends GridPane {
         date.setText(homeView.formatDate(event.getDate()));
         duration.setText(homeView.formatDuration(event));
 
-        // TODO
         reminder.setText(String.format("%s before the event", homeView.convertReminderToString(event)));
 
         eventLocation.setText(event.getLocation());
         // TODO: participants, attachments
+    }
+
+    public void loadParticipantComponents(String email) {
+        // clear participants section first
+        System.out.println("before clear: " + participantsSection.getChildren());
+        participantsSection.getChildren().clear();
+        System.out.println("after clear: " + participantsSection.getChildren());
+
+        // load participant components
+        for (User user : participants) {
+            ParticipantComponent participantComponent = new ParticipantComponent(this, user);
+            participantsSection.getChildren().add(participantComponent);
+            VBox.setMargin(participantComponent, new Insets(6, 15, 0, 15));
+        }
     }
 }

@@ -6,17 +6,11 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
-import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
-import javafx.stage.FileChooser;
-import javafx.stage.Stage;
 
-import java.io.File;
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -95,17 +89,7 @@ public class EventEditComponent extends GridPane {
 
     @FXML
     public void onAddAttachment(ActionEvent actionEvent) throws IOException {
-        // TODO: unfinished
-        FileChooser fileChooser = new FileChooser();
-
-        File file = fileChooser.showOpenDialog((Stage) ((Node)actionEvent.getSource()).getScene().getWindow());
-        if (file != null) {
-            System.out.println(file.toPath());
-            Path path = file.toPath();
-
-            //File in bytecode
-            byte[] bytes = Files.readAllBytes(path);
-        }
+        // remove
     }
 
     public void setInitialValues(Event event) {
@@ -135,12 +119,12 @@ public class EventEditComponent extends GridPane {
         locationField.setText(event.getLocation());
 
         // TODO: use actual types
-        // add participants to participantsSection
-        for (String item : participants) {
-            ParticipantEditComponent participant = new ParticipantEditComponent(this, item);
-            participantsSection.getChildren().add(participant);
-            VBox.setMargin(participant, new Insets(6, 15, 0, 15));
-        }
+//        // add participants to participantsSection
+//        for (String item : participants) {
+//            ParticipantComponent participant = new ParticipantComponent(this, item);
+//            participantsSection.getChildren().add(participant);
+//            VBox.setMargin(participant, new Insets(6, 15, 0, 15));
+//        }
 
         // add attachments to attachmentsSection
         for (String item : attachments) {
