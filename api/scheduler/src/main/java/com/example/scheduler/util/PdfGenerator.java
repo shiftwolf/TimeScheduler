@@ -177,7 +177,7 @@ public class PdfGenerator {
 
 
             if(i+1 < eventsEntities.size()){
-                if(eventsEntities.get(i).getDate().getDay() == eventsEntities.get(i).getDate().getDay()){
+                if(eventsEntities.get(i).getDate().getDay() == eventsEntities.get(i+1).getDate().getDay()){
                     thisday = true;
                 }
                 else {
