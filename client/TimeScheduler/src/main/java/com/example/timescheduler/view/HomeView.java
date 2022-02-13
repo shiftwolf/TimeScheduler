@@ -195,7 +195,7 @@ public class HomeView {
     @FXML
     protected void onExportSchedule(ActionEvent actionEvent) {
         FileChooser fileChooser = new FileChooser();
-        fileChooser.setTitle("Weekly_Schedule");
+        fileChooser.setTitle("Weekly_Schedule.pdf");
 
         byte[] bytes = notifyOnGetSchedule();
 
@@ -205,7 +205,7 @@ public class HomeView {
             String path = file.getAbsolutePath();
 
             try (FileOutputStream stream = new FileOutputStream(path)) {
-              //stream.write();
+              stream.write(bytes);
             } catch (IOException e) {
                 e.printStackTrace();
             }
