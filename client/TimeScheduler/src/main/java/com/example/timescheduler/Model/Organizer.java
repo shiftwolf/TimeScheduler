@@ -40,7 +40,6 @@ public class Organizer {
             System.out.println(e.getMessage());
             return null;
         }
-
         return token;
     }
 

@@ -268,22 +268,13 @@ public class User {
      * @param duration that the event will have after execution of this function
      * @param location that the event will have after execution of this function
      * @param priority that the event will have after execution of this function
-     * @param participantMails that the event will have after execution of this function
      * @param reminder that the event will have after execution of this function
      * @param token to validate the user
      * @return return message
      */
-    public String editEvent(Long id, String name, Date date, Date duration, String location, Event.priorities priority, String[] participantMails, Date reminder, token token) {
-
-        List<User> participants = new ArrayList<User>();
-        for(int i = 0; i < participantMails.length; i ++){
-            try {
-                participants.add(UserController.getUserByEmail(token, participantMails[i]));
-            } catch (IOException | InterruptedException e){
-                System.out.println(e.getMessage());
-                return e.getMessage();
-            }
-        }
+    public String editEvent(Long id, String name, Date date, Date duration, String location, Event.priorities priority, Date reminder, token token) {
+        List<User> participants = new ArrayList<>();
+        participants = getEventById(token, id).getParticipantsEntities();
 
         Event event = new Event(id, name, date, duration,location,priority,participants, reminder);
 
