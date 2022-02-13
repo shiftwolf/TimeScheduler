@@ -389,15 +389,25 @@ public class User {
      * @param token to validate the user
      * @param id of event
      * @param path to attachment on local machine
-     * @return return message of server
+     * @return 0 - uploaded successfully
+     * @return 1 - file not found
+     * @return 2 - server error
      */
-    public String uploadAtt(token token, Long id, String path){
+    public int uploadAtt(token token, Long id, String path){
         String filename = getFileNameByPath(path);
         try {
-            return AttachmentsController.uploadAtt(token, id, path, filename);
+            String message = AttachmentsController.uploadAtt(token, id, path, filename);
+            System.out.println(message);
+            if(message.endsWith("File uploaded successfully")){
+                return 0;
+            } else if(message.startsWith("not found")){
+                return 1;
+            } else {
+                return 2;
+            }
         } catch (IOException | InterruptedException e){
             System.out.println(e.getMessage());
-            return e.getMessage();
+            return 2;
         }
     }
 

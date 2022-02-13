@@ -84,7 +84,7 @@ public class EventController {
             //Check if event is date is 24 in the past and skip it if it is
             LocalDateTime yesterday = LocalDateTime.now().minusDays(1);
             Timestamp timestamp = Timestamp.valueOf(yesterday);
-            if(event.getDate().after(timestamp)) continue;
+            if(event.getDate().before(timestamp)) continue;
 
             //Find users participating in the Event
             List<UserDTO> participants = new ArrayList<>();
@@ -108,7 +108,7 @@ public class EventController {
             );
         }
         //sort Events By Date descending
-        dTOs.sort(Comparator.comparing(EventDTO::getDate).reversed());
+        dTOs.sort(Comparator.comparing(EventDTO::getDate));
         return dTOs;
     }
 

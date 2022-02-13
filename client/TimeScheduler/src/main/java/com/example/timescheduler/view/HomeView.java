@@ -176,7 +176,11 @@ public class HomeView {
      */
     @FXML
     protected void onLogout(ActionEvent event) throws IOException {
-        // TODO: delete token, clear
+        // notify listener: logout
+        notifyOnLogout();
+
+        // reset token locally
+        SchedulerApplication.token = null;
 
         // new window for login
         Parent fxml = FXMLLoader.load(getClass().getResource("login_view.fxml"));
@@ -369,6 +373,14 @@ public class HomeView {
         }
     }
 
+    public Event notifyOnGetEventById(long eventId) {
+        Event event = null;
+        for (HomeViewListener listener : listeners) {
+            event = listener.getEventById(SchedulerApplication.token, eventId);
+        }
+        return event;
+    }
+
     public void notifyOnCreateEvent(String name, Date date, Date duration, String location, Event.priorities priority,
                                     String[] participantMails, Date reminder, token token) {
         for (HomeViewListener listener : listeners) {
@@ -382,6 +394,14 @@ public class HomeView {
             response = listener.addParticipant(SchedulerApplication.token, email, selectedEvent.getId());
         }
         System.out.println("response: " + response);
+        return response;
+    }
+
+    public int notifyOnAddAttachment(String path) {
+        int response = 2;
+        for (HomeViewListener listener : listeners) {
+            response = listener.addAttachment(SchedulerApplication.token, selectedEvent.getId(), path);
+        }
         return response;
     }
 
@@ -439,6 +459,12 @@ public class HomeView {
             } catch (Exception e) {
                 System.out.println("Delete user failed: " + e.getMessage());
             }
+        }
+    }
+
+    public void notifyOnLogout() {
+        for (HomeViewListener listener : listeners) {
+            listener.logout(SchedulerApplication.token);
         }
     }
 
