@@ -6,7 +6,7 @@
 <?import javafx.scene.image.Image?>
 <?import javafx.geometry.Insets?>
 
-<fx:root type="javafx.scene.layout.HBox" xmlns:fx="http://javafx.com/fxml" spacing="10" >
+<fx:root type="javafx.scene.layout.HBox" xmlns:fx="http://javafx.com/fxml" spacing="10" alignment="CENTER">
 
     <ImageView fx:id="priorityImage" preserveRatio="true" fitHeight="25">
         <Image url="@../icons/priority0.png"/>

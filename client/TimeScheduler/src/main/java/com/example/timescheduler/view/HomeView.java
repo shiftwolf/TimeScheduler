@@ -22,11 +22,8 @@ import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -280,18 +277,9 @@ public class HomeView {
         topBar.getChildren().remove(switchToEventsButton);
         topBar.getChildren().add(2, switchToAdminButton);
 
-        // clear eventsSection
-        eventsSection.getChildren().clear();
+        // load & display the current events
+        updateEvents();
 
-        // load events
-        notifyOnGetEvents();
-
-        // add events to eventsSection
-        for (Event event : events) {
-            EventComponent eventComponent = new EventComponent(this, event);
-            eventsSection.getChildren().add(eventComponent);
-            VBox.setMargin(eventComponent, new Insets(10, 15, 0, 15));
-        }
         eventsSection.setFillWidth(true);
 
         // configure left half
@@ -468,6 +456,21 @@ public class HomeView {
         }
     }
 
+    public void updateEvents() {
+        // clear eventsSection
+        eventsSection.getChildren().clear();
+
+        // load events
+        notifyOnGetEvents();
+
+        // add events to eventsSection
+        for (Event event : events) {
+            EventComponent eventComponent = new EventComponent(this, event);
+            eventsSection.getChildren().add(eventComponent);
+            VBox.setMargin(eventComponent, new Insets(10, 15, 0, 15));
+        }
+    }
+
     /**
      * This function adds a listener to the HomeView which will from then on be notified when the user interacts with the GUI.
      * @param listener Listener that implements the interface HomeViewListener (presenter).
@@ -604,13 +607,6 @@ public class HomeView {
         usersSection.getChildren().remove(selectedUserComponent);
     }
 
-    public void updateUser() {
-
-    }
-
-    public void updateUserComponent() {
-
-    }
 
     // Getters & Setters
 

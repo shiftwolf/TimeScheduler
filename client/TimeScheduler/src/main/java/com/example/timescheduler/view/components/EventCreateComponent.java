@@ -43,13 +43,6 @@ public class EventCreateComponent extends GridPane {
     @FXML
     Label errorMessage;
 
-//    @FXML
-//    VBox participantsSection;
-//    @FXML
-//    TextField newParticipantField;
-//    @FXML
-//    VBox attachmentsSection;
-
     public EventCreateComponent(HomeView homeView) {
         this.homeView = homeView;
 
@@ -106,14 +99,12 @@ public class EventCreateComponent extends GridPane {
                     reminder,
                     SchedulerApplication.token);
 
-            // TODO: participants ?
-
             // TODO: update events list
+            homeView.updateEvents();
 
             // update GUI
             homeView.getMainGrid().add(homeView.getEventDetailsComponent(), 1, 0);
             homeView.getMainGrid().getChildren().remove(this);
-
 
             resetInputFields();
         } else {
@@ -164,7 +155,7 @@ public class EventCreateComponent extends GridPane {
         } else if (locationField.getText() == null || locationField.getText().trim().equals("")) {
             return false;
         }
-        // attachments and participants are optional => no check necessary
+
         return true;
     }
 
@@ -178,7 +169,6 @@ public class EventCreateComponent extends GridPane {
         durationMinPicker.getSelectionModel().clearSelection();
         reminderPicker.getSelectionModel().clearSelection();
         errorMessage.setVisible(false);
-        // TODO: attachments & participants
     }
 
     public Date createDurationDate(Date date, String durationH, String durationMin) {
@@ -237,20 +227,4 @@ public class EventCreateComponent extends GridPane {
 
         resetInputFields();
     }
-
-//    @FXML
-//    public void onAddParticipant() {
-//        // TODO
-//
-//        String email = newParticipantField.getText().trim();
-//
-//        // notify listeners
-//        homeView.notifyOnAddParticipant(email);
-//
-//        // TODO: if request successful?? other return
-//        // add to list & update UI
-//        participants.add(email);
-//
-//        loadParticipantComponents(email);
-//    }
 }
