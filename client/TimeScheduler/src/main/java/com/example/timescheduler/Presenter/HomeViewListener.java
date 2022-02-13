@@ -16,6 +16,8 @@ public interface HomeViewListener {
 
     User getLoggedUser(token token);
 
+    Event getEventById(token token, long eventId);
+
     List <Event> getEvents(token token) throws IOException, InterruptedException;
 
     void createEvent(String name,
@@ -30,6 +32,10 @@ public interface HomeViewListener {
     void deleteEvent(token token, Event event);
 
     int addParticipant(token token, String email, Long eventId);
+
+    int addAttachment(token token, long eventId, String path);
+
+    void logout(token token);
 
     // admin only:
 

@@ -1,5 +1,6 @@
 package com.example.timescheduler.view.components;
 
+import com.example.timescheduler.Model.AttachmentsInfo;
 import com.example.timescheduler.Model.Event;
 import com.example.timescheduler.Model.User;
 import com.example.timescheduler.view.HomeView;
@@ -27,7 +28,9 @@ public class EventDetailsComponent extends GridPane {
 
     HomeView homeView;
     List<String> participantsEmails = new ArrayList<String>();
-    List<String> attachments;
+    List<String> attachmentsNames = new ArrayList<String>();
+
+    List<AttachmentsInfo> attachments;
 
     @FXML
     Label name;
@@ -62,12 +65,6 @@ public class EventDetailsComponent extends GridPane {
 
     @FXML
     public void initialize() {
-        // add participants to participantsSection
-//        for (User user : participants) {
-//            Label participant = new Label(user.getName());
-//            participantsSection.getChildren().add(participant);
-//            VBox.setMargin(participant, new Insets(6, 15, 0, 15));
-//        }
 
         // add attachments to attachmentsSection
 //        for (String item : attachments) {
@@ -95,7 +92,6 @@ public class EventDetailsComponent extends GridPane {
 
     @FXML
     public void onAddParticipant() {
-        // TODO
         String newParticipantEmail = newParticipantField.getText().trim();
 
         // notify listener
@@ -103,7 +99,6 @@ public class EventDetailsComponent extends GridPane {
 
         // check if was successful
         if (response == 0) {
-            System.out.println("successfully added");
             // update participants list
             participantsEmails.add(newParticipantEmail);
             // update GUI
@@ -118,17 +113,27 @@ public class EventDetailsComponent extends GridPane {
     }
 
     @FXML
-    public void onAddAttachment(ActionEvent actionEvent) throws IOException {
-        // TODO: unfinished
+    public void onAddAttachment(ActionEvent actionEvent) {
+        int response;
+
         FileChooser fileChooser = new FileChooser();
 
         File file = fileChooser.showOpenDialog((Stage) ((Node)actionEvent.getSource()).getScene().getWindow());
         if (file != null) {
-            System.out.println(file.toPath());
-            Path path = file.toPath();
+            String filePath = file.getAbsolutePath();
+            // notify listener
+            response = homeView.notifyOnAddAttachment(filePath);
 
-            //File in bytecode
-            byte[] bytes = Files.readAllBytes(path);
+            // TODO: update lists and UI
+            if (response == 0) {
+                // file added successfully
+                // update attachments list
+                attachmentsNames.add(file.getName());
+                // update GUI
+                loadAttachmentComponents();
+            }
+
+
         }
     }
 
@@ -151,8 +156,8 @@ public class EventDetailsComponent extends GridPane {
                 loadParticipantComponents();
             }
 
-
             // TODO: attachments
+            loadAttachmentComponents();
 
         } else {
             // debug
@@ -170,6 +175,22 @@ public class EventDetailsComponent extends GridPane {
             ParticipantComponent participantComponent = new ParticipantComponent(this, email);
             participantsSection.getChildren().add(participantComponent);
             VBox.setMargin(participantComponent, new Insets(6, 15, 0, 15));
+        }
+    }
+
+    public void loadAttachmentComponents() {
+        // clear attachments section first
+        attachmentsSection.getChildren().clear();
+
+        // make sure data of current event is up to date: notify listener
+        Event event = homeView.notifyOnGetEventById(homeView.getSelectedEvent().getId());
+        attachments = List.of(event.getAttachments());
+
+        // load participant components
+        for (AttachmentsInfo file : attachments) {
+            AttachmentComponent attachmentComponent = new AttachmentComponent(this, file);
+            attachmentsSection.getChildren().add(attachmentComponent);
+            VBox.setMargin(attachmentComponent, new Insets(6, 15, 0, 15));
         }
     }
 }

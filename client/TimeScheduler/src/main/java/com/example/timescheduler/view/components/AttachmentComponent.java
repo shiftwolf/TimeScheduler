@@ -1,5 +1,6 @@
 package com.example.timescheduler.view.components;
 
+import com.example.timescheduler.Model.AttachmentsInfo;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -18,12 +19,12 @@ import java.nio.file.Path;
 public class AttachmentComponent extends HBox {
 
     EventDetailsComponent eventDetailsComponent;
-    String attachment;
+    AttachmentsInfo attachment;
 
     @FXML
     Label fileName;
 
-    public AttachmentComponent(EventDetailsComponent eventDetailsComponent, String attachment) {
+    public AttachmentComponent(EventDetailsComponent eventDetailsComponent, AttachmentsInfo attachment) {
         this.attachment = attachment;
         this.eventDetailsComponent = eventDetailsComponent;
 
@@ -40,14 +41,12 @@ public class AttachmentComponent extends HBox {
 
     @FXML
     public void initialize() {
-        fileName.setText(attachment);
+        fileName.setText(attachment.getFilename());
     }
 
     @FXML
     public void onDownload(ActionEvent actionEvent) {
         FileChooser fileChooser = new FileChooser();
-
-        byte[] bytes;
 
         File file = fileChooser.showSaveDialog((Stage) ((Node)actionEvent.getSource()).getScene().getWindow());
         if (file != null) {

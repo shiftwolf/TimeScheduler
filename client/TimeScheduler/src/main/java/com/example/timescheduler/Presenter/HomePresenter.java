@@ -38,6 +38,11 @@ public class HomePresenter implements HomeViewListener {
     }
 
     @Override
+    public Event getEventById(token token, long eventId) {
+        return user.getEventById(token, eventId);
+    }
+
+    @Override
     public List<Event> getEvents(token token) throws IOException, InterruptedException {
         // TODO
         return EventController.getEvents(token);
@@ -56,6 +61,16 @@ public class HomePresenter implements HomeViewListener {
     @Override
     public int addParticipant(token token, String email, Long eventId) {
         return user.addParticipant(token, email, eventId);
+    }
+
+    @Override
+    public int addAttachment(token token, long eventId, String path) {
+        return user.uploadAtt(token, eventId, path);
+    }
+
+    @Override
+    public void logout(token token) {
+        Organizer.logout(token);
     }
 
     @Override
