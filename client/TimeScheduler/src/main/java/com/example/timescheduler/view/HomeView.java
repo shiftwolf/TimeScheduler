@@ -329,6 +329,14 @@ public class HomeView {
         }
     }
 
+    public byte[] notifyOnDownloadAtt(long attId) {
+        byte[] bytes = null;
+        for (HomeViewListener listener : listeners) {
+            bytes = listener.downloadAttachment(SchedulerApplication.token, attId);
+        }
+        return bytes;
+    }
+
     public byte[] notifyOnGetSchedule() {
         byte[] bytes = null;
         for (HomeViewListener listener : listeners) {
@@ -394,7 +402,6 @@ public class HomeView {
         for (HomeViewListener listener : listeners) {
             response = listener.removeParticipant(SchedulerApplication.token, selectedEvent.getId(), user.getId());
         }
-
         return response;
     }
 

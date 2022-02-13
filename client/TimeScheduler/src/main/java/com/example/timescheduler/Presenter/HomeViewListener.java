@@ -46,6 +46,8 @@ public interface HomeViewListener {
 
     int addAttachment(token token, long eventId, String path);
 
+    byte[] downloadAttachment(token token, long attId);
+
     void logout(token token);
 
     // admin only:

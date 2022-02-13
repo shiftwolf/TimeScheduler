@@ -76,6 +76,11 @@ public class HomePresenter implements HomeViewListener {
     }
 
     @Override
+    public byte[] downloadAttachment(token token, long attId) {
+        return user.downloadAtt(token, attId);
+    }
+
+    @Override
     public void logout(token token) {
         Organizer.logout(token);
     }
