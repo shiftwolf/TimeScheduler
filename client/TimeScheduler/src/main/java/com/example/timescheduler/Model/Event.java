@@ -32,9 +32,6 @@ public class Event {
     public List<User> participants;
     private Date reminder;
     public AttachmentsInfo[] attachmentsInfo;
-    public void setId(long id) {
-        this.id = id;
-    }
 
     // Constructors
 
@@ -154,6 +151,10 @@ public class Event {
 
     public void setPriority(priorities priority) {
         this.priority = priority;
+    }
+
+    public void setId(long id) {
+        this.id = id;
     }
 
     @Override

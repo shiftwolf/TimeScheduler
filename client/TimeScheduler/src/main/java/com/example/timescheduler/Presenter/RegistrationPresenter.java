@@ -16,7 +16,7 @@ public class RegistrationPresenter implements RegistrationViewListener {
     }
 
     @Override
-    public User createUser(String name, String email, String username, String password) {
+    public String createUser(String name, String email, String username, String password) {
         return Organizer.createUser(name, email, username, password);
     }
 }

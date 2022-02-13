@@ -6,6 +6,9 @@ import com.example.timescheduler.Controller.UserController;
 
 import java.io.IOException;
 
+/**
+ * This class contains methods that need to be invoked without a user object.
+ */
 public class Organizer {
 
     /**
@@ -63,20 +66,14 @@ public class Organizer {
      * @param password of new user
      * @return created user
      */
-    public static User createUser(String name, String email, String username, String password){
+    public static String createUser(String name, String email, String username, String password){
         User newUser = new User(name, email ,username, password);
         try{
-            UserController.newUser(newUser);
+            return UserController.newUser(newUser);
         } catch (IOException | InterruptedException e){
             System.out.println(e.getMessage());
-            return null;
+            return e.getMessage();
         }
-        try{
-            newUser = UserController.getUserByUsername(login(username, password), username);
-        } catch (IOException | InterruptedException e){
-            System.out.println(e.getMessage());
-            return null;
-        }
-        return newUser;
+
     }
 }
