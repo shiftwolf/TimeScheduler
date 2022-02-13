@@ -41,9 +41,8 @@ public class UserEditComponent extends GridPane {
                 nameField.getText().trim(),
                 emailField.getText().trim());
 
-        // TODO: update local list & GUI
+        // update GUI
         homeView.updateAfterEditUser();
-//        homeView.updateUserComponent();
 
         // stop showing the edit options
         homeView.getMainGrid().getChildren().remove(this);

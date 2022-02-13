@@ -75,11 +75,13 @@ public class EventDetailsComponent extends GridPane {
 
     @FXML
     public void onEdit() {
-        homeView.getMainGrid().add(homeView.getEventEditComponent(), 1, 0);
-        homeView.getMainGrid().getChildren().remove(this);
+        if (homeView.getSelectedEvent() != null) {
+            homeView.getMainGrid().add(homeView.getEventEditComponent(), 1, 0);
+            homeView.getMainGrid().getChildren().remove(this);
 
-        // initialize the values of the input controls
-        homeView.getEventEditComponent().setInitialValues(homeView.getSelectedEvent());
+            // initialize the values of the input controls
+            homeView.getEventEditComponent().setInitialValues(homeView.getSelectedEvent());
+        }
     }
 
     @FXML
@@ -109,14 +111,19 @@ public class EventDetailsComponent extends GridPane {
     }
 
     public void setDetails(Event event) {
-        name.setText(event.getName());
-        date.setText(homeView.formatDate(event.getDate()));
-        duration.setText(homeView.formatDuration(event));
+        if (event != null) {
+            name.setText(event.getName());
+            date.setText(homeView.formatDate(event.getDate()));
+            duration.setText(homeView.formatDuration(event));
 
-        reminder.setText(String.format("%s before the event", homeView.convertReminderToString(event)));
+            reminder.setText(String.format("%s before the event", homeView.convertReminderToString(event)));
 
-        eventLocation.setText(event.getLocation());
-        // TODO: participants, attachments
+            eventLocation.setText(event.getLocation());
+            // TODO: participants, attachments
+        }
+
+        System.out.println("Can't load details because user has no events");
+
     }
 
     public void loadParticipantComponents(String email) {

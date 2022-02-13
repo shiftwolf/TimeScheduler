@@ -96,9 +96,13 @@ public class HomeView {
         notifyOnGetEvents();
 
         // automatically select first event
-        if (events.get(0) != null) {
+        if (!events.isEmpty()) {
             selectedEvent = events.get(0);
             System.out.println("auto select first event: " + selectedEvent);
+        } else {
+            // if user has no events yet
+            System.out.println("auto select first event (no events): " + selectedEvent);
+            selectedEvent = null;
         }
 
         // add events to events section

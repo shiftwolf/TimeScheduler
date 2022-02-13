@@ -75,10 +75,10 @@ public class RegistrationView {
 
         if (isValid) {
             // notify listeners
-            User newUser = notifyOnCreateUser();
+            int wasSuccessful = notifyOnCreateUser();
 
             // check if creation was successful
-            if (newUser != null) {
+            if (wasSuccessful == 0) {
                 // navigate back to login
                 stage = (Stage) ((Node)event.getSource()).getScene().getWindow();
                 stage.setScene(SchedulerApplication.loginScene);
@@ -88,20 +88,21 @@ public class RegistrationView {
                 resetGUI();
             } else {
                 System.out.println("Sign up failed.");
+                // TODO: display message in UI
             }
         }
     }
 
-    public User notifyOnCreateUser() {
-        User user = null;
+    public int notifyOnCreateUser() {
+        int isSuccessful = 2;
         for (RegistrationViewListener listener : listeners) {
-            user = listener.createUser(
+            isSuccessful = listener.createUser(
                     name.getText().trim(),
                     email.getText().trim(),
                     username.getText().trim(),
                     password1.getText());
         }
-        return user;
+        return isSuccessful;
     }
 
     /**

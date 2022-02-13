@@ -108,9 +108,12 @@ public class EventCreateComponent extends GridPane {
 
             // TODO: attachments & participants
 
+            // TODO: update events list
+
             // update GUI
             homeView.getMainGrid().add(homeView.getEventDetailsComponent(), 1, 0);
             homeView.getMainGrid().getChildren().remove(this);
+
 
             resetInputFields();
         } else {
