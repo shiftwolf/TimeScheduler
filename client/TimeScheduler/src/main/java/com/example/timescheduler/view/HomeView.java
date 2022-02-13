@@ -95,6 +95,12 @@ public class HomeView {
         // notify listener: getEvents
         notifyOnGetEvents();
 
+        // automatically select first event
+        if (events.get(0) != null) {
+            selectedEvent = events.get(0);
+            System.out.println("auto select first event: " + selectedEvent);
+        }
+
         // add events to events section
         for (Event event : events) {
             EventComponent eventComponent = new EventComponent(this, event);
@@ -115,6 +121,8 @@ public class HomeView {
         // display the default component for this part of the events panel
         mainGrid.add(eventDetails, 1, 0);
 
+        // display details of the first event
+        eventDetails.setDetails(selectedEvent);
 
         // initialize the users section of the admin panel in order to add items later
         usersSection = new VBox();
@@ -297,7 +305,19 @@ public class HomeView {
     }
 
     public void updateAfterEditUser() {
+        notifyOnGetUsers();
 
+        // update whole section (fastest to implement right now):
+
+        // clear usersSection
+        usersSection.getChildren().clear();
+
+        // add users to usersSection
+        for (User user : users) {
+            UserComponent userComponent = new UserComponent(this, user);
+            usersSection.getChildren().add(userComponent);
+            VBox.setMargin(userComponent, new Insets(10, 15, 0, 15));
+        }
     }
 
     public byte[] notifyOnGetSchedule() {
