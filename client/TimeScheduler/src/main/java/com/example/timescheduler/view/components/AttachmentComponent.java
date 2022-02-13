@@ -1,11 +1,19 @@
 package com.example.timescheduler.view.components;
 
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
 import javafx.scene.control.Label;
 import javafx.scene.layout.HBox;
+import javafx.stage.FileChooser;
+import javafx.stage.Stage;
 
+import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
 
 public class AttachmentComponent extends HBox {
 
@@ -36,8 +44,22 @@ public class AttachmentComponent extends HBox {
     }
 
     @FXML
-    public void onDownload() {
-        // TODO
+    public void onDownload(ActionEvent actionEvent) {
+        FileChooser fileChooser = new FileChooser();
+
+        byte[] bytes;
+
+        File file = fileChooser.showSaveDialog((Stage) ((Node)actionEvent.getSource()).getScene().getWindow());
+        if (file != null) {
+            System.out.println(file.getAbsolutePath());
+            String path = file.getAbsolutePath();
+
+            try (FileOutputStream stream = new FileOutputStream(path)) {
+                //stream.write(bytes);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
     }
 
 }
