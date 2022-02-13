@@ -83,7 +83,7 @@ CREATE TABLE `participants` (
     FOREIGN KEY (`event_id`) 
     REFERENCES `events` (`id`) 
     ON DELETE CASCADE
-    ON UPDATE CASCADE
+    ON UPDATE CASCADE,
 
     CONSTRAINT `participants_relation_2` 
     FOREIGN KEY (`user_id`) 
