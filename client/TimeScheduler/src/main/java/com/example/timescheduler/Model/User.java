@@ -46,6 +46,10 @@ public class User {
         this.id = id;
     }
 
+    public User(String email) {
+        this.email = email;
+    }
+
     public User(String name, String email, String username, String password) {
         this.name = name;
         this.email = email;
@@ -321,20 +325,33 @@ public class User {
         }
     }
 
-    public String addParticipant(token token, String email, Long eventId){
-        User user;
-        try {
-            user = UserController.getUserByEmail(token, email);
-        } catch (IOException | InterruptedException e){
-            System.out.println(e.getMessage());
-            return e.getMessage();
-        }
+    /**
+     *
+     * @param token
+     * @param email
+     * @param eventId
+     * @return 0 - user was successfully added
+     * @return 1 - user is already participating
+     * @return 2 - email not found
+     * @return 3 - error
+     */
+    public int addParticipant(token token, String email, Long eventId){
+        User user = new User(email);
         Event event = new Event(eventId);
         try{
-            return EventController.addParticipantsViaEmail(token, user, event);
+            String message = EventController.addParticipantsViaEmail(token, user, event);
+            if(message.endsWith("successfully added to the event")){
+                return 0;
+            } else if (message.startsWith("User is already participating in the event")){
+                return 1;
+            } else if (message.startsWith("Could not find user with:")){
+                return 2;
+            } else {
+                return 3;
+            }
         } catch (IOException | InterruptedException e){
             System.out.println(e.getMessage());
-            return e.getMessage();
+            return 3;
         }
     }
 
