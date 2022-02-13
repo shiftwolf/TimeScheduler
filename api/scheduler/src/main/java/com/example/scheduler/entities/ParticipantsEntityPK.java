@@ -5,6 +5,11 @@ import javax.persistence.Id;
 import java.io.Serializable;
 import java.util.Objects;
 
+/**
+ * @author Timo, Max
+ * @version 1.0
+ * JPA Repository Entity, this is the java representation of a combined Key of {@link com.example.scheduler.entities.ParticipantsEntity}
+ */
 public class ParticipantsEntityPK implements Serializable {
 
     @Id
@@ -19,6 +24,11 @@ public class ParticipantsEntityPK implements Serializable {
 
     }
 
+    /**
+     * normal constructor used to initialize the values
+     * @param eventId database identifier of event the user is participating in
+     * @param userId database identifier of the user participating in the event
+     */
     public ParticipantsEntityPK(Long eventId, Long userId) {
         this.eventId = eventId;
         this.userId = userId;

@@ -12,9 +12,6 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 
-// TODO: reset token when close app
-
-
 /**
  * This class is the starting point of the client application.
  */

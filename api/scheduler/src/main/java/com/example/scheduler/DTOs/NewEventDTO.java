@@ -1,7 +1,11 @@
 package com.example.scheduler.DTOs;
 
 import java.util.List;
-
+/**
+ * @author Max
+ * @version 1.0
+ * Data Transfer Object used to map Request Body JSON to, holds data to generate a new or edit an existing {@link com.example.scheduler.entities.EventsEntity}
+ */
 public class NewEventDTO {
 
     private Long id;
@@ -16,6 +20,17 @@ public class NewEventDTO {
 
     NewEventDTO()  {}
 
+    /**
+     * normal constructor used to initialize the values
+     * @param id database identifier of {@link com.example.scheduler.entities.EventsEntity}
+     * @param name of the event
+     * @param participants ids of users participating in the event {@link com.example.scheduler.DTOs.UserDTO}
+     * @param date when the event takes place
+     * @param duration how long the event will go
+     * @param reminder when to send the participants a reminder Email
+     * @param location where the event takes place
+     * @param priority how urgent the Event is
+     */
     public NewEventDTO(Long id, String name, List<Long> participants, Long date,
                        Long duration, Long reminder, String location, Integer priority){
         this.id = id;

@@ -1,7 +1,11 @@
 package com.example.scheduler.DTOs;
 
 import java.util.List;
-
+/**
+ * @author Max
+ * @version 1.0
+ * Data Transfer Object used to generate Response Body to hold data of an {@link com.example.scheduler.entities.EventsEntity}
+ */
 public class EventDTO {
 
     private Long id;
@@ -17,6 +21,18 @@ public class EventDTO {
 
     EventDTO()  {}
 
+    /**
+     * normal constructor used to initialize the values
+     * @param id database identifier of {@link com.example.scheduler.entities.EventsEntity}
+     * @param name of the event
+     * @param participants dtos of users participating in the event {@link com.example.scheduler.DTOs.UserDTO}
+     * @param date when the event takes place
+     * @param duration how long the event will go
+     * @param reminder when to send the participants a reminder Email
+     * @param location where the event takes place
+     * @param priority how urgent the Event is
+     * @param attachmentsInfo Info on the attachments linked to the event {@link com.example.scheduler.DTOs.AttachmentsInfoDTO}
+     */
     public EventDTO(Long id, String name, List<UserDTO> participants, Long date,
                        Long duration, Long reminder, String location, Integer priority, List<AttachmentsInfoDTO> attachmentsInfo){
         this.id = id;

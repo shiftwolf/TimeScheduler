@@ -6,6 +6,13 @@ import javax.persistence.*;
 import java.sql.Timestamp;
 import java.util.Objects;
 
+/**
+ * @author Timo, Max
+ * @version 1.0
+ * JPA Repository Entity, this is the java representation of a sql table
+ * Stores data of scheduled reminders, to remind users of upcoming events
+ * Stores data if Reminder was sent
+ */
 @Entity
 @Table(name = "reminders", schema = "scheduler")
 public class RemindersEntity {
@@ -34,6 +41,11 @@ public class RemindersEntity {
 
     public RemindersEntity(){}
 
+    /**
+     * normal constructor used to initialize the values
+     * @param eventId database identifier of event the reminder is linked to
+     * @param date on when the reminder should be sent
+     */
     public RemindersEntity(Long eventId, Timestamp date){
         this.eventId = eventId;
         this.date = date;

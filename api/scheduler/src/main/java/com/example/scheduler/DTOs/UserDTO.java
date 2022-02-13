@@ -1,7 +1,10 @@
 package com.example.scheduler.DTOs;
 
-import java.util.Objects;
-
+/**
+ * @author Max
+ * @version 1.0
+ * Data Transfer Object used to generate Response Body to hold Info about an {@link com.example.scheduler.entities.UsersEntity}
+ */
 public class UserDTO {
 
     private Long id;
@@ -12,6 +15,13 @@ public class UserDTO {
 
     public UserDTO()  {}
 
+    /**
+     * normal constructor used to initialize the values
+     * @param username pseudonym the user wants to be identified by (also used for the login)
+     * @param name real name of the user
+     * @param email of the user, (the address used to send the user reminders)
+     * @param isAdmin <code>true</code> if the user has admin privileges, else <code>false</code>
+     */
     public UserDTO(Long id, String username, String name, String email, boolean isAdmin){
         this.id = id;
         this.username = username;

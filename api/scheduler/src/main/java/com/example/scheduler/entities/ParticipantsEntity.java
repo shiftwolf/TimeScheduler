@@ -7,6 +7,12 @@ import javax.persistence.*;
 import java.sql.Timestamp;
 import java.util.Objects;
 
+/**
+ * @author Timo, Max
+ * @version 1.0
+ * JPA Repository Entity, this is the java representation of a sql table
+ * Stores data on which user participates in which event
+ */
 @Entity
 @Table(name = "participants", schema = "scheduler")
 @IdClass(ParticipantsEntityPK.class)
@@ -34,6 +40,11 @@ public class ParticipantsEntity {
 
     }
 
+    /**
+     * normal constructor used to initialize the values
+     * @param eventId database identifier of event the user is participating in
+     * @param userId database identifier of the user participating in the event
+     */
     public ParticipantsEntity(Long eventId, Long userId) {
         this.eventId = eventId;
         this.userId = userId;

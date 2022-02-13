@@ -8,6 +8,12 @@ import java.security.SecureRandom;
 import java.sql.Timestamp;
 import java.util.Objects;
 
+/**
+ * @author Timo, Max
+ * @version 1.0
+ * JPA Repository Entity, this is the java representation of a sql table
+ * Stores User data
+ */
 @Entity
 @Table(name = "users", schema = "scheduler")
 public class UsersEntity {
@@ -42,6 +48,14 @@ public class UsersEntity {
     @Column(name = "is_admin")
     private boolean isAdmin;
 
+    /**
+     * normal constructor used to initialize the values
+     * @param email of the user, (the address used to send the user reminders)
+     * @param username pseudonym the user wants to be identified by (also used for the login)
+     * @param name real name of the user
+     * @param hashedpw the user wants to use as his login password
+     * @param isAdmin set if the user has admin privileges
+     */
     public UsersEntity(String email,
                 String username,
                 String name,
@@ -111,6 +125,9 @@ public class UsersEntity {
 
     public void setAdmin(boolean admin) { isAdmin = admin;}
 
+    /**
+     * hashes the password of the user using {@link org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder}
+     */
     public UsersEntity hashPassword() {
         BCryptPasswordEncoder encoder = new BCryptPasswordEncoder(10, new SecureRandom());
         this.hashedpw = encoder.encode(this.hashedpw);
