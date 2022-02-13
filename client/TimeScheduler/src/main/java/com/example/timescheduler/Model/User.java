@@ -355,13 +355,17 @@ public class User {
         }
     }
 
-    // Todo: filename automatisch aus path erzeugen.
-    public String uploadAtt(token token, Long id, String path, String filename){
+    public String uploadAtt(token token, Long id, String path){
+        String filename = getFileNameByPath(path);
         try {
             return AttachmentsController.uploadAtt(token, id, path, filename);
         } catch (IOException | InterruptedException e){
             System.out.println(e.getMessage());
             return e.getMessage();
         }
+    }
+
+    private static String getFileNameByPath(String path){
+        return path.substring(path.lastIndexOf("/") + 1, path.length());
     }
 }
