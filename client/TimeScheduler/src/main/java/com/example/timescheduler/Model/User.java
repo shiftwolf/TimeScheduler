@@ -326,10 +326,11 @@ public class User {
     }
 
     /**
-     *
-     * @param token
-     * @param email
-     * @param eventId
+     * Adds a user to an event by email. Returns an int that describes the result, as described in
+     * the return description.
+     * @param token to validate the user
+     * @param email of the user that is added
+     * @param eventId of the event
      * @return 0 - user was successfully added
      * @return 1 - user is already participating
      * @return 2 - email not found
@@ -355,6 +356,41 @@ public class User {
         }
     }
 
+    /**
+     * With this method we can remove a participant from a particular event
+     * @param token to validate user
+     * @param eventId of event
+     * @param userId of participant that is deleted out of the event
+     * @return 0 - removed participant successfully
+     * @return 1 - could not find the event id
+     * @return 2 - could not find the user id
+     */
+    public int removeParticipant(token token, Long eventId, Long userId){
+
+        try{
+            String message = EventController.removeParticipant(token, eventId, userId);
+            if(message.endsWith("removed successfully")){
+                return 0;
+            } else if(message.startsWith("Could not find event id")){
+                return 1;
+            } else if(message.startsWith("Could not find user with id:")){
+                return 2;
+            } else {
+                return 3;
+            }
+        } catch (IOException | InterruptedException e){
+            System.out.println(e.getMessage());
+            return 3;
+        }
+    }
+
+    /**
+     * With this method you can upload an attachment to a specific event
+     * @param token to validate the user
+     * @param id of event
+     * @param path to attachment on local machine
+     * @return return message of server
+     */
     public String uploadAtt(token token, Long id, String path){
         String filename = getFileNameByPath(path);
         try {
@@ -365,7 +401,45 @@ public class User {
         }
     }
 
+    public byte[] downloadAtt(token token, Long id){
+        try {
+            return AttachmentsController.downloadAtt(token, id);
+        } catch (IOException | InterruptedException e){
+            System.out.println(e.getMessage());
+            return null;
+        }
+    }
+
+    /**
+     * Gets the filename out of a string that contains the path to the file.
+     * @param path to file
+     * @return filename
+     */
     private static String getFileNameByPath(String path){
         return path.substring(path.lastIndexOf("/") + 1, path.length());
+    }
+
+    /**
+     * With this method we can delete attachments out of the databases
+     * @param token to validate user
+     * @param id of attachment
+     * @return 0 - deleted attachment successfully
+     * @return 1 - could not find the file
+     * @return 2 - Server error
+     */
+    public int removeAtt(token token, Long id){
+        try {
+            String message = AttachmentsController.removeAtt(token, id);
+            if(message.endsWith("deleted successfully")){
+                return 0;
+            } else if(message.startsWith("Could not find file")){
+                return 1;
+            } else {
+                return 2;
+            }
+        } catch (IOException | InterruptedException e){
+            System.out.println(e.getMessage());
+            return 2;
+        }
     }
 }

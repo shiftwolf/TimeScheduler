@@ -2,11 +2,11 @@ package com.example.timescheduler.Controller;
 
 import com.example.timescheduler.APIobjects.token;
 import com.example.timescheduler.Model.AttachmentsInfo;
-import com.example.timescheduler.Model.User;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-import java.io.*;
+import java.io.IOException;
+import java.io.InputStream;
 import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
@@ -109,6 +109,22 @@ public class AttachmentsController {
                 .build();
 
         HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
+        return response.body();
+    }
+
+    public static String removeAtt(token token, Long attId) throws IOException, InterruptedException {
+        HttpClient client = HttpClient.newHttpClient();
+
+        HttpRequest request = HttpRequest.newBuilder()
+                .DELETE()
+                .uri(URI.create(url + "/attachments/id=" + String.valueOf(attId)))
+                .header("userId", String.valueOf(token.getUserID()))
+                .header("token", token.getTokenString())
+                .build();
+
+        HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
+
+        System.out.println(response.body());
 
         return response.body();
     }

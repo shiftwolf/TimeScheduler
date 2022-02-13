@@ -224,4 +224,23 @@ public class EventController {
         return response.body();
     }
 
+    public static String removeParticipant(token token, Long eventId, Long userId) throws IOException, InterruptedException{
+        HttpClient client = HttpClient.newHttpClient();
+
+        HttpRequest request = HttpRequest.newBuilder()
+                .DELETE()
+                .uri(URI.create(url + "/events/id=" + String.valueOf(eventId) + "/participants/id=" + String.valueOf(userId)))
+                .header("userId", String.valueOf(token.getUserID()))
+                .header("token", token.getTokenString())
+                .build();
+
+        HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
+
+        System.out.println(response.body());
+
+        return response.body();
+
+    }
+
+
 }
