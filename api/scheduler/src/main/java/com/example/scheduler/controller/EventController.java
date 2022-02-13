@@ -14,7 +14,11 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.sql.Timestamp;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 /**
@@ -79,6 +83,11 @@ public class EventController {
         for(ParticipantsEntity e :participantRepository.findAllByUserId(userId)) {
 
             EventsEntity event = eventRepository.findById(e.getEventId()).orElseThrow(() -> new EventNotFoundException(e.getEventId()));
+            //Check if event is date is 24 in the past and skip it if it is
+            LocalDateTime yesterday = LocalDateTime.now().minusDays(1);
+            Timestamp timestamp = Timestamp.valueOf(yesterday);
+            if(event.getDate().after(timestamp)) continue;
+
             //Find users participating in the Event
             List<UserDTO> participants = new ArrayList<>();
             for (UsersEntity usersEntity: userRepository.findAllById(participantRepository.findAllUserIdsByEventId(event.getId()))){
@@ -100,6 +109,8 @@ public class EventController {
                     event.getPriority(),infoDTOS)
             );
         }
+        //sort Events By Date descending
+        dTOs.sort(Comparator.comparing(EventDTO::getDate).reversed());
         return dTOs;
     }
 
