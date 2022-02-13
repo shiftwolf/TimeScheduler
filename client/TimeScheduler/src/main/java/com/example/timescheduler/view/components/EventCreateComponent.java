@@ -1,6 +1,7 @@
 package com.example.timescheduler.view.components;
 
 import com.example.timescheduler.Model.Event;
+import com.example.timescheduler.Model.User;
 import com.example.timescheduler.view.HomeView;
 import com.example.timescheduler.view.SchedulerApplication;
 import javafx.event.ActionEvent;
@@ -25,10 +26,14 @@ import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 
 public class EventCreateComponent extends GridPane {
 
     HomeView homeView;
+    // emails
+    List<String> participants;
+    List<String> attachments;
 
     @FXML
     TextField nameField;
@@ -243,21 +248,14 @@ public class EventCreateComponent extends GridPane {
     @FXML
     public void onAddParticipant() {
         // TODO
-        // check if participant exists
-    }
 
-    @FXML
-    public void onAddAttachment(ActionEvent actionEvent) throws IOException {
-        // TODO: unfinished
-        FileChooser fileChooser = new FileChooser();
+        String email = newParticipantField.getText().trim();
 
-        File file = fileChooser.showOpenDialog((Stage) ((Node)actionEvent.getSource()).getScene().getWindow());
-        if (file != null) {
-            System.out.println(file.toPath());
-            Path path = file.toPath();
+        // notify listeners
+        homeView.notifyOnAddParticipant(email);
 
-            //File in bytecode
-            byte[] bytes = Files.readAllBytes(path);
-        }
+        // TODO: if request successful?? other return
+        // add to list & update UI
+        participants.add(email);
     }
 }

@@ -124,7 +124,10 @@ public class EventEditComponent extends GridPane {
         durationHPicker.setValue(durationSegments[0]);
 
         // TODO: fix disappearing values
-        durationMinPicker.setValue(durationSegments[1]);
+        if (durationSegments.length == 2) {
+            durationMinPicker.setValue(durationSegments[1]);
+        }
+
 
         // TODO
 //        reminderPicker.setValue();

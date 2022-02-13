@@ -4,18 +4,19 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.geometry.Insets?>
 
-<fx:root type="javafx.scene.layout.GridPane" xmlns:fx="http://javafx.com/fxml" vgap="30">
+<fx:root type="javafx.scene.layout.GridPane" xmlns:fx="http://javafx.com/fxml" vgap="8">
 
     <columnConstraints>
-        <ColumnConstraints percentWidth="40" />
-        <ColumnConstraints percentWidth="60" />
+        <ColumnConstraints percentWidth="35" />
+        <ColumnConstraints percentWidth="55" />
+        <ColumnConstraints percentWidth="10" />
     </columnConstraints>
 
     <Label id="title" text="Event Details"
            GridPane.columnIndex="0" GridPane.rowIndex="0" GridPane.columnSpan="1"/>
 
     <HBox alignment="CENTER_RIGHT" spacing="20"
-          GridPane.columnIndex="1" GridPane.rowIndex="0">
+          GridPane.columnIndex="1" GridPane.rowIndex="0" GridPane.columnSpan="2">
         <Button text="Delete" onAction="#onDelete"/>
         <Button text="Edit" onAction="#onEdit"/>
     </HBox>
@@ -23,49 +24,73 @@
 
     <Label text="Name"
            GridPane.columnIndex="0" GridPane.rowIndex="1">
-        <GridPane.margin><Insets left="10"/></GridPane.margin>
+        <GridPane.margin><Insets left="10" top="15"/></GridPane.margin>
     </Label>
-    <Label fx:id="name" id="details-value" text="..." GridPane.columnIndex="1" GridPane.rowIndex="1" />
+    <Label fx:id="name" id="details-value" text="..."
+           GridPane.columnIndex="1" GridPane.rowIndex="1" GridPane.columnSpan="2">
+        <GridPane.margin><Insets top="15"/></GridPane.margin>
+    </Label>
 
     <Label text="Date"
            GridPane.columnIndex="0" GridPane.rowIndex="2">
-        <GridPane.margin><Insets left="10"/></GridPane.margin>
+        <GridPane.margin><Insets left="10" top="15"/></GridPane.margin>
     </Label>
-    <Label fx:id="date" id="details-value" text="..." GridPane.columnIndex="1" GridPane.rowIndex="2" />
+    <Label fx:id="date" id="details-value" text="..."
+           GridPane.columnIndex="1" GridPane.rowIndex="2" GridPane.columnSpan="2">
+        <GridPane.margin><Insets top="15"/></GridPane.margin>
+    </Label>
 
     <Label text="Duration"
            GridPane.columnIndex="0" GridPane.rowIndex="3">
-        <GridPane.margin><Insets left="10"/></GridPane.margin>
+        <GridPane.margin><Insets left="10" top="15"/></GridPane.margin>
     </Label>
-    <Label fx:id="duration" id="details-value" text="..." GridPane.columnIndex="1" GridPane.rowIndex="3" />
+    <Label fx:id="duration" id="details-value" text="..."
+           GridPane.columnIndex="1" GridPane.rowIndex="3" GridPane.columnSpan="2">
+        <GridPane.margin><Insets top="15"/></GridPane.margin>
+    </Label>
 
     <Label text="Reminder"
            GridPane.columnIndex="0" GridPane.rowIndex="4">
-        <GridPane.margin><Insets left="10"/></GridPane.margin>
+        <GridPane.margin><Insets left="10" top="15"/></GridPane.margin>
     </Label>
-    <Label fx:id="reminder" id="details-value" text="..." GridPane.columnIndex="1" GridPane.rowIndex="4" />
+    <Label fx:id="reminder" id="details-value" text="..."
+           GridPane.columnIndex="1" GridPane.rowIndex="4" GridPane.columnSpan="2">
+        <GridPane.margin><Insets top="15"/></GridPane.margin>
+    </Label>
 
     <Label text="Location"
            GridPane.columnIndex="0" GridPane.rowIndex="5">
-        <GridPane.margin><Insets left="10"/></GridPane.margin>
+        <GridPane.margin><Insets left="10" top="15"/></GridPane.margin>
     </Label>
-    <Label fx:id="eventLocation" id="details-value" text="..." GridPane.columnIndex="1" GridPane.rowIndex="5" />
+    <Label fx:id="eventLocation" id="details-value" text="..."
+           GridPane.columnIndex="1" GridPane.rowIndex="5" GridPane.columnSpan="2" >
+        <GridPane.margin><Insets top="15"/></GridPane.margin>
+    </Label>
 
     <Label text="Participants"
            GridPane.columnIndex="0" GridPane.rowIndex="6">
-        <GridPane.margin><Insets left="10"/></GridPane.margin>
+        <GridPane.margin><Insets left="10" top="15"/></GridPane.margin>
     </Label>
     <ScrollPane  GridPane.columnIndex="1" GridPane.rowIndex="6"  maxHeight="130">
+        <GridPane.margin><Insets top="15"/></GridPane.margin>
         <VBox fx:id="participantsSection"/>
     </ScrollPane>
+    <HBox GridPane.columnIndex="1" GridPane.rowIndex="7" alignment="CENTER" spacing="6">
+        <TextField fx:id="newParticipantField" promptText="Enter email address" />
+        <Pane HBox.hgrow="ALWAYS"/>
+        <Button text="Add Participant" onAction="#onAddParticipant" />
+    </HBox>
 
     <Label text="Attachments"
-           GridPane.columnIndex="0" GridPane.rowIndex="7">
-        <GridPane.margin><Insets left="10"/></GridPane.margin>
+           GridPane.columnIndex="0" GridPane.rowIndex="8">
+        <GridPane.margin><Insets left="10" top="15"/></GridPane.margin>
     </Label>
-    <ScrollPane  GridPane.columnIndex="1" GridPane.rowIndex="7"  maxHeight="130">
+    <ScrollPane  GridPane.columnIndex="1" GridPane.rowIndex="8"  maxHeight="130">
+        <GridPane.margin><Insets top="15"/></GridPane.margin>
         <VBox fx:id="attachmentsSection"/>
     </ScrollPane>
+    <Button text="+" onAction="#onAddAttachment" GridPane.columnIndex="2" GridPane.rowIndex="8"
+            GridPane.halignment="CENTER"/>
 
 </fx:root>
 

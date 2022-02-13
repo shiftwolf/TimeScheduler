@@ -3,14 +3,21 @@ package com.example.timescheduler.view.components;
 import com.example.timescheduler.Model.Event;
 import com.example.timescheduler.Model.User;
 import com.example.timescheduler.view.HomeView;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
+import javafx.scene.Node;
 import javafx.scene.control.Label;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
+import javafx.stage.FileChooser;
+import javafx.stage.Stage;
 
+import java.io.File;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.Arrays;
 import java.util.List;
 
@@ -83,6 +90,27 @@ public class EventDetailsComponent extends GridPane {
         homeView.notifyOnDeleteEvent();
     }
 
+    @FXML
+    public void onAddParticipant() {
+        // TODO
+        // check if participant exists
+    }
+
+    @FXML
+    public void onAddAttachment(ActionEvent actionEvent) throws IOException {
+        // TODO: unfinished
+        FileChooser fileChooser = new FileChooser();
+
+        File file = fileChooser.showOpenDialog((Stage) ((Node)actionEvent.getSource()).getScene().getWindow());
+        if (file != null) {
+            System.out.println(file.toPath());
+            Path path = file.toPath();
+
+            //File in bytecode
+            byte[] bytes = Files.readAllBytes(path);
+        }
+    }
+
     public void setDetails(Event event) {
         name.setText(event.getName());
         date.setText(homeView.formatDate(event.getDate()));
@@ -90,7 +118,6 @@ public class EventDetailsComponent extends GridPane {
 
         // TODO
         reminder.setText(String.format("%s before the event", homeView.convertReminderToString(event)));
-        System.out.println(homeView.convertReminderToString(event));
 
         eventLocation.setText(event.getLocation());
         // TODO: participants, attachments

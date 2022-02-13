@@ -27,6 +27,8 @@ public interface HomeViewListener {
 
     void deleteEvent(token token, Event event);
 
+    String addParticipant(token token, String email, Long eventId);
+
     // admin only:
 
     List<User> admin_getUsers(token token);

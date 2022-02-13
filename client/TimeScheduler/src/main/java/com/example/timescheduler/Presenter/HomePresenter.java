@@ -49,6 +49,11 @@ public class HomePresenter implements HomeViewListener {
     }
 
     @Override
+    public String addParticipant(token token, String email, Long eventId) {
+        return user.addParticipant(token, email, eventId);
+    }
+
+    @Override
     public List<User> admin_getUsers(token token) {
         return this.user.admin_getUsers(token);
     }

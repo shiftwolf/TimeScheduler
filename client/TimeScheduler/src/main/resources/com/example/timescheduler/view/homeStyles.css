@@ -81,3 +81,7 @@
 #error-message {
     -fx-text-fill: #982626;
 }
+
+#participants-hbox {
+    -fx-padding: -20 0 0 0;
+}

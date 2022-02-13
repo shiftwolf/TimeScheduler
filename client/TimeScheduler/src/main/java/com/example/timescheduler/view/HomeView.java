@@ -71,7 +71,6 @@ public class HomeView {
         for (HomeViewListener listener : listeners) {
             listener.setUser(loggedUser);
         }
-
     }
 
     /**
@@ -192,7 +191,7 @@ public class HomeView {
      * with the admin panel.
      */
     private void showAdminPanel() {
-        panelTitle.setText("Users");
+        panelTitle.setText("Admin Panel");
 
         // replace buttons
         topBar.getChildren().remove(switchToAdminButton);
@@ -302,6 +301,15 @@ public class HomeView {
         for (HomeViewListener listener : listeners) {
             listener.createEvent(name, date, duration, location, priority, participantMails, reminder, token);
         }
+    }
+
+    public String notifyOnAddParticipant(String email) {
+        String response = null;
+        for (HomeViewListener listener : listeners) {
+            response = listener.addParticipant(SchedulerApplication.token, email, selectedEvent.getId());
+        }
+        System.out.println("response: " + response);
+        return response;
     }
 
     public void notifyOnDeleteEvent() {
@@ -495,7 +503,6 @@ public class HomeView {
     }
 
     public void removeUser() {
-        System.out.println("selected user to be removed: " + selectedUser);
         users.remove(selectedUser);
     }
 
