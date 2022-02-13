@@ -46,10 +46,8 @@ public class TxtExportController {
     }
 
     @GetMapping("/txt/generate")
-    public void generateTxt(@RequestHeader("userId") Long userId,
-                            @RequestHeader("token") String token,
-                            @RequestBody String path,
-                            @RequestBody String filename) throws IOException {
+    public String generateTxt(@RequestHeader("userId") Long userId,
+                            @RequestHeader("token") String token) throws IOException {
 
         TokensEntity tokensEntity = tokenRepository.findById(token).orElseThrow(LoginFailedException::new);
         if (!(tokensEntity.getUserId().longValue() == userId.longValue())) {
@@ -68,6 +66,9 @@ public class TxtExportController {
                 return (int) (o1.getDate().getTime() / 1000 - o2.getDate().getTime() / 1000);
             }
         });
+        
+        StringBuilder content = new StringBuilder();
+
         if (eventsEntities.size() == 0)
             System.out.println("No events listed");
         else {
@@ -85,7 +86,7 @@ public class TxtExportController {
                     eventsEntities.remove(i);
             }
 
-            StringBuilder content = new StringBuilder();
+
 
             //title
             long endTime = eventsEntities.get(eventsEntities.size() - 1).getDate().getTime()
@@ -157,26 +158,19 @@ public class TxtExportController {
                 }
 
             }
+
+            /*
             BufferedWriter bufferedWriter = new BufferedWriter(
                     new FileWriter(path + "\\" + filename + ".txt")
             );
             bufferedWriter.write(String.valueOf(content));
             bufferedWriter.close();
 
+             */
 
 
-
-
-        /*
-        String path;
-        String filename;
-        String content;
-        BufferedWriter bw = new BufferedWriter(
-                    new FileWriter(path + "\\" + filename + ".txt"));
-            bw.write(content);
-            bw.close();
-        */
         }
+        return String.valueOf(content);
     }
 
     private String getNeatDuration(Long duration) {
