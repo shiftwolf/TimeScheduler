@@ -18,9 +18,15 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.*;
+import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -184,6 +190,26 @@ public class HomeView {
 
         // configure GUI
         showAdminPanel();
+    }
+
+    @FXML
+    protected void onExportSchedule(ActionEvent actionEvent) {
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setTitle("Weekly_Schedule");
+
+        File file = fileChooser.showSaveDialog((Stage) ((Node)actionEvent.getSource()).getScene().getWindow());
+        if (file != null) {
+            System.out.println(file.getAbsolutePath());
+            String path = file.getAbsolutePath();
+
+            try (FileOutputStream stream = new FileOutputStream(path)) {
+              //stream.write();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+
+        }
     }
 
     /**
