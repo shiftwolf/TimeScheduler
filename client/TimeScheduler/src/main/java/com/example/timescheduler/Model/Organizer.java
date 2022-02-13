@@ -64,15 +64,28 @@ public class Organizer {
      * @param email of new user
      * @param username of new user
      * @param password of new user
-     * @return created user
+     * @return 0 - user created successfully
+     * @return 1 - email is already taken
+     * @return 2 - username is already taken
+     * @return 3 - server error
      */
-    public static String createUser(String name, String email, String username, String password){
+    public static int createUser(String name, String email, String username, String password){
         User newUser = new User(name, email ,username, password);
         try{
-            return UserController.newUser(newUser);
+            String message = UserController.newUser(newUser);
+            if (message.endsWith("created successfully")){
+                return 0;
+            } else if (message.startsWith("There already exists an account registered with this email:")){
+                return 1;
+            } else if (message.endsWith("is already taken")){
+                return 2;
+            } else {
+                return 3;
+            }
+
         } catch (IOException | InterruptedException e){
             System.out.println(e.getMessage());
-            return e.getMessage();
+            return 3;
         }
 
     }
