@@ -46,7 +46,7 @@ public class TxtExportController {
     }
 
     @GetMapping("/txt/generate")
-    public String generateTxt(@RequestHeader("userId") Long userId,
+    public byte[] generateTxt(@RequestHeader("userId") Long userId,
                             @RequestHeader("token") String token) throws IOException {
 
         TokensEntity tokensEntity = tokenRepository.findById(token).orElseThrow(LoginFailedException::new);
@@ -66,7 +66,7 @@ public class TxtExportController {
                 return (int) (o1.getDate().getTime() / 1000 - o2.getDate().getTime() / 1000);
             }
         });
-        
+
         StringBuilder content = new StringBuilder();
 
         if (eventsEntities.size() == 0)
@@ -170,7 +170,7 @@ public class TxtExportController {
 
 
         }
-        return String.valueOf(content);
+        return String.valueOf(content).getBytes();
     }
 
     private String getNeatDuration(Long duration) {
