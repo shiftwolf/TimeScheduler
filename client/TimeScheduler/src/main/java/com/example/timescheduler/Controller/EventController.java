@@ -110,7 +110,7 @@ public class EventController {
      * @throws InterruptedException - Occurs if in the client.send a thread has been interrupted
      */
     public static String newEvent(token token, Event event, User user) throws IOException, InterruptedException {
-        //user -> json
+        //event -> json
         ObjectMapper mapper = new ObjectMapper();
         //mapper.setSerializationInclusion(JsonInclude.Include.NON_NULL);
         SimpleModule module = new SimpleModule();

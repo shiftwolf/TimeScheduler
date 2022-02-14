@@ -15,7 +15,7 @@ import java.nio.file.Paths;
 import java.util.List;
 
 /**
- * @author Hendrik Weichel
+ * @author Hendrik Weichel, Timo Wolf
  * @version 2.0
  * holds all methods for requests about the attachments of an event to the server
  */

@@ -10,6 +10,10 @@ import javafx.scene.layout.GridPane;
 
 import java.io.IOException;
 
+/**
+ * This class controls the user component. It displays all profile information about the corresponding user and
+ * handles the user interactions.
+ */
 public class UserComponent extends GridPane {
 
     private final HomeView homeView;
@@ -56,10 +60,6 @@ public class UserComponent extends GridPane {
         }
 
         homeView.getUserEdit().initializeValues();
-
-//        homeView.getUserEdit().usernameField.setText(user.getUsername());
-//        homeView.getUserEdit().nameField.setText(user.getName());
-//        homeView.getUserEdit().emailField.setText(user.getEmail());
     }
 
     @FXML

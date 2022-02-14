@@ -9,6 +9,10 @@ import javafx.scene.layout.GridPane;
 
 import java.io.IOException;
 
+/**
+ * This class is the controller of the user_edit_component.fxml. It displays and handles all input controls the
+ * user needs in order to edit a user.
+ */
 public class UserEditComponent extends GridPane {
     HomeView homeView;
 

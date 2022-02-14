@@ -8,6 +8,10 @@ import javafx.scene.layout.HBox;
 
 import java.io.IOException;
 
+/**
+ * This class controls the participant component. It displays the most important participant information and
+ * handles user interactions.
+ */
 public class ParticipantComponent extends HBox {
 
     EventDetailsComponent eventDetailsComponent = null;

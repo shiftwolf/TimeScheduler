@@ -24,6 +24,10 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+/**
+ * This is the controller of the event details component. It displays all information about one event to the user
+ * and enables them to add and remove participants and emails.
+ */
 public class EventDetailsComponent extends GridPane {
 
     HomeView homeView;

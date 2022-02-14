@@ -20,6 +20,10 @@ import java.time.ZoneId;
 import java.util.Date;
 import java.util.List;
 
+/**
+ * This is the controller of the event create component. This component will be displayed in the right half of
+ * the home view and offers all options the user needs to create a new event.
+ */
 public class EventCreateComponent extends GridPane {
 
     HomeView homeView;
@@ -62,6 +66,10 @@ public class EventCreateComponent extends GridPane {
         homeView.initializeDropDownMenus(timePicker, durationHPicker, durationMinPicker);
     }
 
+    /**
+     * This function is called when the user presses the save button to create the new event.
+     * It validates the user input and formats the data in a way that it can be sent to the API.
+     */
     @FXML
     public void onSave() {
         // reset error message
@@ -112,6 +120,13 @@ public class EventCreateComponent extends GridPane {
         }
     }
 
+    /**
+     * Helper function to convert the value from the ComboBox to a date that represents the exact time when the
+     * reminder should be sent to the event's participants.
+     * @param eventDate Date of the event.
+     * @param reminderValue time of the reminder as string.
+     * @return reminder as date.
+     */
     public Date createReminderDate(Date eventDate, String reminderValue) {
         // 1 week -> ms
         long weekMs = 7 * 24 * 60 * 60 * 1000;

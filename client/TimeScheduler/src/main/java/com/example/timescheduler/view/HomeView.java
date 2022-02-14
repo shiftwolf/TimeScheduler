@@ -205,6 +205,11 @@ public class HomeView {
         showAdminPanel();
     }
 
+    /**
+     * This function is called when the export button is pressed. It requests a pdf with the current schedule and opens a window
+     * where the user can choose a name and destination for the file.
+     * @param actionEvent Event that represents the action that the corresponding button has been pressed.
+     */
     @FXML
     protected void onExportSchedule(ActionEvent actionEvent) {
         FileChooser fileChooser = new FileChooser();
