@@ -11,6 +11,11 @@ import javafx.scene.layout.HBox;
 
 import java.io.IOException;
 
+
+/**
+ * This class is the controller of the event component. It will handle the action inside the event component
+ * corresponding event component which is used in the home view.
+ */
 public class EventComponent extends HBox {
 
     HomeView homeView;

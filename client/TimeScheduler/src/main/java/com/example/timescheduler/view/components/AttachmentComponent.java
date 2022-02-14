@@ -16,6 +16,10 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 
+/**
+ * This class controls the attachment component. It displays the most important attachment information and
+ * handles user interactions.
+ */
 public class AttachmentComponent extends HBox {
 
     EventDetailsComponent eventDetailsComponent;

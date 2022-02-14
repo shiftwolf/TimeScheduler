@@ -21,6 +21,10 @@ import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
+/**
+ * This class is the controller of the event edit component.
+ * It handles all user interactions with the input controls that enable the user to modify the event.
+ */
 public class EventEditComponent extends GridPane {
 
     HomeView homeView;
