@@ -20,6 +20,7 @@ import java.util.Optional;
 
 /**
  * Configuration of the reminder
+ * @author Alicia, Timo
  */
 @Configuration
 @EnableScheduling
