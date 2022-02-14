@@ -46,19 +46,6 @@ public class PdfGenerator {
 
     private void newestDesign(Document document, List<EventsEntity> eventsEntities,
                               Long userId, UserRepository userRepository) throws IOException {
-        Timestamp currentTimestamp = new Timestamp(System.currentTimeMillis());
-        Timestamp startTimestamp = new Timestamp(currentTimestamp.getTime());
-        startTimestamp.setHours(0);
-        startTimestamp.setMinutes(0);
-        startTimestamp.setSeconds(0);
-        Timestamp endTimestamp = new Timestamp(startTimestamp.getTime() + 604799000);
-
-        for(int i = 0; i < eventsEntities.size(); i++){
-            if(eventsEntities.get(i).getDate().getTime() < startTimestamp.getTime())
-                eventsEntities.remove(i);
-            else if(eventsEntities.get(i).getDate().getTime() > endTimestamp.getTime())
-                eventsEntities.remove(i);
-        }
 
         Table table;
 

@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestHeader;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.sql.Timestamp;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -79,6 +80,7 @@ public class PdfExportController {
         String headerValue = "attachment; filename=pdf_" + currentDateTime + ".pdf";
         response.setHeader(headerkey, headerValue);
 
+        //check if events exist
         List<ParticipantsEntity> participantsEntities =  participantRepository.findAllByUserId(userId);
         List<EventsEntity> eventsEntities = new ArrayList<>();
         for (ParticipantsEntity entity: participantsEntities) {
@@ -91,6 +93,19 @@ public class PdfExportController {
                 return (int) (o1.getDate().getTime()/1000 - o2.getDate().getTime()/1000);
             }
         });
+        Timestamp currentTimestamp = new Timestamp(System.currentTimeMillis());
+        Timestamp startTimestamp = new Timestamp(currentTimestamp.getTime());
+        startTimestamp.setHours(0);
+        startTimestamp.setMinutes(0);
+        startTimestamp.setSeconds(0);
+        Timestamp endTimestamp = new Timestamp(startTimestamp.getTime() + 604799000);
+        for(int i = 0; i < eventsEntities.size(); i++){
+            if(eventsEntities.get(i).getDate().getTime() < startTimestamp.getTime())
+                eventsEntities.remove(i);
+            else if(eventsEntities.get(i).getDate().getTime() > endTimestamp.getTime())
+                eventsEntities.remove(i);
+        }
+
         if (eventsEntities.size() == 0)
             System.out.println("No events listed");
         else
